@@ -5,12 +5,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeScreen } from './screens/Home/HomeScreen';
 
 const Tab = createBottomTabNavigator();
-
+const floatingMenu = {borderRadius: '100%', position: 'absolute', left: 10, right: 10, bottom: 30, paddingBottom: 0, height: 59}
 export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator screenOptions={{
-        tabBarStyle: {backgroundColor: '#333A5A'},
+        tabBarStyle: {backgroundColor: '#333A5A', },
         headerShown: false
         }}>
         <Tab.Screen name="Home" component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? '#FEB237' : 'white'}} source={require('./assets/icons/menu/home.png')} />}} />

@@ -1,13 +1,32 @@
-import {View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, TouchableWithoutFeedback} from 'react-native'
-import {Keyboard} from 'react-native'
+import {View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, FlatList, ScrollView, Animated} from 'react-native'
+import { CardHome } from './CardHome'
+import { MasonryFlashList } from "@shopify/flash-list";
+import { useState,useRef } from 'react';
 
 export const HomeScreen = () => {
+  const data = [1, 2, 3, 4, 5, 6, 7];
+  let inputStyle1 = {flexDirection: 'column', paddingRight: 10, paddingLeft: 10};
+  let titleStyle1 = {fontSize: 20, fontWeight: 'bold'};
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const animateInput = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 10,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  };
+  let inputStyle2 = {flexDirection: 'row', alignItems: 'center', paddingRight: 10, paddingLeft: 10};
+
+  const [userDidInput, setUserDidInput] = useState(false);
   return (
-    <SafeAreaView style={{backgroundColor:'#EBEAEF', flex: 1}}>
+    <SafeAreaView>
       {/* Top */}
-      <View style={{flexDirection: 'row', alignItems: 'center', paddingRight: 10}}>
+      <Animated.View style={!userDidInput ? inputStyle1 : inputStyle2}>
         <Image style={{width: 69, height: 69}} source={require('../../assets/icons/logo.png')} />
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{flex: 1,height: 40,}}>
+        {!userDidInput ? (<Text style={titleStyle1}>Find your Favorite Pet</Text>) : ''}
+        <ScrollView keyboardShouldPersistTaps='handled'>
           <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
             <TextInput
               style={{ 
@@ -17,11 +36,15 @@ export const HomeScreen = () => {
                 paddingLeft: 5
               }}
               placeholder="Insert your text!"
+              onChangeText={text => {
+                setUserDidInput(true);
+              }}
+
             />
             <Image style={{width: 40, height: 40}} source={require('../../assets/icons/search.png')} />
           </View>
-        </TouchableWithoutFeedback>
-      </View>
+        </ScrollView>
+      </Animated.View>
       {/* Dotted Line */}
       <View style={{
           borderStyle: 'dashed',
@@ -29,14 +52,40 @@ export const HomeScreen = () => {
         }}>
       </View>
       {/* pet filter */}
-      <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity style={{backgroundColor: 'white', borderRadius: 10, width: 69-10, height: 69-10, alignItems: 'center', justifyContent: 'center'}}>
-          <Text>All</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{backgroundColor: 'white', borderRadius: 10, width: 69-10, height: 69-10, alignItems: 'center', justifyContent: 'center'}}>
-          <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-          <Text>Cat</Text>
-        </TouchableOpacity>
+      <View style={{flexDirection: 'row', backgroundColor: 'transparent', paddingVertical: 10}}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <TouchableOpacity style={{marginLeft: 10, backgroundColor: 'white', borderRadius: 10, width: 69-10, height: 69-10, alignItems: 'center', justifyContent: 'center'}}>
+              <Text>All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginLeft: 10, backgroundColor: 'white', borderRadius: 10, width: 69-10, height: 69-10, alignItems: 'center', justifyContent: 'center'}}>
+              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+              <Text>Cat</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginLeft: 10, backgroundColor: 'white', borderRadius: 10, width: 69-10, height: 69-10, alignItems: 'center', justifyContent: 'center'}}>
+              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+              <Text>Dog</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginLeft: 10, backgroundColor: 'white', borderRadius: 10, width: 69-10, height: 69-10, alignItems: 'center', justifyContent: 'center'}}>
+              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+              <Text>Horse</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginLeft: 10, backgroundColor: 'white', borderRadius: 10, width: 69-10, height: 69-10, alignItems: 'center', justifyContent: 'center'}}>
+              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+              <Text>Hamster</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginLeft: 10, backgroundColor: 'white', borderRadius: 10, width: 69-10, height: 69-10, alignItems: 'center', justifyContent: 'center'}}>
+              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+              <Text>Bird</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginLeft: 10, backgroundColor: 'white', borderRadius: 10, width: 69-10, height: 69-10, alignItems: 'center', justifyContent: 'center'}}>
+              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+              <Text>Goat</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginLeft: 10, backgroundColor: 'white', borderRadius: 10, width: 69-10, height: 69-10, alignItems: 'center', justifyContent: 'center'}}>
+              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+              <Text>Snakes</Text>
+            </TouchableOpacity>
+        </ScrollView>
       </View>
       {/* title */}
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -44,39 +93,25 @@ export const HomeScreen = () => {
         <Image style={{width: 30, height: 30}} source={require('../../assets/icons/filter1.png')} />
       </View>
       {/* cards result list */}
-      <View>
+      <View style={{}}>
         {/* card */}
-        <View style={{width: 175,backgroundColor: 'white', borderRadius: 15}}>
-          {/* preview Top */}
-          <View style={{ position: 'relative', borderRadius: 15, overflow: 'hidden',}}>
-            <Image style={{width: 175, height: 175, borderRadius: 10}} source={require('../../assets/icons/pets/dog.png')} />
-            <Image style={{width: 25, height: 25, position: 'absolute', top: 7, right: 7}} source={require('../../assets/icons/like2.png')} />
-            <View style={{position: 'absolute', width: '100%', bottom: 0}}>
-              <Text style={{color: 'white',backgroundColor: 'rgba(51, 58, 90, 0.5)', textAlign: 'center'}}>Foxy</Text>
-            </View>
-          </View>
-          {/* details */}
-          <View style={{padding: 10}}>
-            {/* name and gender */}
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5}}>
-              <Text>Name</Text>
-              <View style={{backgroundColor: '#D9E2F5', paddingHorizontal: 10, borderRadius: 100}}>
-                <Text style={{color: '#3A78E0', fontSize: 12}}>Male</Text>
-              </View>
-            </View>
-            {/* Location */}
-            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
-              <Image style={{width: 15, height: 15}} source={require('../../assets/icons/location.png')} />
-              <Text style={{fontSize: 12}}>Location where is it</Text>
-            </View>
-            {/* age and price */}
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={{fontSize: 12}}>20 years</Text>
-              <Text style={{color: 'black', fontSize: 13}}>Price</Text>
-            </View>
-          </View>
-        </View>
+        <FlatList
+          data={data}
+          renderItem={({ item }) => <CardHome />}
+          numColumns={2}
+          keyExtractor={(item, index) => index.toString()}
+          onEndReachedThreshold={0.01}
+          onEndReached={info => {
+            data.push(1)
+            data.push(1)
+          }}
+          //ItemSeparatorComponent={() => <View style={{height: 20}} />}
+          columnWrapperStyle={{justifyContent: 'space-between', paddingTop: 10,}}
+          style={{backgroundColor: 'red', paddingHorizontal: 15}}
+
+        />
       </View>
     </SafeAreaView>
   )
 }
+
