@@ -5,7 +5,7 @@ export const CardHome = () => {
   const Dimension = Dimensions.get('window').width - 40;
   const CardWidth = Dimension / 2;
   return (
-    <View style={{width: CardWidth,backgroundColor: 'white', borderRadius: 15}}>
+    <View style={{width: CardWidth, backgroundColor: 'white', borderRadius: 15}}>
       {/* preview Top */}
       <View style={{ position: 'relative', borderRadius: 15, overflow: 'hidden',}}>
         <Image style={{width: CardWidth, height: CardWidth, borderRadius: 10}} source={require('../../assets/icons/pets/dog.png')} />

@@ -1,24 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, Image, Animated } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomeScreen } from './screens/Home/HomeScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import { LoginScreen } from './screens/Auth/LoginScreen';
+import { RegisterScreen } from './screens/Auth/RegisterScreen';
+import HomeNavigation from './screens/Navigations/HomeNavigation';
 
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
 const floatingMenu = {borderRadius: '100%', position: 'absolute', left: 10, right: 10, bottom: 30, paddingBottom: 0, height: 59}
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{
-        tabBarStyle: {backgroundColor: '#333A5A', },
-        headerShown: false
-        }}>
-        <Tab.Screen name="Home" component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? '#FEB237' : 'white'}} source={require('./assets/icons/menu/home.png')} />}} />
-        <Tab.Screen name="Chat" component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? '#FEB237' : 'white'}} source={require('./assets/icons/menu/chat.png')} />}} />
-        <Tab.Screen name="Fav" component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? '#FEB237' : 'white'}} source={require('./assets/icons/menu/fav.png')} />}} />
-        <Tab.Screen name="Add" component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? '#FEB237' : 'white'}} source={require('./assets/icons/menu/add.png')} />}} />
-        <Tab.Screen name="Profile" component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? '#FEB237' : 'white'}} source={require('./assets/icons/menu/profile.png')} />}} />
-      </Tab.Navigator>
+      <Stack.Navigator 
+        initialRouteName="Login"
+        screenOptions={() => ({
+          headerShown: false,
+          headerLeft: null
+        })}
+      >
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeNavigation} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
@@ -26,7 +30,6 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
