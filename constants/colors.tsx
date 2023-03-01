@@ -5,5 +5,6 @@ export default {
   gold: '#FEB237',
   dash: '#333A5A',
   button: '#323958',
+  black: 'black',
 
 }

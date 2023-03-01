@@ -20,6 +20,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import { differenceInYears, differenceInMonths, differenceInDays } from 'date-fns';
 import moment from 'moment';
+import { AddImages } from './AddImages';
 
 export const AddScreen = () => {
   const [value, setValue] = useState(null);
@@ -48,17 +49,23 @@ export const AddScreen = () => {
       LayoutAnimation.configureNext(animationConfig.update);
     });
   };
+
+
+
+
   return (
     <SafeAreaView>
       <View>
         <HeaderSearch />
       </View>
       <KeyboardAwareScrollView >
-        <ScrollView contentContainerStyle={{backgroundColor: COLORS.background}}>
+        <ScrollView contentContainerStyle={{backgroundColor: COLORS.background, paddingBottom: 123}}>
           <View style={{marginLeft: 20, marginTop: 20}}>
             <Text style={{fontSize: 30, fontWeight: "400", color: COLORS.button, paddingLeft: 10}}>Add new Pet</Text>
           </View>
           <View style={{margin: 20,marginTop: 10, backgroundColor: COLORS.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50}}>
+            <AddImages />
+            
             <TextInput
               style={styles.inputField}
               label="Name"
@@ -86,13 +93,13 @@ export const AddScreen = () => {
             >
               <DatePicker
                 options={{
-                  backgroundColor: '#090C08',
-                  textHeaderColor: '#FFA25B',
-                  textDefaultColor: '#F6E7C1',
-                  selectedTextColor: '#fff',
-                  mainColor: '#F4722B',
-                  textSecondaryColor: '#D6C7A1',
-                  borderColor: 'rgba(122, 146, 165, 0.1)',
+                  backgroundColor: COLORS.background,
+                  textHeaderColor: COLORS.menu,
+                  textDefaultColor: COLORS.black,
+                  selectedTextColor: COLORS.white,
+                  mainColor: COLORS.menu,
+                  textSecondaryColor: COLORS.black,
+                  borderColor: COLORS.background,
                 }}
                 maximumDate={getToday()}
                 onSelectedChange={date => {
@@ -102,7 +109,12 @@ export const AddScreen = () => {
 
                 mode="calendar"
                 minuteInterval={30}
-                style={{ borderRadius: 10 }}
+                style={{ 
+                  borderBottomColor: 'gray',
+                  borderBottomWidth: 0.5,
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                }}
               />
       </Animated.View>
 
@@ -157,7 +169,7 @@ const styles = StyleSheet.create({
     height: 56,
     borderBottomColor: 'gray',
     borderBottomWidth: 0.5,
-    paddingLeft: 5
+    paddingLeft: 5,
   },
   icon: {
     marginRight: 5,
@@ -178,14 +190,18 @@ const styles = StyleSheet.create({
   },
   inputField: {
     backgroundColor: COLORS.background,
-    marginBottom: 12
+    marginBottom: 12,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   inputDate: {
     backgroundColor: COLORS.background,
     paddingLeft: 20,
     paddingVertical: 15,
     borderBottomColor: 'black',
-    borderBottomWidth: 0.3
+    borderBottomWidth: 0.3,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   }
 });
 
