@@ -3,13 +3,14 @@
 [x] navigation
 [x] auth protection
 [x] post pet
+[x] pet details
+[x] my profile
 [] home
 [] search page
 [] edit profile
 [] show profile
 [] list my pets
 [] edit pet
-[] pet details
 
 
 
