@@ -14,6 +14,7 @@ export default {
   femaleText: '#F364A9',
   unkownBackground: '#FFD1E7',
   unkownText: '#F364A9',
-  emptyImg1: '#F9E3D2'
+  emptyImg1: '#F9E3D2',
+  red: '#EA0000'
 
 }
