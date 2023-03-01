@@ -5,11 +5,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen } from './screens/Auth/LoginScreen';
 import { RegisterScreen } from './screens/Auth/RegisterScreen';
 import HomeNavigation from './screens/Navigations/HomeNavigation';
+import { useState } from 'react';
 
 const Stack = createStackNavigator();
 
 const floatingMenu = {borderRadius: '100%', position: 'absolute', left: 10, right: 10, bottom: 30, paddingBottom: 0, height: 59}
 export default function App() {
+  const [auth, setAuth] = useState(true);
   return (
     <NavigationContainer>
       <Stack.Navigator 
@@ -19,9 +21,15 @@ export default function App() {
           headerLeft: null
         })}
       >
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="HomeScreen" component={HomeNavigation} />
+        {!auth ? (
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="HomeScreen" component={HomeNavigation} />
+          </>
+        ) : (
+          <Stack.Screen name="HomeScreen" component={HomeNavigation} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

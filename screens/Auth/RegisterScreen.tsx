@@ -6,6 +6,7 @@ import { StatusBar } from "../../components/StatusBar"
 import { Link } from '@react-navigation/native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { StackActions, useNavigation } from '@react-navigation/native';
+import { COLORS } from "../../constants"
 
 export const RegisterScreen = () => {
   const [name, setName] = useState("");
@@ -20,7 +21,7 @@ export const RegisterScreen = () => {
     );
   }
   return(
-    <View style={{backgroundColor: '#EBEAEF', flex: 1}}>
+    <View style={{backgroundColor: COLORS.background, flex: 1}}>
       <StatusBar />
       <ScrollView >
           <View style={{position: 'absolute',top: 50, flexDirection: 'row', justifyContent:'center', width: '100%'}}>
@@ -39,7 +40,7 @@ export const RegisterScreen = () => {
               alignItems:'center', 
               justifyContent: 'space-around'
             }}>
-              <Text style={{fontSize: 25, color: '#323958', fontWeight: '500', marginTop: 20}}>Register</Text>
+              <Text style={{fontSize: 25, color: COLORS.button, fontWeight: '500', marginTop: 20}}>Register</Text>
               <Image source={require('../../assets/icons/catLogin.png')} />
             </View>
             <View style={{
@@ -73,8 +74,8 @@ export const RegisterScreen = () => {
               <View style={{marginBottom: 20}}>
                 <BouncyCheckbox
                   size={18}
-                  fillColor="#323958"
-                  unfillColor="#FFFFFF"
+                  fillColor={COLORS.menu}
+                  unfillColor={COLORS.white}
                   text="I want to join"
                   textStyle={{fontSize:15, fontWeight: '300', textDecorationLine: "none"}}
                   innerIconStyle={{ borderWidth: 2 }}
@@ -85,7 +86,7 @@ export const RegisterScreen = () => {
                   width: '100%',
                   height: 40,
                   borderRadius: 5,
-                  backgroundColor: "#323958",
+                  backgroundColor: COLORS.menu,
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
@@ -94,7 +95,7 @@ export const RegisterScreen = () => {
                 </TouchableOpacity>
             </View>
             <View>
-              <Link style={{color: '#323958', marginTop: 10}} to={{ screen: 'Register', params: { id: 'jane' } }}>
+              <Link style={{color: COLORS.button, marginTop: 10}} to={{ screen: 'Register', params: { id: 'jane' } }}>
                 I don't have an Account
               </Link>
             </View>
