@@ -21,6 +21,7 @@ export const ShowMyProfile = () => {
             <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 10}}>
               <View>
                 <Text>Name Name</Text>
+                <Text>location</Text>
                 <Text>email</Text>
                 <Text>phone Number</Text>
               </View>
