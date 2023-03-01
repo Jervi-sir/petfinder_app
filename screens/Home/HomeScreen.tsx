@@ -4,11 +4,15 @@ import { MasonryFlashList } from "@shopify/flash-list";
 import { useState,useRef } from 'react';
 import { COLORS } from '../../constants';
 import DashedLine from 'react-native-dashed-line';
+import { StatusBar } from '../../components/StatusBar';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
+const Tab = createMaterialTopTabNavigator();
 
 export const HomeScreen = () => {
-  const data = [1, 2, 3, 4, 5, 6, 7];
   const [userDidInput, setUserDidInput] = useState(false);
-  
+  const data = [1, 2, 3, 4, 5, 6, 7];
+
   let currentInputStyle = !userDidInput ? styles.inputStyle1 : styles.inputStyle2;
   
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
@@ -30,8 +34,8 @@ export const HomeScreen = () => {
   });
 
   return (
-    <SafeAreaView style={{backgroundColor: COLORS.background}}>
-      {}
+    <View style={{backgroundColor: COLORS.background}}>
+      <StatusBar />
       <Animated.View style={[currentInputStyle,{ height: !userDidInput ? headerScrollHeight : h_max_height }]}>
         <Image style={{width: 69, height: 69}} source={require('../../assets/icons/logo.png')} />
         {!userDidInput ? (<Text style={styles.titleStyle1}>Find your Favorite Pet</Text>) : ''}
@@ -50,51 +54,79 @@ export const HomeScreen = () => {
           </View>
         </ScrollView>
         {/* Dotted Line */}
-        {!userDidInput ? (<DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={COLORS.dash} />) : ''}
-      </Animated.View>
 
       {/* pet filter */}
-      <View style={{flexDirection: 'row', backgroundColor: COLORS.background, paddingVertical: 10}}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <TouchableOpacity style={styles.filterButton}>
-              <Text>All</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filterButton}>
-              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-              <Text>Cat</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filterButton}>
-              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-              <Text>Dog</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filterButton}>
-              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-              <Text>Horse</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filterButton}>
-              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-              <Text>Hamster</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filterButton}>
-              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-              <Text>Bird</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filterButton}>
-              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-              <Text>Goat</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filterButton}>
-              <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-              <Text>Snakes</Text>
-            </TouchableOpacity>
-        </ScrollView>
+      <View style={{minHeight: 600}}>
+        <Tab.Navigator
+          screenOptions={{ 
+            tabBarScrollEnabled: true,
+            tabBarIndicatorStyle:{
+              backgroundColor: COLORS.menu,
+              height:2,
+            } ,
+            tabBarContentContainerStyle: {marginHorizontal: 10}
+          }}
+          
+          >          
+          <Tab.Screen name="all"children={() => <ResultScreen data={data} />} 
+            options={{ 
+              tabBarLabel:() => {return null}, 
+              tabBarIcon: ({focused}) => (
+                <>
+                  <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+                  <Text>Cat</Text>
+                </>
+              )  }} 
+          />  
+          <Tab.Screen name="cat"children={() => <ResultScreen data={data} />} 
+            options={{ 
+              tabBarLabel:() => {return null}, 
+              tabBarIcon: ({focused}) => (
+                <>
+                  <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+                  <Text>Cat</Text>
+                </>
+              )  }} 
+          />    
+          <Tab.Screen name="dog"children={() => <ResultScreen data={data} />} 
+            options={{ 
+              tabBarLabel:() => {return null}, 
+              tabBarIcon: ({focused}) => (
+                <>
+                  <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+                  <Text>Cat</Text>
+                </>
+              )  }} 
+          />  
+          <Tab.Screen name="horse"children={() => <ResultScreen data={data} />} 
+            options={{ 
+              tabBarLabel:() => {return null}, 
+              tabBarIcon: ({focused}) => (
+                <>
+                  <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
+                  <Text>Cat</Text>
+                </>
+              )  }} 
+          />    
+        </Tab.Navigator>
       </View>
       {/* title */}
+      
+      {/* cards result list */}
+    
+      </Animated.View>
+    </View>
+  )
+}
+
+function ResultScreen({data}) {
+
+  return(
+    <View style={{minHeight: '100%'}}>
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
         <Text>New Pets</Text>
         <Image style={{width: 30, height: 30}} source={require('../../assets/icons/filter1.png')} />
       </View>
-      {/* cards result list */}
       <View style={{}}>
         {/* card */}
         <FlatList
@@ -111,12 +143,12 @@ export const HomeScreen = () => {
           columnWrapperStyle={{justifyContent: 'space-between', paddingTop: 10,}}
           style={{paddingHorizontal: 15, }}
           onScroll={Animated.event([
-            { nativeEvent: { contentOffset: { y: scrollOffsetY }}}              
+            //{ nativeEvent: { contentOffset: { y: scrollOffsetY }}}              
            ])
           }
         />
       </View>
-    </SafeAreaView>
+      </View>
   )
 }
 

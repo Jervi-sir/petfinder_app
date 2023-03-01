@@ -2,14 +2,14 @@
 [x] register screen
 [x] navigation
 [x] auth protection
+[x] post pet
 [] home
 [] search page
-[] post pet
 [] edit profile
 [] show profile
 [] list my pets
 [] edit pet
-
+[] pet details
 
 
 
