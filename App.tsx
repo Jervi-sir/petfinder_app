@@ -9,7 +9,6 @@ import { useState } from 'react';
 
 const Stack = createStackNavigator();
 
-const floatingMenu = {borderRadius: '100%', position: 'absolute', left: 10, right: 10, bottom: 30, paddingBottom: 0, height: 59}
 export default function App() {
   const [auth, setAuth] = useState(true);
   return (

@@ -2,10 +2,11 @@ import {View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, FlatList, 
 import { CardHome } from './CardHome'
 import { MasonryFlashList } from "@shopify/flash-list";
 import { useState,useRef } from 'react';
-import { COLORS } from '../../constants';
 import DashedLine from 'react-native-dashed-line';
-import { StatusBar } from '../../components/StatusBar';
+import { StatusBar } from '@components/StatusBar';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import colors from "constants/colors"
+import icons from 'constants/icons';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -34,10 +35,10 @@ export const HomeScreen = () => {
   });
 
   return (
-    <View style={{backgroundColor: COLORS.background}}>
+    <View style={{backgroundColor: colors.background}}>
       <StatusBar />
       <Animated.View style={[currentInputStyle,{ height: !userDidInput ? headerScrollHeight : h_max_height }]}>
-        <Image style={{width: 69, height: 69}} source={require('../../assets/icons/logo.png')} />
+        <Image style={{width: 69, height: 69}} source={icons.LOGO} />
         {!userDidInput ? (<Text style={styles.titleStyle1}>Find your Favorite Pet</Text>) : ''}
         <ScrollView keyboardShouldPersistTaps='handled'>
           <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
@@ -48,64 +49,61 @@ export const HomeScreen = () => {
                 setUserDidInput(true);
                 H_MAX_HEIGHT(69);
               }}
-
             />
-            <Image style={{width: 40, height: 40}} source={require('../../assets/icons/search.png')} />
+            <Image style={{width: 40, height: 40}} source={icons.SEARCH} />
           </View>
         </ScrollView>
         {/* Dotted Line */}
+      </Animated.View>
 
       {/* pet filter */}
-      <View style={{minHeight: 600}}>
+      <View style={{height: 800}}>
         <Tab.Navigator
           screenOptions={{ 
             tabBarScrollEnabled: true,
             tabBarIndicatorStyle:{
-              backgroundColor: COLORS.menu,
+              backgroundColor: colors.menu,
               height:2,
             } ,
-            tabBarContentContainerStyle: {marginHorizontal: 10}
+            tabBarContentContainerStyle:{height: 100},
+            tabBarStyle: {backgroundColor:'transparent'}
           }}
-          
           >          
           <Tab.Screen name="all"children={() => <ResultScreen data={data} />} 
-            options={{ 
-              tabBarLabel:() => {return null}, 
-              tabBarIcon: ({focused}) => (
-                <>
-                  <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-                  <Text>Cat</Text>
-                </>
-              )  }} 
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <Image 
+                  source={icons.FILTER}
+                  style={styles.filterButton}
+                />
+              )
+            }} 
           />  
           <Tab.Screen name="cat"children={() => <ResultScreen data={data} />} 
             options={{ 
               tabBarLabel:() => {return null}, 
               tabBarIcon: ({focused}) => (
-                <>
-                  <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-                  <Text>Cat</Text>
-                </>
+                <View style={styles.filterButton}>
+                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                </View>
               )  }} 
           />    
           <Tab.Screen name="dog"children={() => <ResultScreen data={data} />} 
             options={{ 
               tabBarLabel:() => {return null}, 
               tabBarIcon: ({focused}) => (
-                <>
-                  <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-                  <Text>Cat</Text>
-                </>
+                <View style={styles.filterButton}>
+                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                </View>
               )  }} 
           />  
           <Tab.Screen name="horse"children={() => <ResultScreen data={data} />} 
             options={{ 
               tabBarLabel:() => {return null}, 
               tabBarIcon: ({focused}) => (
-                <>
-                  <Image style={{width: 45, height: 45}} source={require('../../assets/icons/filter.png')} />
-                  <Text>Cat</Text>
-                </>
+                <View style={styles.filterButton}>
+                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                </View>
               )  }} 
           />    
         </Tab.Navigator>
@@ -114,7 +112,6 @@ export const HomeScreen = () => {
       
       {/* cards result list */}
     
-      </Animated.View>
     </View>
   )
 }
@@ -125,7 +122,7 @@ function ResultScreen({data}) {
     <View style={{minHeight: '100%'}}>
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
         <Text>New Pets</Text>
-        <Image style={{width: 30, height: 30}} source={require('../../assets/icons/filter1.png')} />
+        <Image style={{width: 30, height: 30}} source={icons.FILTER1} />
       </View>
       <View style={{}}>
         {/* card */}

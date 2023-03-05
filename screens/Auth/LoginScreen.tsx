@@ -2,20 +2,20 @@ import { useState } from "react"
 import { Text, View, ScrollView, Image } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
-import { StatusBar } from "../../components/StatusBar"
+import { StatusBar } from "@components/StatusBar"
 import { Link } from '@react-navigation/native';
-import { COLORS } from "../../constants"
-
+import colors from "constants/colors"
+import icons from "constants/icons"
 export const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
   return(
-    <View style={{backgroundColor: COLORS.background, flex: 1}}>
+    <View style={{backgroundColor: colors.background, flex: 1}}>
       <StatusBar />
       <ScrollView >
           <View style={{position: 'absolute',top: 50, flexDirection: 'row', justifyContent:'center', width: '100%'}}>
-            <Image source={require('../../assets/icons/logo.png')} style={{width: 70, height: 70}} />
+            <Image source={icons.LOGO} style={{width: 70, height: 70}} />
           </View>
 
           <View style={{
@@ -30,8 +30,8 @@ export const LoginScreen = () => {
               alignItems:'center', 
               justifyContent: 'space-around'
             }}>
-              <Text style={{fontSize: 25, color: COLORS.button, fontWeight: '500', marginTop: 20}}>Login</Text>
-              <Image source={require('../../assets/icons/catLogin.png')} />
+              <Text style={{fontSize: 25, color: colors.button, fontWeight: '500', marginTop: 20}}>Login</Text>
+              <Image source={icons.CATLOGIN} />
             </View>
             <View style={{
                 backgroundColor: 'white',
@@ -46,18 +46,18 @@ export const LoginScreen = () => {
                 label="Email"
                 value={email}
                 onChangeText={text => setEmail(text)}
-                style={{marginBottom: 10, backgroundColor: COLORS.white}}
+                style={{marginBottom: 10, backgroundColor: colors.white}}
               />
               <TextInput
                 label="Password"
                 value={Password}
                 secureTextEntry={true}
                 onChangeText={text => setPassword(text)}
-                style={{marginBottom: 20, backgroundColor: COLORS.white}}
+                style={{marginBottom: 20, backgroundColor: colors.white}}
               />
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                 <View >
-                  <Link style={{color: COLORS.button, fontSize:12, paddingLeft: 15}} to={{ screen: 'ForgotPassword', params: { id: 'jane' } }}>
+                  <Link style={{color: colors.button, fontSize:12, paddingLeft: 15}} to={{ screen: 'ForgotPassword', params: { id: 'jane' } }}>
                     forgot my Password
                   </Link>
                 </View>
@@ -65,7 +65,7 @@ export const LoginScreen = () => {
                   width: 104,
                   height: 40,
                   borderRadius: 5,
-                  backgroundColor: COLORS.menu,
+                  backgroundColor: colors.menu,
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
@@ -74,7 +74,7 @@ export const LoginScreen = () => {
               </View>
             </View>
             <View>
-              <Link style={{color: COLORS.button, marginTop: 10}} to={{ screen: 'Register', params: { id: 'jane' } }}>
+              <Link style={{color: colors.button, marginTop: 10}} to={{ screen: 'Register', params: { id: 'jane' } }}>
                 I don't have an Account
               </Link>
             </View>

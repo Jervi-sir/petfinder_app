@@ -1,0 +1,20 @@
+export default {
+  background: '#EBEAEF',
+  white: 'white',
+  lightWhite: '#F4F6F6',
+  menu: '#333A5A',
+  gold: '#FEB237',
+  dash: '#333A5A',
+  button: '#323958',
+  black: 'black',
+  lightGrey: '#8F8989',
+  maleBackground: '#D9E2F5',
+  maleText: '#3A78E0',
+  femaleBackground: '#FFD1E7',
+  femaleText: '#F364A9',
+  unkownBackground: '#FFD1E7',
+  unkownText: '#F364A9',
+  emptyImg1: '#F9E3D2',
+  red: '#EA0000'
+
+}

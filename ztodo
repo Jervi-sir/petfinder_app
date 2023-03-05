@@ -8,10 +8,12 @@
 [x] message screen
 [x] edit profile
 [x] edit pet
-[] home
+[x] show profile
+[x] list my pets
+
 [] search page
-[] show profile
-[] list my pets
+[] home
+[] filter in bottomsheet
 
 
 

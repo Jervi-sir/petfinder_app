@@ -1,29 +1,26 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { COLORS } from '../../constants';
-import { HomeScreen } from '../../screens/Home/HomeScreen';
-import { AddScreen } from '../../screens/Pet/AddScreen';
+import colors from "constants/colors"
+import { HomeScreen } from '@screens/Home/HomeScreen';
+import { AddScreen } from '@screens/Pet/AddScreen';
 import {  Animated } from 'react-native';
-import { ShowPetScreen } from '../Pet/ShowPetScreen';
-import { ShowMyProfile } from '../Profile/showMyProfile';
-import { MessageScreen } from '../Message/messageScreen';
-import { EditProfile } from '../Profile/EditProfile';
-import { EditPetScreen } from '../Pet/Edit/EditPetScreen';
-import { ShowProfile } from '../Profile/ShowProfile';
+import { ShowProfile } from '@screens/Profile/ShowProfile';
+import routes from 'constants/routes';
+import icons from 'constants/icons';
 const Tab = createBottomTabNavigator();
-
 
 export default function HomeNavigation() {
   return(
     <Tab.Navigator screenOptions={{
-      tabBarStyle: {backgroundColor: COLORS.menu, position: 'absolute', bottom: 0, borderRadius: 100},
+      tabBarStyle: {backgroundColor: colors.menu, position: 'absolute', bottom: 0, borderRadius: 120},
+      //tabBarStyle: {backgroundColor: colors.menu, height: '12%', paddingTop: 20, position: 'absolute', bottom:-10, left: 0, zIndex: -1},
       headerShown: false,
-      }}
-      >
-      <Tab.Screen name="Home" component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? COLORS.gold : COLORS.white}} source={require('../../assets/icons/menu/home.png')} />}} />
-      <Tab.Screen name="Chat" component={ShowProfile} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? COLORS.gold : COLORS.white}} source={require('../../assets/icons/menu/chat.png')} />}} />
-      <Tab.Screen name="Fav" component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? COLORS.gold : COLORS.white}} source={require('../../assets/icons/menu/fav.png')} />}} />
-      <Tab.Screen name="Add" component={AddScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? COLORS.gold : COLORS.white}} source={require('../../assets/icons/menu/add.png')} />}} />
-      <Tab.Screen name="Profile" component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? COLORS.gold : COLORS.white}} source={require('../../assets/icons/menu/profile.png')} />}} />
+    }}
+    >
+      <Tab.Screen name={ routes.HOME } component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? colors.gold : colors.white}} source={icons.HOME} />}} />
+      <Tab.Screen name={ routes.CHAT } component={ShowProfile} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? colors.gold : colors.white}} source={icons.CHAT} />}} />
+      <Tab.Screen name={ routes.FAVORITE } component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? colors.gold : colors.white}} source={icons.FAVORITE} />}} />
+      <Tab.Screen name={ routes.ADDPET } component={AddScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? colors.gold : colors.white}} source={icons.ADDPET} />}} />
+      <Tab.Screen name={ routes.PROFILE } component={HomeScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? colors.gold : colors.white}} source={icons.PROFILE} />}} />
     </Tab.Navigator>
   )
 }

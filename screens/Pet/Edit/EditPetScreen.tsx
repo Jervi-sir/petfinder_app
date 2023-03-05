@@ -7,13 +7,12 @@ import { StyleSheet } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { FloatingLabelInput } from 'react-native-floating-label-input';
-import { COLORS } from '../../../constants';
 import { TextInputMask } from 'react-native-masked-text';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
-import { FloatingDropdown } from '../../../components/FloatingDropdown';
+import { FloatingDropdown } from '@components/FloatingDropdown';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { HeaderSearch } from '../../../components/HeaderSearch';
+import { HeaderSearch } from '@components/HeaderSearch';
 import DatePicker from 'react-native-modern-datepicker';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
@@ -21,6 +20,7 @@ import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import { differenceInYears, differenceInMonths, differenceInDays } from 'date-fns';
 import moment from 'moment';
 import { EditImages } from './EditImages';
+import colors from "constants/colors"
 
 export const EditPetScreen = () => {
   const [value, setValue] = useState(null);
@@ -59,11 +59,11 @@ export const EditPetScreen = () => {
         <HeaderSearch />
       </View>
       <KeyboardAwareScrollView >
-        <ScrollView contentContainerStyle={{backgroundColor: COLORS.background, paddingBottom: 123}}>
+        <ScrollView contentContainerStyle={{backgroundColor: colors.background, paddingBottom: 123}}>
           <View style={{marginLeft: 20, marginTop: 20}}>
-            <Text style={{fontSize: 30, fontWeight: "400", color: COLORS.button, paddingLeft: 10}}>Add new Pet</Text>
+            <Text style={{fontSize: 30, fontWeight: "400", color: colors.button, paddingLeft: 10}}>Add new Pet</Text>
           </View>
-          <View style={{margin: 20,marginTop: 10, backgroundColor: COLORS.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50}}>
+          <View style={{margin: 20,marginTop: 10, backgroundColor: colors.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50}}>
             <EditImages />
             
             <TextInput
@@ -93,13 +93,13 @@ export const EditPetScreen = () => {
             >
               <DatePicker
                 options={{
-                  backgroundColor: COLORS.background,
-                  textHeaderColor: COLORS.menu,
-                  textDefaultColor: COLORS.black,
-                  selectedTextColor: COLORS.white,
-                  mainColor: COLORS.menu,
-                  textSecondaryColor: COLORS.black,
-                  borderColor: COLORS.background,
+                  backgroundColor: colors.background,
+                  textHeaderColor: colors.menu,
+                  textDefaultColor: colors.black,
+                  selectedTextColor: colors.white,
+                  mainColor: colors.menu,
+                  textSecondaryColor: colors.black,
+                  borderColor: colors.background,
                 }}
                 maximumDate={getToday()}
                 onSelectedChange={date => {
@@ -149,11 +149,11 @@ export const EditPetScreen = () => {
                 }
               />
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                <TouchableOpacity style={{backgroundColor: COLORS.button, borderRadius: 5, padding: 12, paddingHorizontal: 30 }}>
-                  <Text style={{color: COLORS.white, textAlign: 'center'}}>Publish</Text>
+                <TouchableOpacity style={{backgroundColor: colors.button, borderRadius: 5, padding: 12, paddingHorizontal: 30 }}>
+                  <Text style={{color: colors.white, textAlign: 'center'}}>Publish</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{padding: 12, paddingHorizontal: 30}}>
-                  <Text style={{color: COLORS.menu, textAlign: 'center'}}>Preview</Text>
+                  <Text style={{color: colors.menu, textAlign: 'center'}}>Preview</Text>
                 </TouchableOpacity>
               </View>
           </View>
@@ -189,13 +189,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputField: {
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
     marginBottom: 12,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
   inputDate: {
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
     paddingLeft: 20,
     paddingVertical: 15,
     borderBottomColor: 'black',

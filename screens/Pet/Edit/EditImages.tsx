@@ -2,9 +2,9 @@ import { useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import { View, ScrollView, Image, TouchableOpacity, Text, StyleSheet, Animated  } from "react-native";
 import Dialog from "react-native-dialog";
-import { COLORS } from "../../../constants";
 import {manipulateAsync} from 'expo-image-manipulator';
 import RNAnimatedScrollIndicators from 'react-native-animated-scroll-indicators';
+import colors from "constants/colors"
 
 export const EditImages = () => {
   const [image1, setImage1] = useState(null);
@@ -107,8 +107,8 @@ export const EditImages = () => {
             <RNAnimatedScrollIndicators
               numberOfCards={(image1 != null && 1) + (image2 != null && 1) + (image3 != null && 1) + (image4 != null && 1)}
               scrollWidth={300}
-              activeColor={COLORS.menu}
-              inActiveColor={COLORS.background}
+              activeColor={colors.menu}
+              inActiveColor={colors.background}
               scrollAnimatedValue={scrollX}
             />
           </View>
@@ -184,7 +184,7 @@ export const EditImages = () => {
 }
 const styles = StyleSheet.create({
   dashed: {
-    backgroundColor: COLORS.background, 
+    backgroundColor: colors.background, 
     height: 69, 
     width: 69, 
     justifyContent: 'center'
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   imageSelectedPreview: {
-    backgroundColor: COLORS.background, 
+    backgroundColor: colors.background, 
     height: 250, 
     width: 298,
 
