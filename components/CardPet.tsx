@@ -1,7 +1,8 @@
 import { Dimensions } from "react-native"
 import { View, Image, Text } from "react-native"
 import icons from "constants/icons";
-export const CardHome = () => {
+
+export const CardPet = () => {
   const Dimension = Dimensions.get('window').width - 40;
   const CardWidth = Dimension / 2;
   return (

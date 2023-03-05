@@ -50,9 +50,6 @@ export const AddScreen = () => {
     });
   };
 
-
-
-
   return (
     <SafeAreaView>
       <View>

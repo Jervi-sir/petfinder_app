@@ -1,5 +1,5 @@
 import {View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
-import { CardHome } from './CardHome'
+import { CardPet } from '@components/CardPet'
 import { MasonryFlashList } from "@shopify/flash-list";
 import { useState,useRef } from 'react';
 import DashedLine from 'react-native-dashed-line';
@@ -128,7 +128,7 @@ function ResultScreen({data}) {
         {/* card */}
         <FlatList
           data={data}
-          renderItem={({ item }) => <CardHome />}
+          renderItem={({ item }) => <CardPet />}
           numColumns={2}
           keyExtractor={(item, index) => index.toString()}
           onEndReachedThreshold={0.01}

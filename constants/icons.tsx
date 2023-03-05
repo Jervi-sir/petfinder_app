@@ -16,6 +16,6 @@ export default {
   FILTER1: require('@assets/icons/filter1.png'),
   BACK: require('@assets/icons/back.png'),
   PHONE: require('@assets/icons/phone.png'),
-  CALL: require('../../assets/icons/call.png'),
+  CALL: require('@assets/icons/call.png'),
 
 }
