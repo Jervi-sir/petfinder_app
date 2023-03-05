@@ -1,11 +1,10 @@
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native"
-import { HeaderSearch } from "@components/HeaderSearch"
-import { StatusBar } from "@components/StatusBar"
-import { COLORS } from "../../constants"
 import { PetCard } from "./petCard"
 import { Dimensions } from 'react-native';
-import colors from 'constants/colors'
-import icons from "constants/icons"
+import { colors } from "../../constants/colors";
+import { icons } from "../../constants/icons";
+import { StatusBar } from "../../components/StatusBar";
+import { HeaderSearch } from "../../components/HeaderSearch";
 
 const screenHeight = Dimensions.get('screen').height;
 

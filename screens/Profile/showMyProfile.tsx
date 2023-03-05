@@ -1,10 +1,11 @@
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native"
-import { HeaderSearch } from "@components/HeaderSearch"
-import { StatusBar } from "@components/StatusBar"
 import { PetCard } from "./petCard"
-import colors from 'constants/colors'
-import icons from "constants/icons"
  
+import { colors } from "../../constants/colors";
+import { icons } from "../../constants/icons";
+import { StatusBar } from "../../components/StatusBar";
+import { HeaderSearch } from "../../components/HeaderSearch";
+
 export const ShowMyProfile = () => {
   return (
     <>

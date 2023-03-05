@@ -1,12 +1,13 @@
 import {View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
-import { CardPet } from '@components/CardPet'
 import { MasonryFlashList } from "@shopify/flash-list";
 import { useState,useRef } from 'react';
 import DashedLine from 'react-native-dashed-line';
-import { StatusBar } from '@components/StatusBar';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import colors from "constants/colors"
-import icons from 'constants/icons';
+
+import { StatusBar } from "../../components/StatusBar";
+import { colors } from "../../constants/colors";
+import { icons } from "../../constants/icons";
+import { CardPet } from '../../components/CardPet';
 
 const Tab = createMaterialTopTabNavigator();
 

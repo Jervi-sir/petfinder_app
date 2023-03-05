@@ -1,12 +1,15 @@
 import { View, Text, Image, TouchableOpacity } from "react-native"
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import { ScrollView } from "react-native-gesture-handler";
-import { HeaderSearch } from "../../components/HeaderSearch";
-import { StatusBar } from "../../components/StatusBar";
-import { colors } from "../../constants/colors";
-import { icons } from "../../constants/icons";
+import {useNavigation} from '@react-navigation/native';
+import { icons } from "../../../constants/icons";
+import { colors } from "../../../constants/colors";
+import { StatusBar } from "../../../components/StatusBar";
+import { HeaderSearch } from "../../../components/HeaderSearch";
 
-export const ShowPetScreen = () => {
+export const PreviewPet = () => {
+  const navigation = useNavigation();
+
   const images = [
     {
      image:'https://images.unsplash.com/photo-1567226475328-9d6baaf565cf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
@@ -18,10 +21,12 @@ export const ShowPetScreen = () => {
        'Red fort in India New Delhi is a magnificient masterpeiece of humans',
    },
    ]
-  return(
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
+  return (
     <>
-      <StatusBar />
-      <HeaderSearch />
       <ScrollView style={{margin: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden', backgroundColor: colors.white, flex:1}}>
         <View style={{position: 'relative'}}>
           <FlatListSlider
@@ -35,7 +40,7 @@ export const ShowPetScreen = () => {
             indicatorActiveWidth={30}
             animation
           />
-          <TouchableOpacity style={{position: 'absolute', top: 2, left: 2}}>
+          <TouchableOpacity onPress={handleGoBack} style={{position: 'absolute', top: 2, left: 2}}>
             <Image source={icons.BACK} style={{ width: 50, height: 50 }}/>
           </TouchableOpacity>
         </View>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
-import { COLORS } from '../constants';
+import { colors } from '../constants/colors';
 
 const data = [
   { label: 'Item 1', value: '1' },
@@ -58,7 +58,7 @@ export const FloatingDropdown = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.background,
+    backgroundColor: colors.background,
     paddingTop: 9,
     paddingHorizontal: 0,
     marginBottom: 10,

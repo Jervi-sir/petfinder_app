@@ -1,6 +1,6 @@
 import {View, Text, Image, ScrollView, TextInput} from 'react-native'
 import DashedLine from 'react-native-dashed-line';
-import { COLORS } from '../constants';
+import { colors } from '../constants/colors';
 
 export const HeaderSearch = () => {
   return (
@@ -19,7 +19,7 @@ export const HeaderSearch = () => {
           </View>
         </ScrollView>
       </View>
-      <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={COLORS.dash} />
+      <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
 
     </>
   )

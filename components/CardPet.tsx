@@ -1,16 +1,27 @@
-import { Dimensions } from "react-native"
+import { Dimensions, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
 import { View, Image, Text } from "react-native"
-import icons from "constants/icons";
+import { icons } from "../constants/icons";
 
 export const CardPet = () => {
   const Dimension = Dimensions.get('window').width - 40;
   const CardWidth = Dimension / 2;
+
+  const LikeThisPet = () => {
+  }
+
+  const ViewThisPet = () => {
+
+  }
   return (
     <View style={{width: CardWidth, backgroundColor: 'white', borderRadius: 15}}>
       {/* preview Top */}
       <View style={{ position: 'relative', borderRadius: 15, overflow: 'hidden',}}>
-        <Image style={{width: CardWidth, height: CardWidth, borderRadius: 10}} source={icons.DOGIMG} />
-        <Image style={{width: 25, height: 25, position: 'absolute', top: 7, right: 7}} source={icons.LIKE2} />
+        <TouchableWithoutFeedback onPress={ViewThisPet}>
+          <Image style={{width: CardWidth, height: CardWidth, borderRadius: 10}} source={icons.DOGIMG} />
+        </TouchableWithoutFeedback>
+        <TouchableOpacity onPress={LikeThisPet} style={{position: 'absolute', top: 7, right: 7}}>
+          <Image style={{width: 25, height: 25}} source={icons.LIKE2} />
+        </TouchableOpacity>
         <View style={{position: 'absolute', width: '100%', bottom: 0}}>
           <Text style={{color: 'white',backgroundColor: 'rgba(51, 58, 90, 0.5)', textAlign: 'center'}}>Foxy</Text>
         </View>

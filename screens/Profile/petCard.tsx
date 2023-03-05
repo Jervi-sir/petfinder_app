@@ -1,6 +1,6 @@
-import colors from 'constants/colors'
-import icons from 'constants/icons'
 import {View, Text, Image, TouchableOpacity} from 'react-native'
+import { colors } from "../../constants/colors";
+import { icons } from "../../constants/icons";
 
 export const PetCard = () => {
   return (

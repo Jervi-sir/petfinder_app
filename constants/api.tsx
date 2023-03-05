@@ -1,4 +1,4 @@
-export default {
+export const api = {
   background: '#EBEAEF',
   white: 'white',
   lightWhite: '#F4F6F6',

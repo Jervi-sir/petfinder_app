@@ -2,12 +2,13 @@ import { useState } from "react"
 import { Text, View, ScrollView, Image } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
-import { StatusBar } from "@components/StatusBar"
 import { Link } from '@react-navigation/native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { StackActions, useNavigation } from '@react-navigation/native';
-import colors from "constants/colors"
-import icons from "constants/icons"
+
+import { StatusBar } from "../../components/StatusBar";
+import { colors } from "../../constants/colors";
+import { icons } from "../../constants/icons";
 
 export const RegisterScreen = () => {
   const [name, setName] = useState("");

@@ -10,17 +10,16 @@ import { FloatingLabelInput } from 'react-native-floating-label-input';
 import { TextInputMask } from 'react-native-masked-text';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
-import { FloatingDropdown } from '@components/FloatingDropdown';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { HeaderSearch } from '@components/HeaderSearch';
 import DatePicker from 'react-native-modern-datepicker';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
-import { differenceInYears, differenceInMonths, differenceInDays } from 'date-fns';
 import moment from 'moment';
 import { EditImages } from './EditImages';
-import colors from "constants/colors"
+import { colors } from '../../../constants/colors';
+import { FloatingDropdown } from '../../../components/FloatingDropdown';
+import { HeaderSearch } from '../../../components/HeaderSearch';
 
 export const EditPetScreen = () => {
   const [value, setValue] = useState(null);

@@ -4,7 +4,7 @@ import { View, ScrollView, Image, TouchableOpacity, Text, StyleSheet, Animated  
 import Dialog from "react-native-dialog";
 import {manipulateAsync} from 'expo-image-manipulator';
 import RNAnimatedScrollIndicators from 'react-native-animated-scroll-indicators';
-import colors from "constants/colors"
+import { colors } from "../../../constants/colors";
 
 export const EditImages = () => {
   const [image1, setImage1] = useState(null);

@@ -1,14 +1,18 @@
-import {View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
-import { StatusBar } from '@components/StatusBar';
-import { CardPet } from '@components/CardPet'
-import icons from 'constants/icons';
-import colors from 'constants/colors';
+import {View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, LayoutAnimation, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
 import DashedLine from 'react-native-dashed-line';
 import { FilterSearch } from './FilterSearch';
+import { useState } from 'react';
+import { Separator } from '../../components/Separator';
+import { colors } from '../../constants/colors';
+import { icons } from '../../constants/icons';
+import { StatusBar } from '../../components/StatusBar';
+import { CardPet } from '../../components/CardPet';
 
 
 export const SearchScreen = () => {
   const data = [1, 2, 3, 4, 5, 6, 7];
+
+
   return (
     <View style={{backgroundColor: colors.background}}>
       <StatusBar />
@@ -26,13 +30,8 @@ export const SearchScreen = () => {
           </View>
         </ScrollView>
       </View>
-      <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
-
+      <Separator />
       <View style={{minHeight: '100%'}}>
-        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10}}>
-          <Text style={{fontSize: 25, fontWeight: '600', color: colors.menu}}>Results</Text>
-          <Image style={{width: 30, height: 30}} source={icons.FILTER1} />
-        </View>
         <FilterSearch />
         <View style={{}}>
           {/* card */}
