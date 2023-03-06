@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, LayoutAnimation, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet} from 'react-native'
 
 export const FilterDropdown = ({placeholder, data}) => {
   const [value, setValue] = useState(null);

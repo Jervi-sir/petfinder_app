@@ -1,9 +1,8 @@
-import {View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, LayoutAnimation, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
+import {View, Text, TouchableOpacity, LayoutAnimation, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
 import { useState } from 'react';
-import { FloatingDropdown } from '../../components/FloatingDropdown';
-import { colors } from '../../constants/colors';
+import { colors } from '@constants/colors';
 import { FilterDropdown } from './FilterDropdown';
-import { icons } from '../../constants/icons';
+import { icons } from '@constants/icons';
 
 const data = [
   { label: 'Item 1', value: '1' },

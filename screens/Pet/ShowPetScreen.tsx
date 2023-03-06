@@ -1,10 +1,10 @@
 import { View, Text, Image, TouchableOpacity } from "react-native"
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import { ScrollView } from "react-native-gesture-handler";
-import { HeaderSearch } from "../../components/HeaderSearch";
-import { StatusBar } from "../../components/StatusBar";
-import { colors } from "../../constants/colors";
-import { icons } from "../../constants/icons";
+import { HeaderSearch } from "@components/HeaderSearch";
+import { StatusBar } from "@components/StatusBar";
+import { colors } from "@constants/colors";
+import { icons } from "@constants/icons";
 
 export const ShowPetScreen = () => {
   const images = [

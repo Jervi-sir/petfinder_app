@@ -1,9 +1,9 @@
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native"
  
-import { StatusBar } from "../../components/StatusBar";
-import { colors } from "../../constants/colors";
-import { icons } from "../../constants/icons";
-import { HeaderSearch } from '../../components/HeaderSearch';
+import { StatusBar } from "@components/StatusBar";
+import { colors } from "@constants/colors";
+import { icons } from "@constants/icons";
+import { HeaderSearch } from '@components/HeaderSearch';
 
 
 export const MessageScreen = () => {

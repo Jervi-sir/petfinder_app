@@ -1,5 +1,5 @@
 import DashedLine from 'react-native-dashed-line';
-import { colors } from '../constants/colors';
+import { colors } from '@constants/colors';
 
 export const Separator = () => {
   return (

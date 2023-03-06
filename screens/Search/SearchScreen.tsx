@@ -1,12 +1,11 @@
-import {View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, LayoutAnimation, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
+import {View,  Image, TextInput, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
 import DashedLine from 'react-native-dashed-line';
 import { FilterSearch } from './FilterSearch';
-import { useState } from 'react';
-import { Separator } from '../../components/Separator';
-import { colors } from '../../constants/colors';
-import { icons } from '../../constants/icons';
-import { StatusBar } from '../../components/StatusBar';
-import { CardPet } from '../../components/CardPet';
+import { Separator } from '@components/Separator';
+import { colors } from '@constants/colors';
+import { icons } from '@constants/icons';
+import { StatusBar } from '@components/StatusBar';
+import { CardPet } from '@components/CardPet';
 
 
 export const SearchScreen = () => {

@@ -1,9 +1,8 @@
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from "react-native"
 import { TextInput } from 'react-native-paper';
-import { HeaderSearch } from "../../components/HeaderSearch";
-import { StatusBar } from "../../components/StatusBar";
-import { colors } from "../../constants/colors";
-import { icons } from "../../constants/icons";
+import { StatusBar } from "@components/StatusBar";
+import { colors } from "@constants/colors";
+import { icons } from "@constants/icons";
 
 export const EditProfile = () => {
   return (

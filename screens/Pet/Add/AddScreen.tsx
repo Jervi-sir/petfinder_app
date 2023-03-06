@@ -1,5 +1,4 @@
 import { TextInput } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -9,11 +8,9 @@ import { AddImages } from './AddImages';
 import { useNavigation } from '@react-navigation/native';
 import DatePicker from 'react-native-modern-datepicker';
 
-import { StatusBar } from '../../../components/StatusBar';
-import { colors } from '../../../constants/colors';
-import { routes } from '../../../constants/routes';
-import { FloatingDropdown } from '../../../components/FloatingDropdown';
-import { HeaderSearch } from '../../../components/HeaderSearch';
+import { colors } from '@constants/colors';
+import { routes } from '@constants/routes';
+import { FloatingDropdown } from '@components/FloatingDropdown';
 import { CalendarAge } from './CalendarAge';
 
 

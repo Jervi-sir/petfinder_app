@@ -1,18 +1,14 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {  Animated } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View } from 'react-native'
 
-import { StatusBar } from "../../components/StatusBar";
-import { colors } from "../../constants/colors";
-import { icons } from "../../constants/icons";
-import { HeaderSearch } from '../../components/HeaderSearch';
-import { HomeScreen } from '../Home/HomeScreen';
-import { AddScreen } from '../Pet/Add/AddScreen';
-import { ShowProfile } from '../Profile/ShowProfile';
-import { PreviewPet } from '../Pet/Add/PreviewPet';
-import { routes } from '../../constants/routes';
-import { useState } from 'react';
+import { StatusBar } from "@components/StatusBar";
+import { colors } from "@constants/colors";
+import { icons } from "@constants/icons";
+import { HeaderSearch } from '@components/HeaderSearch';
+import { AddScreen } from '@screens/Pet/Add/AddScreen';
+import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
+import { routes } from '@constants/routes';
 
 const Stack = createStackNavigator();
 

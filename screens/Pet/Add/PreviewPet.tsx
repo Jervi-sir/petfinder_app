@@ -2,10 +2,8 @@ import { View, Text, Image, TouchableOpacity } from "react-native"
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import { ScrollView } from "react-native-gesture-handler";
 import {useNavigation} from '@react-navigation/native';
-import { icons } from "../../../constants/icons";
-import { colors } from "../../../constants/colors";
-import { StatusBar } from "../../../components/StatusBar";
-import { HeaderSearch } from "../../../components/HeaderSearch";
+import { icons } from "@constants/icons";
+import { colors } from "@constants/colors";
 
 export const PreviewPet = () => {
   const navigation = useNavigation();

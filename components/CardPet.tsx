@@ -1,6 +1,6 @@
 import { Dimensions, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
 import { View, Image, Text } from "react-native"
-import { icons } from "../constants/icons";
+import { icons } from "@constants/icons";
 
 export const CardPet = () => {
   const Dimension = Dimensions.get('window').width - 40;

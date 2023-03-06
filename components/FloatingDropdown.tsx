@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
-import { colors } from '../constants/colors';
+import { colors } from '@constants/colors';
 
 const data = [
   { label: 'Item 1', value: '1' },

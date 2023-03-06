@@ -4,22 +4,16 @@ import { Button } from 'react-native-paper';
 import { useState, useCallback } from 'react';
 import { ScrollView, View, Text, Animated, LayoutAnimation } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { FloatingLabelInput } from 'react-native-floating-label-input';
-import { TextInputMask } from 'react-native-masked-text';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import DatePicker from 'react-native-modern-datepicker';
-import Collapsible from 'react-native-collapsible';
-import Accordion from 'react-native-collapsible/Accordion';
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import moment from 'moment';
 import { EditImages } from './EditImages';
-import { colors } from '../../../constants/colors';
-import { FloatingDropdown } from '../../../components/FloatingDropdown';
-import { HeaderSearch } from '../../../components/HeaderSearch';
+import { colors } from '@constants/colors';
+import { FloatingDropdown } from '@components/FloatingDropdown';
+import { HeaderSearch } from '@components/HeaderSearch';
 
 export const EditPetScreen = () => {
   const [value, setValue] = useState(null);

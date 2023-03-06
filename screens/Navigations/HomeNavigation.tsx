@@ -3,17 +3,12 @@ import {  Animated } from 'react-native';
 
 import AddNavigation from './AddNavigation';
 
-import { StatusBar } from "../../components/StatusBar";
-import { colors } from "../../constants/colors";
-import { icons } from "../../constants/icons";
-import { HeaderSearch } from '../../components/HeaderSearch';
-import { HomeScreen } from '../Home/HomeScreen';
-import { AddScreen } from '../Pet/Add/AddScreen';
-import { ShowProfile } from '../Profile/ShowProfile';
-import { PreviewPet } from '../Pet/Add/PreviewPet';
-import { routes } from '../../constants/routes';
-import { SearchScreen } from '../Search/SearchScreen';
-import { useState } from 'react';
+import { colors } from "@constants/colors";
+import { icons } from "@constants/icons";
+import { HomeScreen } from '@screens/Home/HomeScreen';
+import { ShowProfile } from '@screens/Profile/ShowProfile';
+import { routes } from '@constants/routes';
+import { SearchScreen } from '@screens/Search/SearchScreen';
 
 const Tab = createBottomTabNavigator();
 

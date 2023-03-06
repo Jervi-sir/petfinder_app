@@ -6,9 +6,9 @@ import { Link } from '@react-navigation/native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { StackActions, useNavigation } from '@react-navigation/native';
 
-import { StatusBar } from "../../components/StatusBar";
-import { colors } from "../../constants/colors";
-import { icons } from "../../constants/icons";
+import { StatusBar } from "@components/StatusBar";
+import { colors } from "@constants/colors";
+import { icons } from "@constants/icons";
 
 export const RegisterScreen = () => {
   const [name, setName] = useState("");

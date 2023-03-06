@@ -4,9 +4,9 @@ import { TouchableOpacity } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
 import { Link } from '@react-navigation/native';
 
-import { StatusBar } from "../../components/StatusBar";
-import { colors } from "../../constants/colors";
-import { icons } from "../../constants/icons";
+import { StatusBar } from "@components/StatusBar";
+import { colors } from "@constants/colors";
+import { icons } from "@constants/icons";
 
 export const LoginScreen = () => {
   const [email, setEmail] = useState("");

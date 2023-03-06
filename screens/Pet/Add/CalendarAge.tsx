@@ -3,8 +3,8 @@ import { Animated, View, Text, TouchableOpacity, LayoutAnimation, StyleSheet } f
 import DatePicker from 'react-native-modern-datepicker';
 import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import moment from 'moment';
-import { colors } from "../../../constants/colors";
-import { calculateAge } from "../../../functions/helpers";
+import { colors } from "@constants/colors";
+import { calculateAge } from "@functions/helpers";
 
 export const CalendarAge = () => {
   const [age, setAge] = useState('');
