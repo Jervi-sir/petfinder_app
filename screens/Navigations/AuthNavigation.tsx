@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen } from '@screens/Auth/LoginScreen';
 import { RegisterScreen } from '@screens/Auth/RegisterScreen';
 import { useState, useEffect } from 'react';
-import HomeNavigation from './HomeNavigation';
+import AppNavigation from './AppNavigation';
 import { getAuthToken } from '@functions/cookies';
 
 const Stack = createStackNavigator();
@@ -13,6 +13,7 @@ export default function AuthNavigation() {
   useEffect(() => {
     getAuthToken().then(token => setToken(token));
   }, []);
+  console.log(token);
 
   return (
     <>
@@ -23,7 +24,7 @@ export default function AuthNavigation() {
           headerLeft: null,
         })}
       >
-        <Stack.Screen name="HomeScreen" component={HomeNavigation} />
+        <Stack.Screen name="HomeScreen" component={AppNavigation} />
         {token == null ? (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />

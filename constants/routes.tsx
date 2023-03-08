@@ -12,5 +12,8 @@ export const routes = {
   SHOWMYPROFILE: 'show_my_profile',
   EDITPROFILE: 'edit_profile',
   SHOWPET: 'show_pet',
+  SEARCH: 'search',
+  SHOWPROFILE: 'show_profile',
+  MESSAGELIST: 'messages_list'
 
 }

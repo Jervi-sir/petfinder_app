@@ -13,13 +13,9 @@ import { useState, useEffect } from 'react';
 
 export const ProfileNavigation = () => {
   const [token, setToken] = useState(null);
-  const navigation = useNavigation();
-
   useEffect(() => {
     getAuthToken().then(token => setToken(token));
   }, []);
-
-  if(token != null) return navigation.navigate(routes.LOGIN)
 
   return (
     <>

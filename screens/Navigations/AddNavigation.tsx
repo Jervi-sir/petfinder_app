@@ -1,4 +1,4 @@
-import {  Animated } from 'react-native';
+import { Animated } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View } from 'react-native'
 
@@ -9,6 +9,8 @@ import { HeaderSearch } from '@components/HeaderSearch';
 import { AddScreen } from '@screens/Pet/Add/AddScreen';
 import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
 import { routes } from '@constants/routes';
+import { LoginScreen } from '@screens/Auth/LoginScreen';
+import { RegisterScreen } from '@screens/Auth/RegisterScreen';
 
 const Stack = createStackNavigator();
 
@@ -28,8 +30,10 @@ export default function AddNavigation() {
           gestureDirection: 'horizontal',
       }}
       >
-        <Stack.Screen name={ routes.ADDPET } component={AddScreen} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? colors.gold : colors.white}} source={icons.HOME} />}} />
-        <Stack.Screen name={ routes.PREVIEWPET } component={PreviewPet} options={{tabBarLabel: () => null,tabBarIcon: ({focused}) => <Animated.Image style={{width: 20, height: 20, tintColor: focused ? colors.gold : colors.white}} source={icons.CHAT} />}} />
+        <Stack.Screen name={ routes.ADDPET } component={AddScreen} />
+        <Stack.Screen name={ routes.PREVIEWPET } component={PreviewPet} />
+        <Stack.Screen name={ routes.LOGIN } component={LoginScreen} />
+        <Stack.Screen name={ routes.REGISTER } component={RegisterScreen} />
       </Stack.Navigator>
     </>
   )
