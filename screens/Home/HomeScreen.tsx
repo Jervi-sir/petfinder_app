@@ -1,12 +1,19 @@
 import {View, Text, Image, TextInput, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
 import { MasonryFlashList } from "@shopify/flash-list";
-import { useState,useRef } from 'react';
+import { useState,useRef, lazy } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import { StatusBar } from "@components/StatusBar";
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import { CardPet } from '@components/CardPet';
+import { CatScreen } from './CatScreen';
+import { HorseScreen } from './HorseScreen';
+import { DogScreen } from './DogScreen';
+import { OtherScreen } from './OtherScreen';
+import { AllScreen } from './AllScreen';
+import { BirdScreen } from './BirdScreen';
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,14 +27,7 @@ export const HomeScreen = () => {
   const [h_max_height, H_MAX_HEIGHT] = useState(150);
   const H_MIN_HEIGHT = 0;
   const [h_scroll_distance, H_SCROLL_DISTANCE] = useState(h_max_height - H_MIN_HEIGHT);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const animateInput = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 10,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  };
+  
   const headerScrollHeight = scrollOffsetY.interpolate({
     inputRange: [0, h_scroll_distance],
     outputRange: [h_max_height, H_MIN_HEIGHT],
@@ -58,54 +58,86 @@ export const HomeScreen = () => {
 
       {/* pet filter */}
       <View style={{height: 800}}>
-        <Tab.Navigator
-          screenOptions={{ 
-            tabBarScrollEnabled: true,
-            tabBarIndicatorStyle:{
-              backgroundColor: colors.menu,
-              height:2,
-            } ,
-            tabBarContentContainerStyle:{height: 100},
-            tabBarStyle: {backgroundColor:'transparent'}
-          }}
-          >          
-          <Tab.Screen name="all"children={() => <ResultScreen data={data} />} 
+        <Tab.Navigator screenOptions={{
+          tabBarScrollEnabled: true,
+          tabBarIndicatorStyle:{ backgroundColor: colors.menu, height: 0, } ,
+          tabBarItemStyle: {width: 71},
+          tabBarContentContainerStyle:{alignItems: 'flex-start' , alignContent: 'flex-start' },
+          tabBarStyle: {backgroundColor:'transparent', height: 71, alignItems: 'flex-start', },
+        }}
+        >
+          <Tab.Screen 
+            name="All" 
+            component={() => <AllScreen data={data} />} 
             options={{
-              tabBarIcon: ({ focused }) => (
-                <Image 
-                  source={icons.FILTER}
-                  style={styles.filterButton}
-                />
-              )
-            }} 
-          />  
-          <Tab.Screen name="cat"children={() => <ResultScreen data={data} />} 
-            options={{ 
-              tabBarLabel:() => {return null}, 
+              tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
-                <View style={styles.filterButton}>
-                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
+                  <Text style={{color: focused ? colors.white : colors.menu}}>All</Text>
                 </View>
               )  }} 
-          />    
-          <Tab.Screen name="dog"children={() => <ResultScreen data={data} />} 
-            options={{ 
-              tabBarLabel:() => {return null}, 
+          />
+          <Tab.Screen 
+            name="Cat" 
+            component={() => <CatScreen data={data} />} 
+            options={{
+              tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
-                <View style={styles.filterButton}>
+                <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
                   <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                  <Text style={{color: focused ? colors.white : colors.menu}}>Cat</Text>
                 </View>
-              )  }} 
-          />  
-          <Tab.Screen name="horse"children={() => <ResultScreen data={data} />} 
-            options={{ 
-              tabBarLabel:() => {return null}, 
+              )  }}
+          />
+          <Tab.Screen 
+            name="Dog" 
+            component={() => <DogScreen data={data} />} 
+            options={{
+              tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
-                <View style={styles.filterButton}>
+                <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
                   <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                  <Text style={{color: focused ? colors.white : colors.menu}}>Dog</Text>
                 </View>
-              )  }} 
-          />    
+              )  }}
+          />
+          <Tab.Screen 
+            name="Bird" 
+            component={() => <BirdScreen data={data} />} 
+            options={{
+              tabBarLabel: () => {return null},
+              tabBarIcon: ({focused}) => (
+                <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
+                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                  <Text style={{color: focused ? colors.white : colors.menu}}>Bird</Text>
+                </View>
+              )  }}
+          />
+          <Tab.Screen 
+            name="Horse" 
+            component={() => <HorseScreen data={data} />} 
+            options={{
+              tabBarLabel: () => {return null},
+              tabBarIcon: ({focused}) => (
+                <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
+                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                  <Text style={{color: focused ? colors.white : colors.menu}}>Horse</Text>
+                </View>
+              )  }}
+          />
+          <Tab.Screen 
+            name="Other" 
+            component={() => <OtherScreen data={data} />} 
+            options={{
+              tabBarLabel: () => {return null},
+              tabBarIcon: ({focused}) => (
+                <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
+                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                  <Text style={{color: focused ? colors.white : colors.menu}}>Other</Text>
+                </View>
+              )  }}
+          />
+
         </Tab.Navigator>
       </View>
       {/* title */}
@@ -116,42 +148,8 @@ export const HomeScreen = () => {
   )
 }
 
-function ResultScreen({data}) {
-
-  return(
-    <View style={{minHeight: '100%'}}>
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-        <Text>New Pets</Text>
-        <Image style={{width: 30, height: 30}} source={icons.FILTER1} />
-      </View>
-      <View style={{}}>
-        {/* card */}
-        <FlatList
-          data={data}
-          renderItem={({ item }) => <CardPet />}
-          numColumns={2}
-          keyExtractor={(item, index) => index.toString()}
-          onEndReachedThreshold={0.01}
-          onEndReached={info => {
-            data.push(1)
-            data.push(1)
-          }}
-          //ItemSeparatorComponent={() => <View style={{height: 20}} />}
-          columnWrapperStyle={{justifyContent: 'space-between', paddingTop: 10,}}
-          style={{paddingHorizontal: 15, }}
-          onScroll={Animated.event([
-            //{ nativeEvent: { contentOffset: { y: scrollOffsetY }}}              
-           ])
-          }
-        />
-      </View>
-      </View>
-  )
-}
-
 const styles = StyleSheet.create({
   filterButton: {
-    marginLeft: 10, 
     backgroundColor: 'white', 
     borderRadius: 10, 
     width: 69-10, 

@@ -6,4 +6,11 @@ export const routes = {
   PROFILE: 'profile',
   ADDNAVIGATION: 'add_navigation',
   PREVIEWPET: 'preview_pet',
+  VIEWPET: 'view_pet',
+  REGISTER: 'register',
+  LOGIN: 'login',
+  SHOWMYPROFILE: 'show_my_profile',
+  EDITPROFILE: 'edit_profile',
+  SHOWPET: 'show_pet',
+
 }

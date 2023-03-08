@@ -11,7 +11,6 @@ import { CardPet } from '@components/CardPet';
 export const SearchScreen = () => {
   const data = [1, 2, 3, 4, 5, 6, 7];
 
-
   return (
     <View style={{backgroundColor: colors.background}}>
       <StatusBar />

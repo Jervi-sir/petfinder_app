@@ -9,19 +9,34 @@ import { StackActions, useNavigation } from '@react-navigation/native';
 import { StatusBar } from "@components/StatusBar";
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
+import { api } from "@constants/api";
+import { getAuthToken, saveAuthToken } from "@functions/cookies";
 
-export const RegisterScreen = () => {
+export const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(true);
-  const navigation = useNavigation();
-
-  function loginSubmit() {
-    navigation.dispatch(
-      StackActions.replace('HomeScreen')
-    );
+  
+  function Auth() {
+    const data = {name, email, password};
+    fetch( api.SERVER + api.REGISTER, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(data => {
+        var token = data.token;
+        console.log(token)
+        saveAuthToken(token);
+        //navigation.navigate("HomeScreen");
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
+
   return(
     <View style={{backgroundColor: colors.background, flex: 1}}>
       <StatusBar />
@@ -68,7 +83,7 @@ export const RegisterScreen = () => {
               />
               <TextInput
                 label="Password"
-                value={Password}
+                value={password}
                 secureTextEntry={true}
                 onChangeText={text => setPassword(text)}
                 style={{marginBottom: 20, backgroundColor: 'white'}}
@@ -92,7 +107,7 @@ export const RegisterScreen = () => {
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
-                onPress={loginSubmit}>
+                onPress={Auth}>
                   <Text style={{color: 'white'}}>Register</Text>
                 </TouchableOpacity>
             </View>

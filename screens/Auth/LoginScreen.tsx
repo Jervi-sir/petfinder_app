@@ -7,10 +7,32 @@ import { Link } from '@react-navigation/native';
 import { StatusBar } from "@components/StatusBar";
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
+import { api } from "@constants/api";
+import { routes } from "@constants/routes";
+import { getAuthToken, saveAuthToken } from "@functions/cookies";
 
-export const LoginScreen = () => {
+export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
+
+  function Auth() {
+    const data = {email, password};
+    fetch( api.SERVER + api.LOGIN, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(data => {
+        var token = data.token;
+        console.log(token)
+        saveAuthToken(token);
+        //navigation.navigate("HomeScreen");
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
   return(
     <View style={{backgroundColor: colors.background, flex: 1}}>
@@ -52,7 +74,7 @@ export const LoginScreen = () => {
               />
               <TextInput
                 label="Password"
-                value={Password}
+                value={password}
                 secureTextEntry={true}
                 onChangeText={text => setPassword(text)}
                 style={{marginBottom: 20, backgroundColor: colors.white}}
@@ -63,7 +85,7 @@ export const LoginScreen = () => {
                     forgot my Password
                   </Link>
                 </View>
-                <TouchableOpacity style={{
+                <TouchableOpacity onPress={Auth} style={{
                   width: 104,
                   height: 40,
                   borderRadius: 5,

@@ -15,5 +15,32 @@
 
 [] home
 
+--Server
+[] login
+[] register
+[] logout
+[] addPet
+[] editPet
+[] deletePet
+[] archivePet
+[] showProfile
+[] editProfile
+[] search
+[] filter
+[] save
+[] conversation
+
+
+--All screens--
+ALL:: home, search, login, register, showPet, 
+      editPet, addPet, showProfile, showMyProfile, editProfile, 
+      savedPets, 
+HOME: home, search, login, register, showPet, showProfile, messagePet
+MSSG: listMessages, message, showProfile, editProfile, showMyProfile, showPet, editPet, login, register
+SAVED: savedPets, showPets, editPets, showProfiles, login, register
+ADD: add, login, register
+PROFILE: login, register, editProfile, showPet, editPet,
+
+
 
 

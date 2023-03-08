@@ -40,7 +40,7 @@ export const ShowMyProfile = () => {
         </View>
         <View style={{marginTop: 20, }}>
           <Text style={{marginHorizontal: 20, marginBottom: 10, fontSize: 17, color: colors.menu}}>My Pets</Text>
-          <ScrollView contentContainerStyle={{minHeight: '50%'}}>
+          <ScrollView contentContainerStyle={{minHeight: '100%'}}>
             <PetCard />
             <PetCard />
           </ScrollView>

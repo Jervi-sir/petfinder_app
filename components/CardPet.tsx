@@ -1,10 +1,17 @@
 import { Dimensions, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
 import { View, Image, Text } from "react-native"
 import { icons } from "@constants/icons";
+import { useNavigation } from '@react-navigation/native';
+import { routes } from "@constants/routes";
 
 export const CardPet = () => {
+  const navigation = useNavigation();
   const Dimension = Dimensions.get('window').width - 40;
   const CardWidth = Dimension / 2;
+
+  const showPet = (itemId) => {
+    navigation.navigate(routes.VIEWPET, { shopId: itemId });
+  };
 
   const LikeThisPet = () => {
   }
@@ -16,7 +23,7 @@ export const CardPet = () => {
     <View style={{width: CardWidth, backgroundColor: 'white', borderRadius: 15}}>
       {/* preview Top */}
       <View style={{ position: 'relative', borderRadius: 15, overflow: 'hidden',}}>
-        <TouchableWithoutFeedback onPress={ViewThisPet}>
+        <TouchableWithoutFeedback onPress={showPet}>
           <Image style={{width: CardWidth, height: CardWidth, borderRadius: 10}} source={icons.DOGIMG} />
         </TouchableWithoutFeedback>
         <TouchableOpacity onPress={LikeThisPet} style={{position: 'absolute', top: 7, right: 7}}>
