@@ -55,7 +55,7 @@ export const AddScreen = () => {
   const [name, setName] = useState('');
   const [wilaya, setWilaya] = useState('');
   const [location, setLocation] = useState('');
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState(1);
   const [race, setRace] = useState('');
   const [subRace, setSubRace] = useState('');
   

@@ -3,8 +3,62 @@ import { TextInput } from 'react-native-paper';
 import { StatusBar } from "@components/StatusBar";
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
+import Dialog from "react-native-dialog";
+import * as ImagePicker from 'expo-image-picker';
+import {manipulateAsync} from 'expo-image-manipulator';
+import { useState } from "react";
 
 export const EditProfile = () => {
+  const [image1, setImage1] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [selectedInput, setSelectedInput] = useState(false);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      selectionLimit: 10,
+      aspect: [4, 3],
+      //base64: true,
+    });
+    setVisible(false);
+    if (!result.canceled) {
+      const manipulateResult = await manipulateAsync(
+          result.assets[0].uri,
+          [{ resize: { width: 1080 } }],
+          { compress: 0.5 } // from 0 to 1 "1 for best quality"
+      );
+      setImage1(manipulateResult.uri);
+    }
+  };
+
+  const openCamera = async () => {
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your camera!");
+      return;
+    }
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+    });
+    setVisible(false);
+    if (!result.canceled) {
+      const manipulateResult = await manipulateAsync(
+          result.assets[0].uri,
+          [{ resize: { width: 1080 } }],
+          { compress: 0.5 } // from 0 to 1 "1 for best quality"
+      );
+      setImage1(manipulateResult.uri)
+    }
+  };
+
+  const showDialog = () => {
+    setVisible(true);
+  };
+  const handleCancel = () => {
+    setVisible(false);
+  };
+  
   return (
     <>
       <StatusBar />
@@ -20,11 +74,13 @@ export const EditProfile = () => {
           <View style={{backgroundColor: colors.white, borderRadius: 13, overflow: 'hidden'}}>
             <View style={{padding: 20}}>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <TouchableOpacity style={{backgroundColor: colors.menu, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 10}}>
+                <TouchableOpacity onPress={showDialog} style={{backgroundColor: colors.menu, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 10}}>
                   <Text style={{color: colors.white, fontSize: 15}}>choose image</Text>
                 </TouchableOpacity>
                 <View >
-                  <View style={{backgroundColor: colors.emptyImg1, width: 100, height: 100, borderRadius: 10}}></View>
+                  <View style={{backgroundColor: colors.emptyImg1, width: 100, height: 100, borderRadius: 10}}>
+                    <Image source={{ uri: image1 }} style={{width: 100, height: 100, borderRadius: 10}}/>
+                  </View>
                 </View>
               </View>
               <View style={{marginTop: 20}}>
@@ -54,6 +110,13 @@ export const EditProfile = () => {
           <Text style={{color: colors.red, fontSize: 15, textAlign: 'center'}}>delete account</Text>
         </TouchableOpacity>
       </View>
+      <Dialog.Container visible={visible} onBackdropPress={handleCancel}>
+        <Dialog.Title>Add image</Dialog.Title>
+        <View>
+          <Dialog.Button label="Choose in Gallery" onPress={() => pickImage()} />
+          <Dialog.Button label="Use Camera" onPress={() => openCamera()} />
+        </View>
+      </Dialog.Container>
     </>
   )
 }

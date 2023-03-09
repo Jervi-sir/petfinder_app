@@ -77,7 +77,7 @@ export const AddImages = ({ onImageSelected }) => {
     if(number == 3) {setImage3(null)}
     if(number == 4) {setImage4(null)}
 
-    images[number - 1] = null
+    images[number - 1] = ''
     onImageSelected(images);
   }
   const showDialog = (number) => {
@@ -183,12 +183,12 @@ export const AddImages = ({ onImageSelected }) => {
    
       </View>
       <Dialog.Container visible={visible} onBackdropPress={handleCancel}>
-      <Dialog.Title>Add image</Dialog.Title>
-      <View>
-        <Dialog.Button label="Choose in Gallery" onPress={() => pickImage(selectedInput)} />
-        <Dialog.Button label="Use Camera" onPress={() => openCamera(selectedInput)} />
-      </View>
-    </Dialog.Container>
+        <Dialog.Title>Add image</Dialog.Title>
+        <View>
+          <Dialog.Button label="Choose in Gallery" onPress={() => pickImage(selectedInput)} />
+          <Dialog.Button label="Use Camera" onPress={() => openCamera(selectedInput)} />
+        </View>
+      </Dialog.Container>
     </View>
   )
 }

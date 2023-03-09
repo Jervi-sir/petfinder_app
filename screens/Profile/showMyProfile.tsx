@@ -5,17 +5,20 @@ import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import { StatusBar } from "@components/StatusBar";
 import { HeaderSearch } from "@components/HeaderSearch";
+import { useNavigation } from "@react-navigation/native";
+import { routes } from "@constants/routes";
+
 
 export const ShowMyProfile = () => {
+  const navigation = useNavigation();
+
   return (
     <>
       <StatusBar />
       <HeaderSearch />
+      <ScrollView>
       <View style={{margin: 20}}>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 17}}>
-          <TouchableOpacity style={{}}>
-            <Image source={icons.BACK} style={{ width: 50, height: 50 }}/>
-          </TouchableOpacity>
           <Text style={{marginHorizontal: 20, fontSize: 20, color: colors.menu}}>My Profile</Text>
         </View>
         <View>
@@ -32,7 +35,7 @@ export const ShowMyProfile = () => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={{backgroundColor: colors.menu, padding: 7}}>
+              <TouchableOpacity onPress={() => navigation.navigate(routes.EDITPROFILE)} style={{backgroundColor: colors.menu, padding: 7}}>
                 <Text style={{color: colors.white, textAlign: 'center'}}>Edit</Text>
               </TouchableOpacity>
             </View>
@@ -40,12 +43,11 @@ export const ShowMyProfile = () => {
         </View>
         <View style={{marginTop: 20, }}>
           <Text style={{marginHorizontal: 20, marginBottom: 10, fontSize: 17, color: colors.menu}}>My Pets</Text>
-          <ScrollView contentContainerStyle={{minHeight: '100%'}}>
             <PetCard />
             <PetCard />
-          </ScrollView>
         </View>
       </View>
+      </ScrollView>
 
     </>
   )
