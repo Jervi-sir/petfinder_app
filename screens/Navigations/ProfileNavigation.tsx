@@ -25,11 +25,11 @@ export const ProfileNavigation = () => {
           headerLeft: null,
         })}
       >
-        <Stack.Screen name="ShowMyProfile" component={ShowMyProfile} />
-        <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="ShowPetScreen" component={ShowPetScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name={ routes.SHOWMYPROFILE } component={ShowMyProfile} />
+        <Stack.Screen name={ routes.EDITPROFILE } component={EditProfile} />
+        <Stack.Screen name={ routes.SHOWPET } component={ShowPetScreen} />
+        <Stack.Screen name={ routes.LOGIN } component={LoginScreen} />
+        <Stack.Screen name={ routes.REGISTER } component={RegisterScreen} />
       </Stack.Navigator>
     </>
   )

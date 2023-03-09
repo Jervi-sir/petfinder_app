@@ -17,7 +17,7 @@ export default function SearchNavigation() {
 
   return(
     <Stack.Navigator 
-        initialRouteName="Login"
+        initialRouteName={ routes.HOME }
         screenOptions={() => ({
           headerShown: false,
           headerLeft: null

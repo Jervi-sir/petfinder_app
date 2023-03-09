@@ -1,7 +1,6 @@
 import moment from 'moment';
 
 export const calculateAge = (date) => {
-  console.log(date)
   let dob;
   let age;
 

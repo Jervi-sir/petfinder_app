@@ -15,7 +15,7 @@ export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function Auth() {
+  function loginAuth() {
     const data = {email, password};
     fetch( api.SERVER + api.LOGIN, {
       method: 'POST',
@@ -26,7 +26,7 @@ export const LoginScreen = ({ navigation }) => {
       .then(data => {
         var token = data.token;
         console.log(token)
-        saveAuthToken(token);
+        //saveAuthToken(token);
         //navigation.navigate("HomeScreen");
       })
       .catch(error => {
@@ -85,7 +85,7 @@ export const LoginScreen = ({ navigation }) => {
                     forgot my Password
                   </Link>
                 </View>
-                <TouchableOpacity onPress={Auth} style={{
+                <TouchableOpacity onPress={loginAuth} style={{
                   width: 104,
                   height: 40,
                   borderRadius: 5,

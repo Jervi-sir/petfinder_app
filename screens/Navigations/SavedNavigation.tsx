@@ -10,7 +10,7 @@ export default function SavedNavigation() {
 
   return(
     <Stack.Navigator 
-        initialRouteName="Login"
+        initialRouteName={ routes.HOME }
         screenOptions={() => ({
           headerShown: false,
           headerLeft: null

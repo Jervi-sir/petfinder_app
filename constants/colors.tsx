@@ -12,8 +12,8 @@ export const colors = {
   maleText: '#3A78E0',
   femaleBackground: '#FFD1E7',
   femaleText: '#F364A9',
-  unkownBackground: '#FFD1E7',
-  unkownText: '#F364A9',
+  unkownBackground: '#FEB237A5',
+  unkownText: '#8F8989',
   emptyImg1: '#F9E3D2',
   red: '#EA0000'
 

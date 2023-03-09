@@ -18,7 +18,7 @@ export const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(true);
   
-  function Auth() {
+  function registerAuth() {
     const data = {name, email, password};
     fetch( api.SERVER + api.REGISTER, {
       method: 'POST',
@@ -29,7 +29,7 @@ export const RegisterScreen = ({ navigation }) => {
       .then(data => {
         var token = data.token;
         console.log(token)
-        saveAuthToken(token);
+        //saveAuthToken(token);
         //navigation.navigate("HomeScreen");
       })
       .catch(error => {
@@ -107,7 +107,7 @@ export const RegisterScreen = ({ navigation }) => {
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
-                onPress={Auth}>
+                onPress={registerAuth}>
                   <Text style={{color: 'white'}}>Register</Text>
                 </TouchableOpacity>
             </View>

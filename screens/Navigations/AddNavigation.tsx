@@ -23,7 +23,7 @@ export default function AddNavigation() {
         <HeaderSearch />
       </View>
       <Stack.Navigator 
-        initialRouteName='search' 
+        initialRouteName={ routes.ADDPET }
         screenOptions={{
           headerShown: false,
           gestureEnabled: true,

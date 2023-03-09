@@ -16,8 +16,8 @@
 [] home
 
 --Server
-[] login
-[] register
+[x] login
+[x] register
 [] logout
 [] addPet
 [] editPet

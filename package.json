@@ -26,6 +26,7 @@
     "react-native": "0.71.3",
     "react-native-animated-scroll-indicators": "^1.0.1",
     "react-native-bouncy-checkbox": "^3.0.7",
+    "react-native-bouncy-checkbox-group": "^0.1.1",
     "react-native-collapsible": "^1.6.0",
     "react-native-cookies": "^3.3.0",
     "react-native-dashed-line": "^1.1.0",

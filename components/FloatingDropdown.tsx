@@ -3,18 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { colors } from '@constants/colors';
 
-const data = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
-];
 
-export const FloatingDropdown = () => {
+export const FloatingDropdown = ({ select = 'title', data , onItemSelected}) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -22,7 +12,7 @@ export const FloatingDropdown = () => {
     if (value || isFocus) {
       return (
         <Text style={[styles.label, isFocus && { color: '#4a148c'}]}>
-          Dropdown label
+          {select}
         </Text>
       );
     }
@@ -42,7 +32,7 @@ export const FloatingDropdown = () => {
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? 'Select item' : '...'}
+        placeholder={!isFocus ? 'Select ' + select : '...'}
         searchPlaceholder="Search..."
         value={value}
         onFocus={() => setIsFocus(true)}
@@ -50,6 +40,7 @@ export const FloatingDropdown = () => {
         onChange={item => {
           setValue(item.value);
           setIsFocus(false);
+          onItemSelected(item.value);
         }}
       />
     </View>

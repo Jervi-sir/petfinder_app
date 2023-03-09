@@ -6,7 +6,7 @@ import moment from 'moment';
 import { colors } from "@constants/colors";
 import { calculateAge } from "@functions/helpers";
 
-export const CalendarAge = () => {
+export const CalendarAge = ({ onSelectDate }) => {
   const [age, setAge] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -65,6 +65,7 @@ export const CalendarAge = () => {
         onSelectedChange={date => {
           setSelectedDate(date)
           setAge(calculateAge(date))
+          onSelectDate(date)
         }}
 
         mode="calendar"

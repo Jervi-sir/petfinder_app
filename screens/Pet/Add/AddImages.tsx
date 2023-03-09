@@ -6,8 +6,9 @@ import {manipulateAsync} from 'expo-image-manipulator';
 import RNAnimatedScrollIndicators from 'react-native-animated-scroll-indicators';
 import { colors } from "@constants/colors";
 
+let images = ['', '', '', ''];
 
-export const AddImages = () => {
+export const AddImages = ({ onImageSelected }) => {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
@@ -17,7 +18,6 @@ export const AddImages = () => {
 
   let scrollX = new Animated.Value(0);
 
-  
   const pickImage = async (number) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -33,10 +33,13 @@ export const AddImages = () => {
           [{ resize: { width: 1080 } }],
           { compress: 0.5 } // from 0 to 1 "1 for best quality"
       );
-      if(number == 1) {setImage1(manipulateResult)}
-      if(number == 2) {setImage2(manipulateResult)}
-      if(number == 3) {setImage3(manipulateResult)}
-      if(number == 4) {setImage4(manipulateResult)}
+      if(number == 1) {setImage1(manipulateResult); }
+      if(number == 2) {setImage2(manipulateResult); }
+      if(number == 3) {setImage3(manipulateResult); }
+      if(number == 4) {setImage4(manipulateResult); }
+      
+      images[number - 1] = manipulateResult.uri;
+      onImageSelected(images);
     }
     setSelectedInput(null);
     
@@ -61,6 +64,9 @@ export const AddImages = () => {
       if(number == 2) {setImage2(manipulateResult)}
       if(number == 3) {setImage3(manipulateResult)}
       if(number == 4) {setImage4(manipulateResult)}
+
+      images[number - 1] = manipulateResult.uri
+      onImageSelected(images);
     }
     setSelectedInput(null);
   };
@@ -70,6 +76,9 @@ export const AddImages = () => {
     if(number == 2) {setImage2(null)}
     if(number == 3) {setImage3(null)}
     if(number == 4) {setImage4(null)}
+
+    images[number - 1] = null
+    onImageSelected(images);
   }
   const showDialog = (number) => {
     setSelectedInput(number);
