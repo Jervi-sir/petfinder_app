@@ -1,12 +1,12 @@
+import { StatusBar } from '@components/StatusBar';
 import { NavigationContainer } from '@react-navigation/native';
-
-import AuthNavigation from '@screens/Navigations/AuthNavigation';
-
+import AppNavigation from '@screens/Navigations/AppNavigation';
 
 export default function App() {
   return (
     <NavigationContainer>
-      <AuthNavigation />
+      <StatusBar />
+      <AppNavigation />
     </NavigationContainer>
   );
 }

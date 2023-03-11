@@ -61,7 +61,6 @@ export const EditProfile = () => {
   
   return (
     <>
-      <StatusBar />
       <View style={{margin: 20, }}>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10}}>
           <TouchableOpacity style={{}}>

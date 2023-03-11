@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {  Animated } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
-import AddNavigation from './AddNavigation';
+import AddNavigation from './M4Navigation';
 
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";

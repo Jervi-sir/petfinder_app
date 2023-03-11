@@ -14,6 +14,13 @@ export const routes = {
   SHOWPET: 'show_pet',
   SEARCH: 'search',
   SHOWPROFILE: 'show_profile',
-  MESSAGELIST: 'messages_list'
+  MESSAGELIST: 'messages_list',
+  m1: 'm1',
+  m2: 'm2',
+  m3: 'm3',
+  m4: 'm4',
+  m5: 'm5',
+  MENU: 'menu',
+  AUTH: 'auth',
 
 }

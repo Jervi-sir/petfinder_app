@@ -9,7 +9,7 @@ import { ShowProfile } from '@screens/Profile/ShowProfile';
 const Stack = createStackNavigator();
 import { useState, useEffect } from 'react';
 
-export const MessageNavigation = () => {
+export default function M2Navigation() {
   const [token, setToken] = useState(null);
   useEffect(() => {
     getAuthToken().then(token => setToken(token));
@@ -25,8 +25,6 @@ export const MessageNavigation = () => {
       >
         <Stack.Screen name={routes.MESSAGELIST} component={MessageScreen} />
         <Stack.Screen name={routes.SHOWPROFILE} component={ShowProfile} />
-        <Stack.Screen name={routes.LOGIN} component={LoginScreen} />
-        <Stack.Screen name={routes.REGISTER} component={RegisterScreen} />
       </Stack.Navigator>
     </>
   )

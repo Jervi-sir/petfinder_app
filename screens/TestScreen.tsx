@@ -7,7 +7,6 @@ export const TestScreen = () => {
 
   return (
     <>
-      <StatusBar />
       <DatePicker
         onSelectedChange={date => setSelectedDate(date)}
       />

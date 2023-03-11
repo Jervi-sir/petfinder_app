@@ -11,6 +11,7 @@ import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import { api } from "@constants/api";
 import { getAuthToken, saveAuthToken } from "@functions/cookies";
+import { routes } from "@constants/routes";
 
 export const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -39,7 +40,6 @@ export const RegisterScreen = ({ navigation }) => {
 
   return(
     <View style={{backgroundColor: colors.background, flex: 1}}>
-      <StatusBar />
       <ScrollView >
           <View style={{position: 'absolute',top: 50, flexDirection: 'row', justifyContent:'center', width: '100%'}}>
             <Image source={icons.LOGO} style={{width: 70, height: 70}} />
@@ -112,9 +112,11 @@ export const RegisterScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View>
-              <Link style={{color: colors.button, marginTop: 10}} to={{ screen: 'Register', params: { id: 'jane' } }}>
-                I don't have an Account
-              </Link>
+              <TouchableOpacity onPress={() => navigation.navigate(routes.LOGIN)} style={{ marginTop: 10}}>
+                <Text style={{color: colors.button}}>
+                Already have an account?
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
       </ScrollView>

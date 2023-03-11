@@ -4,7 +4,6 @@ import { FilterSearch } from './FilterSearch';
 import { Separator } from '@components/Separator';
 import { colors } from '@constants/colors';
 import { icons } from '@constants/icons';
-import { StatusBar } from '@components/StatusBar';
 import { CardPet } from '@components/CardPet';
 
 
@@ -13,7 +12,6 @@ export const SearchScreen = () => {
 
   return (
     <View style={{backgroundColor: colors.background}}>
-      <StatusBar />
       <View style={styles.inputStyle2}>
         <Image style={{width: 69, height: 69}} source={icons.LOGO} />
         <ScrollView keyboardShouldPersistTaps='handled'>

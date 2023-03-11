@@ -36,7 +36,6 @@ export const LoginScreen = ({ navigation }) => {
 
   return(
     <View style={{backgroundColor: colors.background, flex: 1}}>
-      <StatusBar />
       <ScrollView >
           <View style={{position: 'absolute',top: 50, flexDirection: 'row', justifyContent:'center', width: '100%'}}>
             <Image source={icons.LOGO} style={{width: 70, height: 70}} />
@@ -98,9 +97,12 @@ export const LoginScreen = ({ navigation }) => {
               </View>
             </View>
             <View>
-              <Link style={{color: colors.button, marginTop: 10}} to={{ screen: 'Register', params: { id: 'jane' } }}>
+              <TouchableOpacity onPress={() => navigation.navigate(routes.REGISTER)} style={{ marginTop: 10}}>
+                <Text style={{color: colors.button}}>
                 I don't have an Account
-              </Link>
+                </Text>
+              </TouchableOpacity>
+            
             </View>
           </View>
       </ScrollView>

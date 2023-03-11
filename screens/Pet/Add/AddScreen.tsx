@@ -1,6 +1,6 @@
 import { TextInput } from 'react-native-paper';
 import { useEffect, useState } from 'react';
-import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
@@ -51,6 +51,7 @@ const GenderList = [
 ]
 
 export const AddScreen = () => {
+
   const navigation = useNavigation();
   const [name, setName] = useState('');
   const [wilaya, setWilaya] = useState('');
@@ -166,6 +167,7 @@ export const AddScreen = () => {
           
         </ScrollView>
       </KeyboardAwareScrollView>   
+
     </View>
   )
 }

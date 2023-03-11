@@ -14,7 +14,6 @@ export const ShowMyProfile = () => {
 
   return (
     <>
-      <StatusBar />
       <HeaderSearch />
       <ScrollView>
       <View style={{margin: 20}}>

@@ -9,7 +9,6 @@ import { HeaderSearch } from '@components/HeaderSearch';
 export const MessageScreen = () => {
   return (
     <>
-      <StatusBar />
       <View style={{margin: 20}}>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 17}}>
           <TouchableOpacity style={{}}>

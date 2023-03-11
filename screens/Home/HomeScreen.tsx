@@ -36,7 +36,6 @@ export const HomeScreen = () => {
 
   return (
     <View style={{backgroundColor: colors.background}}>
-      <StatusBar />
       <Animated.View style={[currentInputStyle,{ height: !userDidInput ? headerScrollHeight : h_max_height }]}>
         <Image style={{width: 69, height: 69}} source={icons.LOGO} />
         {!userDidInput ? (<Text style={styles.titleStyle1}>Find your Favorite Pet</Text>) : ''}

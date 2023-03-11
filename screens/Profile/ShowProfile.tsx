@@ -11,7 +11,6 @@ const screenHeight = Dimensions.get('screen').height;
 export const ShowProfile = () => {
   return(
     <View style={{maxHeight: screenHeight * 20 / 100, width: '100%', position: 'absolute', top: 0, left: 0, zIndex: 999}}>
-    <StatusBar />
     <HeaderSearch />
     <View style={{margin: 20}}>
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 17}}>

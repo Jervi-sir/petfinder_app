@@ -20,7 +20,6 @@ export const ShowPetScreen = () => {
    ]
   return(
     <>
-      <StatusBar />
       <HeaderSearch />
       <ScrollView style={{margin: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden', backgroundColor: colors.white, flex:1}}>
         <View style={{position: 'relative'}}>
