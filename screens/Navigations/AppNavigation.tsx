@@ -11,10 +11,7 @@ const Stack = createStackNavigator();
 export default function AppNavigation() {
   
   useEffect(() => {
-    getAuthToken()
-    .then(e => {
-      GlobalVariable.authToken = e;
-    }).catch(e => console.log(e));
+    //getAuthToken().then(e => { GlobalVariable.authToken = e;}).catch(e => console.log(e));
   }, []);
 
   return(

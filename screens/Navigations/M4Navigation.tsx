@@ -22,20 +22,13 @@ const Stack = createStackNavigator();
 export default function M4Navigation() {
   const navigation = useNavigation();
 
- 
-
-  useEffect(() => {
-    if(GlobalVariable.authToken != '') {
-      console.log(routes.LOGIN + 'M4')
-    }
-  })
   return(
     <>
       <View>
         <HeaderSearch />
       </View>
       <Stack.Navigator 
-        initialRouteName={GlobalVariable.authToken = '' ? routes.ADDPET: routes.LOGIN}
+        initialRouteName={GlobalVariable.authToken != '' ? routes.ADDPET: routes.LOGIN}
         screenOptions={{
           headerShown: false,
           gestureEnabled: true,

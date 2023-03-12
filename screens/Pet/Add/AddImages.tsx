@@ -31,14 +31,15 @@ export const AddImages = ({ onImageSelected }) => {
       const manipulateResult = await manipulateAsync(
           result.assets[0].uri,
           [{ resize: { width: 1080 } }],
-          { compress: 0.5 } // from 0 to 1 "1 for best quality"
+          { compress: 0.5, base64: true }, // from 0 to 1 "1 for best quality"
+          
       );
       if(number == 1) {setImage1(manipulateResult); }
       if(number == 2) {setImage2(manipulateResult); }
       if(number == 3) {setImage3(manipulateResult); }
       if(number == 4) {setImage4(manipulateResult); }
       
-      images[number - 1] = manipulateResult.uri;
+      images[number - 1] = manipulateResult.base64;
       onImageSelected(images);
     }
     setSelectedInput(null);
@@ -58,14 +59,14 @@ export const AddImages = ({ onImageSelected }) => {
       const manipulateResult = await manipulateAsync(
           result.assets[0].uri,
           [{ resize: { width: 1080 } }],
-          { compress: 0.5 } // from 0 to 1 "1 for best quality"
+          { compress: 0.5, base64: true } // from 0 to 1 "1 for best quality"
       );
       if(number == 1) {setImage1(manipulateResult)}
       if(number == 2) {setImage2(manipulateResult)}
       if(number == 3) {setImage3(manipulateResult)}
       if(number == 4) {setImage4(manipulateResult)}
 
-      images[number - 1] = manipulateResult.uri
+      images[number - 1] = manipulateResult.base64
       onImageSelected(images);
     }
     setSelectedInput(null);

@@ -1,6 +1,6 @@
 import { TextInput } from 'react-native-paper';
 import { useEffect, useState } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, Button } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Animated } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
@@ -13,32 +13,14 @@ import { routes } from '@constants/routes';
 import { FloatingDropdown } from '@components/FloatingDropdown';
 import { CalendarAge } from './CalendarAge';
 import { api } from '@constants/api';
-import { getAuthToken } from '@functions/cookies';
 import DashedLine from 'react-native-dashed-line';
 import BouncyCheckboxGroup, {
   ICheckboxButton,
 } from "react-native-bouncy-checkbox-group";
+import axios from 'axios';
+import { GlobalVariable } from './../../../constants/GlobalVariable';
 
-const WilayaList = [
-  { label: '1: Item 1', value: '1' },
-  { label: '2: Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
-];
-
-const RaceList = [
-  { label: '1: Item 1', value: '1' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
-];
-
-const TypeOffer = [
+const TypeOfferList = [
   { id: 1, text: 'Adoption', fillColor: colors.menu, innerIconStyle:{marginRight: 0, marginLeft: 0} ,textStyle: {textDecorationLine: 'none'}, style:{flexDirection: 'column', alignItem: 'center'}},
   { id: 2, text: 'Sale', fillColor: colors.menu, innerIconStyle:{marginRight: 0, marginLeft: 0} ,textStyle: {textDecorationLine: 'none'}, style:{flexDirection: 'column', alignItem: 'center'}},
   { id: 3, text: 'Rent', fillColor: colors.menu, innerIconStyle:{marginRight: 0, marginLeft: 0} ,textStyle: {textDecorationLine: 'none'}, style:{flexDirection: 'column', alignItem: 'center'}},
@@ -54,11 +36,14 @@ export const AddScreen = () => {
 
   const navigation = useNavigation();
   const [name, setName] = useState('');
-  const [wilaya, setWilaya] = useState('');
+  const [wilaya_id, setWilaya] = useState('');
   const [location, setLocation] = useState('');
   const [gender, setGender] = useState(1);
-  const [race, setRace] = useState('');
+  const [race_id, setRace] = useState('');
   const [subRace, setSubRace] = useState('');
+
+  const [RaceList, setRaceList] = useState([]);
+  const [WilayaList, setWilayaList] = useState([]);
   
   const [description, setDescription] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -66,32 +51,33 @@ export const AddScreen = () => {
   const [color, setColor] = useState('');
   const [date, setDate] = useState('');
   const [age, setAge] = useState('');
-  const [images, setImages] = useState('');
+  const [images, setImages] = useState([]);
   const [price, setPrice] = useState('');
   const [typeOffer, setTypeOffer] = useState(1);
 
-  const [token, setToken] = useState(null);
-
   useEffect(() => {
-    getAuthToken().then(token => setToken(token));
+    axios.get(api.SERVER + api.GETADDPET, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
+      .then(response => {
+        const data = response.data;
+        setPhoneNumber(data.phone_number)
+        setRaceList(data.races)
+        setWilayaList(data.wilaya)
+      })
   }, []);
 
   function AddPet() {
-    console.log(typeOffer)
-    return 0;
-    const data = {name, wilaya, location, gender, race, 
-      description, phoneNumber, weight, color, date, images, price, subRace};
-    fetch( api.SERVER + api.ADDPET, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-       },
-      body: JSON.stringify(data)
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
+    const formData = new FormData();
+    images.forEach((image, index) => {
+      formData.append(`image_${index}`, {
+        uri: image,
+      });
+    });
+  
+    const data = {images, name, typeOffer, wilaya_id, location, gender, race_id, 
+      description, phoneNumber, weight, color, date, price, subRace};
+    axios.post( api.SERVER + api.ADDPET, data, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
+      .then(response => {
+        console.log(response.data)
       })
       .catch(error => {
         console.error(error);
@@ -100,8 +86,8 @@ export const AddScreen = () => {
 
   return (
     <View>
-      <KeyboardAwareScrollView >
-        <ScrollView contentContainerStyle={{backgroundColor: colors.background, paddingBottom: 123}}>
+      <KeyboardAwareScrollView extraScrollHeight={69}> 
+        <ScrollView contentContainerStyle={{flex:1, backgroundColor: colors.background, paddingBottom: 123}}>
           <View style={{marginLeft: 20, marginTop: 20}}>
             <Text style={{ fontSize: 30, fontWeight: "400", color: colors.button, paddingLeft: 10}}>Add new Pet</Text>
           </View>
@@ -120,14 +106,20 @@ export const AddScreen = () => {
 
             <Separator  title='Details' />
             <BouncyCheckboxGroup
-              data={TypeOffer}
+              data={TypeOfferList}
               initial={1}
               style={{justifyContent: 'space-around'}}
               onChange={(selectedItem: ICheckboxButton) => {
                 setTypeOffer(selectedItem.id);
               }}
             />
-            <TextInput label="Price" onChangeText={text => setPrice(text)} keyboardType="numeric" style={styles.inputField} />
+            {typeOffer != 1 ? (
+              <Animated.View>
+                <TextInput label="Price" onChangeText={text => setPrice(text)} keyboardType="numeric" style={styles.inputField} />
+              </Animated.View>
+            ): (
+              <></>
+            )}
             <TextInput label="Description" onChangeText={text => setDescription(text)} maxLength={300} multiline style={styles.inputField} />
             <Text style={{textAlign: 'right'}}>{description.length} / 300</Text>
             <Separator  title='Location' />
@@ -139,7 +131,7 @@ export const AddScreen = () => {
             <TextInput label="Name" onChangeText={text => setName(text)} style={styles.inputField} />
             <TextInput label="Colors" onChangeText={text => setColor(text)} style={styles.inputField} />
             <TextInput label="Weight" onChangeText={text => setWeight(text)} style={styles.inputField} />
-            <TextInput label="Phone number" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props}mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
+            <TextInput value={phoneNumber} label="Phone number" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props}mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
 
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <TouchableOpacity 
@@ -152,8 +144,8 @@ export const AddScreen = () => {
               onPress={() => navigation.navigate(routes.PREVIEWPET, {
                 description: description, phoneNumber: phoneNumber,
                 gender: gender, name: name,
-                location: location, wilaya: wilaya,
-                race: race, subRace: subRace,
+                location: location, wilaya: wilaya_id,
+                race: race_id, subRace: subRace,
                 age: age, date: date,
                 weight: weight, color: color,
                 typeOffer: typeOffer, price: price,

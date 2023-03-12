@@ -1,3 +1,4 @@
+import { GlobalVariable } from '@constants/GlobalVariable';
 import { routes } from '@constants/routes';
 import { getAuthToken } from '@functions/cookies';
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +21,7 @@ export default function M5Navigation() {
   return (
     <>
       <Stack.Navigator 
+          initialRouteName={GlobalVariable.authToken != '' ? routes.SHOWMYPROFILE: routes.LOGIN}
           screenOptions={() => ({
             headerShown: false,
             headerLeft: null,
@@ -28,6 +30,9 @@ export default function M5Navigation() {
           <Stack.Screen name={ routes.SHOWMYPROFILE } component={ShowMyProfile} />
           <Stack.Screen name={ routes.EDITPROFILE } component={EditProfile} />
           <Stack.Screen name={ routes.SHOWPET } component={ShowPetScreen} />
+          <Stack.Screen name={ routes.LOGIN } component={LoginScreen} />
+          <Stack.Screen name={ routes.REGISTER } component={RegisterScreen} />
+
         </Stack.Navigator>
     </>
   )

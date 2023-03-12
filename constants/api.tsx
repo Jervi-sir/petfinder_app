@@ -14,6 +14,7 @@ export const api = {
   LATESTPETFILTER: 'pets-latest/filter=',
   PET: 'pet',
   ADDPET: 'add-pet',
+  GETADDPET: 'get-add-pet',
   GETEDITPET: 'edit-pet',
   UPDATEPET: 'update-pet',
   DELETEPET: 'delete-pet',
