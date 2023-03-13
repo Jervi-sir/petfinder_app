@@ -7,15 +7,16 @@ import RNAnimatedScrollIndicators from 'react-native-animated-scroll-indicators'
 import { colors } from "@constants/colors";
 
 let images = ['', '', '', ''];
+let imagesUri = ['', '', '', ''];
 
-export const AddImages = ({ onImageSelected }) => {
+export const AddImages = ({ onImageSelected, onImagesUri }) => {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [image4, setImage4] = useState(null);
   const [visible, setVisible] = useState(false);
   const [selectedInput, setSelectedInput] = useState(false);
-
+  
   let scrollX = new Animated.Value(0);
 
   const pickImage = async (number) => {
@@ -40,7 +41,9 @@ export const AddImages = ({ onImageSelected }) => {
       if(number == 4) {setImage4(manipulateResult); }
       
       images[number - 1] = manipulateResult.base64;
+      imagesUri[number - 1] = manipulateResult.uri;
       onImageSelected(images);
+      onImagesUri(imagesUri);
     }
     setSelectedInput(null);
     
@@ -68,6 +71,9 @@ export const AddImages = ({ onImageSelected }) => {
 
       images[number - 1] = manipulateResult.base64
       onImageSelected(images);
+      imagesUri[number - 1] = manipulateResult.uri;
+      onImagesUri(imagesUri);
+
     }
     setSelectedInput(null);
   };
@@ -80,6 +86,9 @@ export const AddImages = ({ onImageSelected }) => {
 
     images[number - 1] = ''
     onImageSelected(images);
+    imagesUri[number - 1] = '';
+    onImagesUri(imagesUri);
+
   }
   const showDialog = (number) => {
     setSelectedInput(number);

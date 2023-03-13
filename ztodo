@@ -12,14 +12,16 @@
 [x] list my pets
 [x] search page
 [x] filter
-
+[x] success in add pet
+[x] peview pet
+[] peview pet after added
 [] home
 
 --Server
 [x] login
 [x] register
+[x] addPet
 [] logout
-[] addPet
 [] editPet
 [] deletePet
 [] archivePet

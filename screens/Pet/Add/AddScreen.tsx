@@ -1,6 +1,6 @@
 import { TextInput } from 'react-native-paper';
-import { useEffect, useState } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, Animated } from 'react-native';
+import { useEffect, useState, useRef  } from 'react';
+import { ScrollView, View, Text, TouchableOpacity, Animated, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
@@ -18,7 +18,11 @@ import BouncyCheckboxGroup, {
   ICheckboxButton,
 } from "react-native-bouncy-checkbox-group";
 import axios from 'axios';
-import { GlobalVariable } from './../../../constants/GlobalVariable';
+import { GlobalVariable } from '@constants/GlobalVariable';
+import { useIsFocused } from '@react-navigation/native';
+
+import LottieView from 'lottie-react-native';
+import checkmark1 from '@assets/animations/checkmark1.json';
 
 const TypeOfferList = [
   { id: 1, text: 'Adoption', fillColor: colors.menu, innerIconStyle:{marginRight: 0, marginLeft: 0} ,textStyle: {textDecorationLine: 'none'}, style:{flexDirection: 'column', alignItem: 'center'}},
@@ -33,6 +37,10 @@ const GenderList = [
 ]
 
 export const AddScreen = () => {
+  const animationRef = useRef(null);
+  const [success, setSuccess] = useState(false);
+  const isFocused = useIsFocused();
+  const [refresh, setRefresh] = useState(false);
 
   const navigation = useNavigation();
   const [name, setName] = useState('');
@@ -45,6 +53,7 @@ export const AddScreen = () => {
   const [RaceList, setRaceList] = useState([]);
   const [WilayaList, setWilayaList] = useState([]);
   
+  const [wilayaName, setWilayaName] = useState('');
   const [description, setDescription] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [weight, setWeight] = useState('');
@@ -52,9 +61,10 @@ export const AddScreen = () => {
   const [date, setDate] = useState('');
   const [age, setAge] = useState('');
   const [images, setImages] = useState([]);
+  const [imagesUri, setImagesUri] = useState([]);
+  
   const [price, setPrice] = useState('');
   const [typeOffer, setTypeOffer] = useState(1);
-
   useEffect(() => {
     axios.get(api.SERVER + api.GETADDPET, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
       .then(response => {
@@ -63,7 +73,15 @@ export const AddScreen = () => {
         setRaceList(data.races)
         setWilayaList(data.wilaya)
       })
-  }, []);
+  }, [refresh]);
+
+  const handleRefresh = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: routes.ADDPET }],
+    });
+    
+  };
 
   function AddPet() {
     const formData = new FormData();
@@ -77,7 +95,15 @@ export const AddScreen = () => {
       description, phoneNumber, weight, color, date, price, subRace};
     axios.post( api.SERVER + api.ADDPET, data, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
       .then(response => {
-        console.log(response.data)
+        console.log(response.data);
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+          setTimeout(() => {
+            handleRefresh();
+          }, 100)
+        }, 2345);
+        
       })
       .catch(error => {
         console.error(error);
@@ -86,13 +112,27 @@ export const AddScreen = () => {
 
   return (
     <View>
+      {success ? (
+        <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
+          <View style={{justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69}}>
+            <LottieView
+              ref={animationRef}
+              style={{width: 100, height: 100}}
+              source={checkmark1}
+              autoPlay
+              duration={3000}
+              loop={false}
+              />
+          </View>
+        </View>
+      ) : (<></>)}
       <KeyboardAwareScrollView extraScrollHeight={69}> 
         <ScrollView contentContainerStyle={{flex:1, backgroundColor: colors.background, paddingBottom: 123}}>
           <View style={{marginLeft: 20, marginTop: 20}}>
             <Text style={{ fontSize: 30, fontWeight: "400", color: colors.button, paddingLeft: 10}}>Add new Pet</Text>
           </View>
           <View style={{margin: 20,marginTop: 10, backgroundColor: colors.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50}}>
-            <AddImages onImageSelected={e => setImages(e)} />
+            <AddImages onImageSelected={e => setImages(e)} onImagesUri={e => setImagesUri(e)} />
             <BouncyCheckboxGroup
               data={GenderList}
               initial={1}
@@ -124,7 +164,13 @@ export const AddScreen = () => {
             <Text style={{textAlign: 'right'}}>{description.length} / 300</Text>
             <Separator  title='Location' />
             <TextInput label="Location" onChangeText={text => setLocation(text)} style={styles.inputField} />
-            <FloatingDropdown select='Wilaya' data={WilayaList} onItemSelected={e => setWilaya(e)} />
+            <FloatingDropdown select='Wilaya' data={WilayaList} 
+              onItemSelected={e => {
+                setWilaya(e);
+                const itemWithId2 = WilayaList.find(item => item.value === e);
+                setWilayaName(itemWithId2.label);
+              }} 
+            />
             
             <Separator  title='Optional' />
             <CalendarAge onSelectDate={e => setDate(e)} />
@@ -144,12 +190,12 @@ export const AddScreen = () => {
               onPress={() => navigation.navigate(routes.PREVIEWPET, {
                 description: description, phoneNumber: phoneNumber,
                 gender: gender, name: name,
-                location: location, wilaya: wilaya_id,
+                location: location, wilaya: wilayaName,
                 race: race_id, subRace: subRace,
                 age: age, date: date,
                 weight: weight, color: color,
                 typeOffer: typeOffer, price: price,
-                images: images
+                images: imagesUri
 
               })} >
                 <Text style={{color: colors.menu, textAlign: 'center'}}>Preview</Text>

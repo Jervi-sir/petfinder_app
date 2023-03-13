@@ -1,9 +1,10 @@
-import { View, Text, Image, TouchableOpacity } from "react-native"
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native"
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import { ScrollView } from "react-native-gesture-handler";
 import {useNavigation} from '@react-navigation/native';
 import { icons } from "@constants/icons";
 import { colors } from "@constants/colors";
+import { WINDOW_WIDTH } from "@gorhom/bottom-sheet";
 
 export const PreviewPet = ({ route, navigation }) => {
   const { 
@@ -16,18 +17,18 @@ export const PreviewPet = ({ route, navigation }) => {
   const imageFromInput = [
     { image: images[0] }, { image: images[1] }, { image: images[2] }, { image: images[3] },
    ]
+  let imagePreview = imageFromInput.filter(obj => obj.image !== "");
+
   const handleGoBack = () => {
     navigation.goBack();
   };
-  let imagePreview = imageFromInput.filter(obj => obj.image !== "");
-
   return (
     <>
       <ScrollView style={{margin: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden', backgroundColor: colors.white, flex:1}}>
         <View style={{position: 'relative'}}>
           <FlatListSlider
             data={imagePreview}
-            height={240}
+            height={WINDOW_WIDTH - 40}
             timer={5000}
             onPress={item => alert(JSON.stringify(item))}
             indicatorContainerStyle={{position:'absolute', bottom: 20}}
@@ -57,7 +58,7 @@ export const PreviewPet = ({ route, navigation }) => {
               backgroundColor: gender == 1 ? colors.maleBackground : gender == 2 ? colors.femaleBackground : gender == 3 ? colors.unkownBackground : 'white' }}>
               <Text style={{fontSize: 12, fontWeight: "400", 
               color: gender == 1 ? colors.maleText : gender == 2 ? colors.femaleText : gender == 3 ? colors.unkownText : 'white' }}>
-                {gender}
+                {gender == 1 ? 'male' : gender == 2 ? 'female' : gender == 3 ? 'unknowm' : 'unknowm' }
               </Text>
             </View>
             <View style={{backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20}}>
@@ -94,3 +95,4 @@ export const PreviewPet = ({ route, navigation }) => {
     </>
   )
 }
+
