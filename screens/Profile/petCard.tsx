@@ -2,7 +2,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native'
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 
-export const PetCard = () => {
+export const PetCard = ({pet}) => {
   return (
     <TouchableOpacity 
       onPress={() => {}} 
@@ -20,14 +20,14 @@ export const PetCard = () => {
             <Image source={icons.CATIMG} style={{ width: 99, height: 99 }}/>
           </View>
           <View style={{flex: 1, paddingLeft: 20, justifyContent: 'space-around'}}>
-            <Text style={{fontSize: 20, fontWeight: '500', color: colors.menu}}>Name</Text>
-            <Text style={{fontSize: 14, fontWeight: '400', color: colors.lightGrey}}>Race</Text>
-            <Text style={{fontSize: 14, fontWeight: '400', color: colors.lightGrey}}>Description...</Text>
-            <Text style={{fontSize: 13, fontWeight: '500', color: colors.menu}}>Adoption</Text>
+            <Text style={{fontSize: 20, fontWeight: '500', color: colors.menu}}>{ pet.name ? pet.name : 'unknown'}</Text>
+            <Text style={{fontSize: 14, fontWeight: '400', color: colors.lightGrey}}>{ pet.race ? pet.race : 'unknown'}</Text>
+            <Text style={{fontSize: 14, fontWeight: '400', color: colors.lightGrey}}>{ pet.description ? pet.description : 'unknown'}</Text>
+            <Text style={{fontSize: 13, fontWeight: '500', color: colors.menu}}>{ pet.offer_type_id }</Text>
           </View>
           <View >
             <View style={{backgroundColor: colors.femaleBackground, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3, marginBottom: 11 }}>
-              <Text style={{color: colors.femaleText, textAlign: 'center', fontSize: 13}}>Female</Text>
+              <Text style={{color: colors.femaleText, textAlign: 'center', fontSize: 13}}>{ pet.gender }</Text>
             </View>
             <View style={{backgroundColor: colors.lightWhite, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3 }}>
               <Text style={{color: colors.menu, textAlign: 'center', fontSize: 13}}>20 years</Text>

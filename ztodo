@@ -14,8 +14,12 @@
 [x] filter
 [x] success in add pet
 [x] peview pet
-[] peview pet after added
+[] view pet after added
+[] require input in client side
+[] error handler
+[] restructure the add screen
 [] home
+[] view pet
 
 --Server
 [x] login

@@ -6,12 +6,44 @@ import { icons } from "@constants/icons";
 import Dialog from "react-native-dialog";
 import * as ImagePicker from 'expo-image-picker';
 import {manipulateAsync} from 'expo-image-manipulator';
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import axios from "axios";
+import { api } from "@constants/api";
+import { GlobalVariable } from "@constants/GlobalVariable";
+import MaskInput from 'react-native-mask-input';
+import LottieView from 'lottie-react-native';
+import checkmark1 from '@assets/animations/checkmark1.json';
+import { routes } from "@constants/routes";
 
 export const EditProfile = () => {
   const [image1, setImage1] = useState(null);
   const [visible, setVisible] = useState(false);
   const [selectedInput, setSelectedInput] = useState(false);
+  const [profile, setProfile] = useState([]);
+  const [name, setName] = useState('');
+  const [location, setLocation] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [success, setSuccess] = useState(false);
+  const navigation = useNavigation();
+  const animationRef = useRef(null);
+  const [imageUpload, setImageUpload] = useState('');
+
+  useEffect(() => {
+    axios.get(api.SERVER + api.GETPROFILEEDIT, {headers:{Authorization: 'Bearer ' + GlobalVariable.authToken}})
+      .then(response => {
+        const user = response.data.user;
+        console.log(user)
+        setName(user.name);
+        setLocation(user.location);
+        setPhoneNumber(user.phone_number);
+        setImage1(user.pic);
+
+      }).catch(error => {
+        console.log(error);
+      });
+  }, []);
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -26,9 +58,10 @@ export const EditProfile = () => {
       const manipulateResult = await manipulateAsync(
           result.assets[0].uri,
           [{ resize: { width: 1080 } }],
-          { compress: 0.5 } // from 0 to 1 "1 for best quality"
+          { compress: 0.5, base64: true } // from 0 to 1 "1 for best quality"
       );
       setImage1(manipulateResult.uri);
+      setImageUpload(manipulateResult.base64);
     }
   };
 
@@ -46,9 +79,10 @@ export const EditProfile = () => {
       const manipulateResult = await manipulateAsync(
           result.assets[0].uri,
           [{ resize: { width: 1080 } }],
-          { compress: 0.5 } // from 0 to 1 "1 for best quality"
+          { compress: 0.5, base64: true } // from 0 to 1 "1 for best quality"
       );
-      setImage1(manipulateResult.uri)
+      setImage1(manipulateResult.uri);
+      setImageUpload(manipulateResult.base64);
     }
   };
 
@@ -59,8 +93,49 @@ export const EditProfile = () => {
     setVisible(false);
   };
   
+  function updateProfile() {
+
+    const data = {imageUpload, name, location, phoneNumber};
+    axios.post( api.SERVER + api.UPDATEPROFILE, data, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
+      .then(response => {
+        console.log(response.data)
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+          setTimeout(() => {
+            handleRefresh();
+          }, 100)
+        }, 2345);
+        
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  const handleRefresh = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: routes.SHOWMYPROFILE }],
+    });
+    
+  };
   return (
     <>
+    {success ? (
+        <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
+          <View style={{justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69}}>
+            <LottieView
+              ref={animationRef}
+              style={{width: 100, height: 100}}
+              source={checkmark1}
+              autoPlay
+              duration={3000}
+              loop={false}
+              />
+          </View>
+        </View>
+      ) : (<></>)}
       <View style={{margin: 20, }}>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10}}>
           <TouchableOpacity style={{}}>
@@ -83,21 +158,13 @@ export const EditProfile = () => {
                 </View>
               </View>
               <View style={{marginTop: 20}}>
-                <TextInput
-                  style={styles.inputField}
-                  label="Name"
-                />
-                <TextInput
-                  style={styles.inputField}
-                  label="Location"
-                />
-                <TextInput
-                  style={styles.inputField}
-                  label="Phone Number"
-                />
+                <TextInput value={name} onChangeText={text => setName(text)} style={styles.inputField} label="Name"  />
+                <TextInput value={location} onChangeText={text => setLocation(text)} style={styles.inputField} label="Location"  />
+                <TextInput value={phoneNumber} label="Phone number" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props}mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
+              
               </View>
             </View>
-            <TouchableOpacity style={{backgroundColor: colors.menu, padding:10}}>
+            <TouchableOpacity onPress={updateProfile} style={{backgroundColor: colors.menu, padding:10}}>
               <Text style={{color: colors.white, fontSize: 15, textAlign: 'center'}}>Save</Text>
             </TouchableOpacity>
           </View>

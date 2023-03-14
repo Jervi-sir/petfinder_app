@@ -7,10 +7,29 @@ import { StatusBar } from "@components/StatusBar";
 import { HeaderSearch } from "@components/HeaderSearch";
 import { useNavigation } from "@react-navigation/native";
 import { routes } from "@constants/routes";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { api } from '@constants/api';
+import { GlobalVariable } from "@constants/GlobalVariable";
+import { FlatList } from "react-native-gesture-handler";
 
 export const ShowMyProfile = () => {
   const navigation = useNavigation();
+  const [user, setUser] = useState([]);
+  const [pets, setPets] = useState([]);
+
+  useEffect(() => {
+    axios.get(api.SERVER + api.GETMYPROFILE, {headers:{Authorization: 'Bearer ' + GlobalVariable.authToken}})
+      .then(response => {
+        const data = response.data;
+        setUser(data.user)
+        setPets(data.pets)
+
+      }).catch(error => {
+        console.log(error);
+        // handle error
+      });
+  }, []);
 
   return (
     <>
@@ -24,13 +43,13 @@ export const ShowMyProfile = () => {
           <View style={{backgroundColor: colors.white, borderRadius: 10, overflow: 'hidden'}}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 10}}>
               <View>
-                <Text>Name Name</Text>
-                <Text>location</Text>
-                <Text>email</Text>
-                <Text>phone Number</Text>
+                <Text>{ user.name ? user.name : 'no name' }</Text>
+                <Text>{ user.location ? user.location : 'no location' }</Text>
+                <Text>{ user.email }</Text>
+                <Text>{ user.phone_number ? user.phone_number : 'no phone number' }</Text>
               </View>
               <View>
-                <View style={{backgroundColor: colors.emptyImg1, width: 80, height: 69, borderRadius: 10}}></View>
+                <Image source={{ uri: user.pic }} style={{width: 80, height: 80, borderRadius: 10}}/>
               </View>
             </View>
             <View>
@@ -42,8 +61,11 @@ export const ShowMyProfile = () => {
         </View>
         <View style={{marginTop: 20, }}>
           <Text style={{marginHorizontal: 20, marginBottom: 10, fontSize: 17, color: colors.menu}}>My Pets</Text>
-            <PetCard />
-            <PetCard />
+            <FlatList
+            data={pets}
+            renderItem={({ item }) => <PetCard pet={item}/>}
+            keyExtractor={(item, index) => index.toString()}
+          />
         </View>
       </View>
       </ScrollView>

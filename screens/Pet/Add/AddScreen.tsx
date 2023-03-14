@@ -69,11 +69,12 @@ export const AddScreen = () => {
     axios.get(api.SERVER + api.GETADDPET, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
       .then(response => {
         const data = response.data;
+        console.log(data)
         setPhoneNumber(data.phone_number)
         setRaceList(data.races)
         setWilayaList(data.wilaya)
       })
-  }, [refresh]);
+  }, []);
 
   const handleRefresh = () => {
     navigation.reset({
@@ -84,18 +85,18 @@ export const AddScreen = () => {
   };
 
   function AddPet() {
+    /*
     const formData = new FormData();
     images.forEach((image, index) => {
       formData.append(`image_${index}`, {
         uri: image,
       });
-    });
+    });*/
   
     const data = {images, name, typeOffer, wilaya_id, location, gender, race_id, 
       description, phoneNumber, weight, color, date, price, subRace};
     axios.post( api.SERVER + api.ADDPET, data, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
       .then(response => {
-        console.log(response.data);
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);

@@ -22,6 +22,7 @@ export const api = {
   SAVEDLIST: 'saved-list',
   SHOWMYPROFILE: 'showMyProfile',
   GETPROFILEEDIT: 'profile-edit-get',
+  GETMYPROFILE: 'showMyProfile',
   UPDATEPROFILE: 'profile-edit-update',
   SEARCH: 'search?&keyword=',
 
