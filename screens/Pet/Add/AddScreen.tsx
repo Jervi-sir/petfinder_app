@@ -69,7 +69,6 @@ export const AddScreen = () => {
     axios.get(api.SERVER + api.GETADDPET, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
       .then(response => {
         const data = response.data;
-        console.log(data)
         setPhoneNumber(data.phone_number)
         setRaceList(data.races)
         setWilayaList(data.wilaya)
@@ -83,16 +82,20 @@ export const AddScreen = () => {
     });
     
   };
+  const [race_idError, setRaceError] = useState(false);
+  const [imagesError, setImagesError] = useState(false);
+  const [wilayaError, setWilayaError] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState(false);
 
+  const [scrollTo, setScrollTo] = useState(0);
+
+  let scrollViewRef;
   function AddPet() {
-    /*
-    const formData = new FormData();
-    images.forEach((image, index) => {
-      formData.append(`image_${index}`, {
-        uri: image,
-      });
-    });*/
-  
+    if(images.length < 1) {scrollViewRef.scrollToPosition(0, 20); return setImagesError(true); }
+    if(!race_id)          {scrollViewRef.scrollToPosition(0, 200); return setRaceError(true); }
+    if(!wilaya_id)        {scrollViewRef.scrollToPosition(0, 300); return setWilayaError(true); }
+    if(!phoneNumber)      { return setPhoneNumberError(true); }
+
     const data = {images, name, typeOffer, wilaya_id, location, gender, race_id, 
       description, phoneNumber, weight, color, date, price, subRace};
     axios.post( api.SERVER + api.ADDPET, data, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
@@ -111,6 +114,7 @@ export const AddScreen = () => {
       });
   }
 
+
   return (
     <View>
       {success ? (
@@ -127,13 +131,15 @@ export const AddScreen = () => {
           </View>
         </View>
       ) : (<></>)}
-      <KeyboardAwareScrollView extraScrollHeight={69}> 
-        <ScrollView contentContainerStyle={{flex:1, backgroundColor: colors.background, paddingBottom: 123}}>
+      <KeyboardAwareScrollView ref={(ref) => { scrollViewRef = ref }}  extraScrollHeight={69} contentContainerStyle={{paddingBottom: 123}} > 
+        <ScrollView >
           <View style={{marginLeft: 20, marginTop: 20}}>
             <Text style={{ fontSize: 30, fontWeight: "400", color: colors.button, paddingLeft: 10}}>Add new Pet</Text>
           </View>
           <View style={{margin: 20,marginTop: 10, backgroundColor: colors.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50}}>
             <AddImages onImageSelected={e => setImages(e)} onImagesUri={e => setImagesUri(e)} />
+            {imagesError ? (<View><Text style={{paddingBottom: 20, color: colors.red, paddingLeft: 20}}>Please select Images 👆</Text></View> ) : ( <></> )}
+            
             <BouncyCheckboxGroup
               data={GenderList}
               initial={1}
@@ -143,7 +149,12 @@ export const AddScreen = () => {
               }}
             />
             <FloatingDropdown select='Race' data={RaceList} onItemSelected={e => setRace(e)} />
+            {race_idError ? (<View><Text style={{paddingBottom: 20, color: colors.red, paddingLeft: 20}}>Please select Race 👆</Text></View> ) : ( <></> )}
+            {race_id ? (
             <TextInput label="Sub Race" onChangeText={text => setSubRace(text)} style={styles.inputField} />
+            ) : (
+              <></>
+            )}
 
             <Separator  title='Details' />
             <BouncyCheckboxGroup
@@ -164,7 +175,6 @@ export const AddScreen = () => {
             <TextInput label="Description" onChangeText={text => setDescription(text)} maxLength={300} multiline style={styles.inputField} />
             <Text style={{textAlign: 'right'}}>{description.length} / 300</Text>
             <Separator  title='Location' />
-            <TextInput label="Location" onChangeText={text => setLocation(text)} style={styles.inputField} />
             <FloatingDropdown select='Wilaya' data={WilayaList} 
               onItemSelected={e => {
                 setWilaya(e);
@@ -172,6 +182,12 @@ export const AddScreen = () => {
                 setWilayaName(itemWithId2.label);
               }} 
             />
+            {wilayaError ? (<View><Text style={{paddingBottom: 20, color: colors.red, paddingLeft: 20}}>Please select Wialaya 👆</Text></View> ) : ( <></> )}
+            {wilaya_id ? (
+            <TextInput label="Location" onChangeText={text => setLocation(text)} style={styles.inputField} />
+            ) : (
+              <></>
+            )}
             
             <Separator  title='Optional' />
             <CalendarAge onSelectDate={e => setDate(e)} />
@@ -179,6 +195,7 @@ export const AddScreen = () => {
             <TextInput label="Colors" onChangeText={text => setColor(text)} style={styles.inputField} />
             <TextInput label="Weight" onChangeText={text => setWeight(text)} style={styles.inputField} />
             <TextInput value={phoneNumber} label="Phone number" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props}mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
+            {phoneNumberError ? (<View><Text style={{paddingBottom: 20, color: colors.red, paddingLeft: 20}}>Please select Phone Number 👆</Text></View> ) : ( <></> )}
 
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <TouchableOpacity 

@@ -15,8 +15,8 @@
 [x] success in add pet
 [x] peview pet
 [] view pet after added
-[] require input in client side
-[] error handler
+[x] require input in client side
+[x] error handler
 [] restructure the add screen
 [] home
 [] view pet

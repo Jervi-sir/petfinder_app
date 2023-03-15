@@ -1,8 +1,12 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native'
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
+import { calculateAge } from "@functions/helpers";
 
 export const PetCard = ({pet}) => {
+  const gender = ['male', 'female', 'unknown'];
+  const offerType = ['Adoption', 'Sale', 'rent'];
+
   return (
     <TouchableOpacity 
       onPress={() => {}} 
@@ -17,21 +21,28 @@ export const PetCard = ({pet}) => {
       <View style={{backgroundColor: colors.white, padding: 5, borderRadius: 15}}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{ width: 99, height: 99, overflow:'hidden', justifyContent: 'flex-end', borderRadius: 10 }}>
-            <Image source={icons.CATIMG} style={{ width: 99, height: 99 }}/>
+            {pet.pic ? (
+              <Image source={icons.CATIMG} style={{ width: 99, height: 99 }}/>
+            ) : (
+              <Image source={{uri: pet.pic }} style={{ width: 99, height: 99, borderRadius: 10 }}/>
+              )}
           </View>
           <View style={{flex: 1, paddingLeft: 20, justifyContent: 'space-around'}}>
             <Text style={{fontSize: 20, fontWeight: '500', color: colors.menu}}>{ pet.name ? pet.name : 'unknown'}</Text>
-            <Text style={{fontSize: 14, fontWeight: '400', color: colors.lightGrey}}>{ pet.race ? pet.race : 'unknown'}</Text>
+            <Text style={{fontSize: 14, fontWeight: '400', color: colors.lightGrey}}>{ pet.race_name ? pet.race_name : 'unknown'}</Text>
             <Text style={{fontSize: 14, fontWeight: '400', color: colors.lightGrey}}>{ pet.description ? pet.description : 'unknown'}</Text>
-            <Text style={{fontSize: 13, fontWeight: '500', color: colors.menu}}>{ pet.offer_type_id }</Text>
+            <Text style={{fontSize: 13, fontWeight: '500', color: colors.menu}}>{ offerType[pet.offer_type_id - 1] }</Text>
           </View>
           <View >
-            <View style={{backgroundColor: colors.femaleBackground, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3, marginBottom: 11 }}>
-              <Text style={{color: colors.femaleText, textAlign: 'center', fontSize: 13}}>{ pet.gender }</Text>
+            <View style={{backgroundColor: pet.gender == 1 ? colors.maleBackground : pet.gender == 2 ? colors.femaleBackground : colors.unkownBackground, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3, marginBottom: 11 }}>
+              <Text style={{color: pet.gender == 1 ? colors.maleText : pet.gender == 2 ? colors.femaleText : colors.unkownText, textAlign: 'center', fontSize: 13}}>{ gender[pet.gender - 1] }</Text>
             </View>
-            <View style={{backgroundColor: colors.lightWhite, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3 }}>
-              <Text style={{color: colors.menu, textAlign: 'center', fontSize: 13}}>20 years</Text>
-            </View>
+            {pet.date ? (
+              <View style={{backgroundColor: colors.lightWhite, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3 }}>
+                <Text style={{color: colors.menu, textAlign: 'center', fontSize: 13}}>{ calculateAge(pet.date) }</Text>
+              </View>
+            ) : (<></>)}
+            
           </View>
         </View>
       </View>
