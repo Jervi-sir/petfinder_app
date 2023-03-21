@@ -2,5 +2,5 @@ export const GlobalVariable = {
   isLoggedIn: false,
   username: '',
   email: '',
-  authToken: '1|I0at4LzJkCU515Gf1TWIT8v38nyta2WRi7GRcz80',
+  authToken: '2|rxRcVMvU23BjrUk6V8lkYOrHFkHj4Q6HiZ5HgKYv',
 };

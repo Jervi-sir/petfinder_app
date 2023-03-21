@@ -30,7 +30,7 @@ export const EditProfile = () => {
   const [imageUpload, setImageUpload] = useState('');
 
   useEffect(() => {
-    axios.get(api.SERVER + api.GETPROFILEEDIT, {headers:{Authorization: 'Bearer ' + GlobalVariable.authToken}})
+    axios.get(api.Server + api.getProfileForEdit, {headers:{Authorization: 'Bearer ' + GlobalVariable.authToken}})
       .then(response => {
         const user = response.data.user;
         console.log(user)
@@ -96,7 +96,7 @@ export const EditProfile = () => {
   function updateProfile() {
 
     const data = {imageUpload, name, location, phoneNumber};
-    axios.post( api.SERVER + api.UPDATEPROFILE, data, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
+    axios.post( api.Server + api.updateMyProfile, data, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
       .then(response => {
         console.log(response.data)
         setSuccess(true);

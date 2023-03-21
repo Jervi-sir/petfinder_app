@@ -24,9 +24,6 @@ export default function M4Navigation() {
 
   return(
     <>
-      <View>
-        <HeaderSearch />
-      </View>
       <Stack.Navigator 
         initialRouteName={GlobalVariable.authToken != '' ? routes.ADDPET: routes.LOGIN}
         screenOptions={{

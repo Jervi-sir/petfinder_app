@@ -1,3 +1,20 @@
+[] user register or login
+[] user will visit add pet screen
+[] user upload pet
+[] user got to its profile
+[] user edit his profile
+[] user open his pet
+[] user edit the pet
+[] user update the pet
+[] user delete pet
+[] user search pet
+[] user filter search
+[] user get latest pets
+[] user see the pet
+[] user save the pet
+
+
+
 [x] login page
 [x] register screen
 [x] navigation
@@ -25,6 +42,7 @@
 [x] login
 [x] register
 [x] addPet
+[x] edit profile
 [] logout
 [] editPet
 [] deletePet

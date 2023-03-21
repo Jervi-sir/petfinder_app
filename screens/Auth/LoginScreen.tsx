@@ -17,7 +17,7 @@ export const LoginScreen = ({ navigation }) => {
 
   function loginAuth() {
     const data = {email, password};
-    fetch( api.SERVER + api.LOGIN, {
+    fetch( api.Server + api.Login, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

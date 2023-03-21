@@ -48,9 +48,6 @@ export const EditPetScreen = () => {
 
   return (
     <SafeAreaView>
-      <View>
-        <HeaderSearch />
-      </View>
       <KeyboardAwareScrollView >
         <ScrollView contentContainerStyle={{backgroundColor: colors.background, paddingBottom: 123}}>
           <View style={{marginLeft: 20, marginTop: 20}}>

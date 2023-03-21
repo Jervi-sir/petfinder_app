@@ -21,7 +21,7 @@ export const RegisterScreen = ({ navigation }) => {
   
   function registerAuth() {
     const data = {name, email, password};
-    fetch( api.SERVER + api.REGISTER, {
+    fetch( api.Server + api.Register, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
