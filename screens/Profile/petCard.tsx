@@ -4,6 +4,7 @@ import { icons } from "@constants/icons";
 import { calculateAge } from "@functions/helpers";
 import { useNavigation } from '@react-navigation/native';
 import { routes } from '@constants/routes';
+import { GlobalVariable } from '@constants/GlobalVariable';
 
 export const PetCard = ({pet}) => {
   const navigation = useNavigation();
@@ -37,8 +38,8 @@ export const PetCard = ({pet}) => {
             <Text style={{fontSize: 13, fontWeight: '500', color: colors.menu}}>{ offerType[pet.offer_type_id - 1] }</Text>
           </View>
           <View >
-            <View style={{backgroundColor: pet.gender_id == 1 ? colors.maleBackground : pet.gender_id == 2 ? colors.femaleBackground : colors.unkownBackground, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3, marginBottom: 11 }}>
-              <Text style={{color: pet.gender_id == 1 ? colors.maleText : pet.gender_id == 2 ? colors.femaleText : colors.unkownText, textAlign: 'center', fontSize: 13}}>{ gender[pet.gender_id - 1] }</Text>
+            <View style={{backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id], borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3, marginBottom: 11 }}>
+              <Text style={{color: GlobalVariable.GenderTextColor[pet.gender_id] , textAlign: 'center', fontSize: 13}}>{ GlobalVariable.GenderText[pet.gender_id ] }</Text>
             </View>
             {pet.birthday ? (
               <View style={{backgroundColor: colors.lightWhite, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3 }}>

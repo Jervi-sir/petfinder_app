@@ -1,9 +1,9 @@
 [] user register or login
-[] user will visit add pet screen
-[] user upload pet
-[] user got to its profile
-[] user edit his profile
-[] user open his pet
+[x] user will visit add pet screen
+[x] user upload pet
+[x] user got to its profile
+[x] user edit his profile
+[x] user open his pet
 [] user edit the pet
 [] user update the pet
 [] user delete pet
@@ -13,6 +13,8 @@
 [] user see the pet
 [] user save the pet
 
+[] loading component on all screens
+[] use cache fetch if possible
 
 
 [x] login page
@@ -31,7 +33,7 @@
 [x] filter
 [x] success in add pet
 [x] peview pet
-[] view pet after added
+[x] view pet after added
 [x] require input in client side
 [x] error handler
 [] restructure the add screen

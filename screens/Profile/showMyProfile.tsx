@@ -48,6 +48,7 @@ export const ShowMyProfile = () => {
                 </>
               )
             }}
+            ListFooterComponent={() => <View style={{width: '100%', height: 123}}></View> }
             renderItem={({ item, index }) => <PetCard pet={item}/>}
             keyExtractor={(item, index) => index.toString()}
             onScroll={(event) => {
@@ -71,7 +72,7 @@ const ProfileText = ({data, placeholder}) => {
 
 const ProfileCard = ({user, navigation}) => {
   return (
-    <View >
+    <View style={{marginBottom: 20}}>
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 17}}>
         <Text style={{marginHorizontal: 20, fontSize: 20, color: colors.menu}}>My Profile</Text>
       </View>

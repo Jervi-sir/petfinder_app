@@ -17,7 +17,8 @@ export default function MenuNavigation() {
   return(
     <>
       <HeaderSearch />
-      <Tab.Navigator screenOptions={{
+      <Tab.Navigator initialRouteName={ routes.m3 }
+      screenOptions={{
         tabBarStyle: {backgroundColor: colors.menu, position: 'absolute', bottom: 0, borderTopLeftRadius: 30, borderTopRightRadius: 30},
         //tabBarStyle: {backgroundColor: colors.menu, height: '12%', paddingTop: 20, position: 'absolute', bottom:-10, left: 0, zIndex: -1},
         headerShown: false,

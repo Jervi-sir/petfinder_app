@@ -5,8 +5,8 @@ import { colors } from '@constants/colors';
 export const HeaderSearch = () => {
   return (
     <>
-      <View style={{  flexDirection: 'row', alignItems: 'center', paddingRight: 10, paddingLeft: 10, paddingBottom: 10}}>
-        <Image style={{width: 69, height: 69, marginRight: 17}} source={require('@assets/icons/logo.png')} />
+      <View style={{  flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 7}}>
+        <Image style={{width: 69 - 20, height: 69 - 20, marginRight: 17}} source={require('@assets/icons/logo.png')} />
         <ScrollView keyboardShouldPersistTaps='handled'>
           <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
             <TextInput
@@ -20,7 +20,6 @@ export const HeaderSearch = () => {
         </ScrollView>
       </View>
       <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
-
     </>
   )
 }

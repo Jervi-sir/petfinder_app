@@ -136,6 +136,7 @@ export const EditProfile = () => {
           </View>
         </View>
       ) : (<></>)}
+      <ScrollView>
       <View style={{margin: 20, }}>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10}}>
           <TouchableOpacity style={{}}>
@@ -144,7 +145,7 @@ export const EditProfile = () => {
           <Text style={{marginHorizontal: 20, fontSize: 20, color: colors.menu}}>Edit My Profile</Text>
         </View>
         <View></View>
-        <ScrollView>
+        <View>
           <View style={{backgroundColor: colors.white, borderRadius: 13, overflow: 'hidden'}}>
             <View style={{padding: 20}}>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -168,14 +169,15 @@ export const EditProfile = () => {
               <Text style={{color: colors.white, fontSize: 15, textAlign: 'center'}}>Save</Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
+        </View>
         <TouchableOpacity style={{padding:10, marginTop: 20}}>
           <Text style={{color: colors.menu, fontSize: 15, textAlign: 'center'}}>reset password</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{padding:10, marginTop: 40}}>
+        <TouchableOpacity style={{padding:10, marginTop: 30}}>
           <Text style={{color: colors.red, fontSize: 15, textAlign: 'center'}}>delete account</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
       <Dialog.Container visible={visible} onBackdropPress={handleCancel}>
         <Dialog.Title>Add image</Dialog.Title>
         <View>

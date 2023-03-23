@@ -5,41 +5,35 @@ import { Separator } from '@components/Separator';
 import { colors } from '@constants/colors';
 import { icons } from '@constants/icons';
 import { CardPet } from '@components/CardPet';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { api } from '@constants/api';
 
 
 export const SearchScreen = () => {
-  const data = [1, 2, 3, 4, 5, 6, 7];
-
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios.get(api.Server + api.getLatestPets)
+      .then(response => {
+        setData(response.data.pets);
+      })
+  }, []);
   return (
     <View style={{backgroundColor: colors.background}}>
-      <View style={styles.inputStyle2}>
-        <Image style={{width: 69, height: 69}} source={icons.LOGO} />
-        <ScrollView keyboardShouldPersistTaps='handled'>
-          <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
-            <TextInput
-              style={{ height: 40, borderColor: 'gray',flex: 1 ,paddingLeft: 5 }}
-              placeholder="Insert your text!"
-              onChangeText={text => {
-              }}
-            />
-            <Image style={{width: 40, height: 40}} source={icons.SEARCH} />
-          </View>
-        </ScrollView>
-      </View>
-      <Separator />
       <View style={{minHeight: '100%'}}>
         <FilterSearch />
         <View style={{}}>
           {/* card */}
           <FlatList
             data={data}
-            renderItem={({ item }) => <CardPet />}
+            renderItem={({ item }) => <CardPet pet={item} />}
             numColumns={2}
             keyExtractor={(item, index) => index.toString()}
             onEndReachedThreshold={0.01}
+            ListFooterComponent={() => <View style={{height: 400, width: '100%'}}></View>}
             onEndReached={info => {
-              data.push(1)
-              data.push(1)
+              //data.push(1)
+             //data.push(1)
             }}
             //ItemSeparatorComponent={() => <View style={{height: 20}} />}
             columnWrapperStyle={{justifyContent: 'space-between', paddingTop: 10,}}
