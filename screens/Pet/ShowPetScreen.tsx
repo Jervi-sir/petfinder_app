@@ -19,7 +19,7 @@ import { Linking } from "react-native";
   images
 */
 export const ShowPetScreen = ({ route, navigation }) => {
-  const { petId } = route.params;
+  const { petId, mine = false } = route.params;
   const [pet, setPet] = useState([]);
   const [images, setImages] = useState([]);
 
@@ -34,9 +34,8 @@ export const ShowPetScreen = ({ route, navigation }) => {
     axios.get(api.Server + api.getPet + petId)
       .then(response => {
         const result = response.data.pet;
-        //console.log(result);
         setPet(result);
-        setImages(result.images)
+        //setImages(result.images)
       })
   }, []);
 
@@ -46,12 +45,12 @@ export const ShowPetScreen = ({ route, navigation }) => {
       <ScrollView >
         <View style={{ margin: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden', backgroundColor: colors.white, flex: 1 }}>
           <View style={{ position: 'relative' }}>
-            {images.length > 0 ? (
+            {pet.images ? (
               <FlatListSlider
-                data={images}
+                data={pet.images}
                 height={WINDOW_WIDTH - 40}
                 timer={5000}
-                onPress={item => alert(JSON.stringify(item))}
+                onPress={item => {/*alert(JSON.stringify(item))*/ }}
                 indicatorContainerStyle={{ position: 'absolute', bottom: 20 }}
                 indicatorActiveColor={colors.menu}
                 indicatorInActiveColor={colors.background}
@@ -134,9 +133,15 @@ export const ShowPetScreen = ({ route, navigation }) => {
                 <TouchableOpacity onPress={() => { makePhoneCall(pet.phoneNumber) }}>
                   <Image source={icons.CALL} style={{ width: 50, height: 50, marginRight: 20 }} />
                 </TouchableOpacity>
-                <TouchableOpacity style={{ backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5 }}>
-                  <Text style={{ fontSize: 13, fontWeight: "400", color: colors.white }}>Send message</Text>
-                </TouchableOpacity>
+                {!mine ? (
+                  <TouchableOpacity style={{ backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5 }}>
+                    <Text style={{ fontSize: 13, fontWeight: "400", color: colors.white, width: 100, textAlign: 'center' }}>Send message</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity style={{ backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5 }}>
+                    <Text style={{ fontSize: 13, fontWeight: "400", color: colors.white, width: 100, textAlign: 'center' }}>Edit Post</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
             <View style={{ marginVertical: 30, width: '100%', height: 30 }}></View>

@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, LayoutAnimation, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
+import { View, Text, TouchableOpacity, LayoutAnimation, FlatList, ScrollView, Animated, StyleSheet } from 'react-native'
 import { useState } from 'react';
 import { colors } from '@constants/colors';
 import { FilterDropdown } from './FilterDropdown';
@@ -15,7 +15,7 @@ const data = [
   { label: 'Item 8', value: '8' },
 ];
 
-export const FilterSearch = () => {
+export const FilterSearch = ({ onPressToTop }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
 
@@ -42,38 +42,40 @@ export const FilterSearch = () => {
 
   return (
     <>
-    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10}}>
-      <Text style={{fontSize: 25, fontWeight: '600', color: colors.menu}}>Results</Text>
-      <TouchableOpacity onPress={toggleCollapsibleView}>
-        <Animated.Image 
-          source={isExpanded ? icons.CROSS : icons.FILTER1}
-          style={{width: 30, height: 30}} 
-        />
-      </TouchableOpacity>
-    </View>
-    <Animated.View 
-    style={{
-    overflow: 'hidden',
-      height: animation.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, 350],
-      }),
-    }}>
-      <View style={{position: 'relative', borderRadius: 10, overflow: 'hidden', backgroundColor: colors.white, marginHorizontal: 15}}>
-        <View style={{marginTop: 10}}>
-          <Text style={{textAlign: 'center', fontSize: 21, fontWeight: '400', color: colors.menu }}>Filter</Text>
-        </View>
-        <View style={{paddingHorizontal: 17}}>
-          <FilterDropdown placeholder={'Race'} data={data} />
-          <FilterDropdown placeholder={'Wilaya'} data={data} />
-          <FilterDropdown placeholder={'Offer Type'} data={data} />
-          <FilterDropdown placeholder={'Color'} data={data} />
-        </View>
-        <TouchableOpacity onPress={SearchFilter} style={{backgroundColor: colors.menu, paddingVertical: 10}}>
-          <Text style={{textAlign: 'center', fontSize: 17, color: colors.white}}>Filter Results</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10 }}>
+        <TouchableOpacity onPress={onPressToTop}>
+          <Text style={{ fontSize: 25, fontWeight: '600', color: colors.menu }}>Results</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={toggleCollapsibleView}>
+          <Animated.Image
+            source={isExpanded ? icons.CROSS : icons.FILTER1}
+            style={{ width: 30, height: 30 }}
+          />
         </TouchableOpacity>
       </View>
-    </Animated.View>
+      <Animated.View
+        style={{
+          overflow: 'hidden',
+          height: animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 350],
+          }),
+        }}>
+        <View style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', backgroundColor: colors.white, marginHorizontal: 15 }}>
+          <View style={{ marginTop: 10 }}>
+            <Text style={{ textAlign: 'center', fontSize: 21, fontWeight: '400', color: colors.menu }}>Filter</Text>
+          </View>
+          <View style={{ paddingHorizontal: 17 }}>
+            <FilterDropdown placeholder={'Race'} data={data} />
+            <FilterDropdown placeholder={'Wilaya'} data={data} />
+            <FilterDropdown placeholder={'Offer Type'} data={data} />
+            <FilterDropdown placeholder={'Color'} data={data} />
+          </View>
+          <TouchableOpacity onPress={SearchFilter} style={{ backgroundColor: colors.menu, paddingVertical: 10 }}>
+            <Text style={{ textAlign: 'center', fontSize: 17, color: colors.white }}>Filter Results</Text>
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
     </>
   )
 }

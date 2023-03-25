@@ -36,8 +36,8 @@ export const ShowMyProfile = () => {
 
   return (
     <>
-      <View style={{ margin: 20 }}>
-        <View style={{ marginTop: 20, minHeight: 600, }}>
+      <View style={{ margin: 20, marginTop: 0, }}>
+        <View style={{ minHeight: 600, }}>
           {nbPets > 0 ? (
             <FlatList
               data={pets}
@@ -45,7 +45,7 @@ export const ShowMyProfile = () => {
               ListHeaderComponent={() => {
                 return (
                   <>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 7 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 20, marginBottom: 7 }}>
                       <Text style={{ marginHorizontal: 20, fontSize: 20, color: colors.menu, fontWeight: '600' }}>My Profile</Text>
                     </View>
                     <ProfileCard user={user} navigation={navigation} />

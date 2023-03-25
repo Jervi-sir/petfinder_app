@@ -13,7 +13,7 @@ export const PetCard = ({ pet }) => {
 
   return (
     <TouchableOpacity
-      onPress={() => { navigation.navigate(routes.SHOWPET, { petId: pet.id }) }}
+      onPress={() => { navigation.navigate(routes.SHOWPET, { petId: pet.id, mine: true }) }}
       style={{ marginBottom: 10 }}
       activeOpacity={0.8}
       tvParallaxProperties={{

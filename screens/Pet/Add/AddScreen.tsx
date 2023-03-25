@@ -97,13 +97,13 @@ export const AddScreen = () => {
     setIsLoading(true);
     axios.post(api.Server + api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
-        console.log(response.data)
+        //console.log(response.data)
         setIsLoading(false);
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
           setTimeout(() => {
-            //handleRefresh();
+            handleRefresh();
           }, 100)
         }, 2345);
 

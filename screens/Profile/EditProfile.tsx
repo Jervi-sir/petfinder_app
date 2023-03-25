@@ -5,7 +5,7 @@ import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import Dialog from "react-native-dialog";
 import * as ImagePicker from 'expo-image-picker';
-import {manipulateAsync} from 'expo-image-manipulator';
+import { manipulateAsync } from 'expo-image-manipulator';
 import { useEffect, useState, useRef } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from "axios";
@@ -14,6 +14,12 @@ import { GlobalVariable } from "@constants/GlobalVariable";
 import MaskInput from 'react-native-mask-input';
 import LottieView from 'lottie-react-native';
 import checkmark1 from '@assets/animations/checkmark1.json';
+import loading1 from '@assets/animations/loading1.json';
+import loading2 from '@assets/animations/loading2.json';
+import loading3 from '@assets/animations/loading3.json';
+import loading4 from '@assets/animations/loading4.json';
+import loading5 from '@assets/animations/loading5.json';
+
 import { routes } from "@constants/routes";
 
 export const EditProfile = () => {
@@ -24,13 +30,16 @@ export const EditProfile = () => {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+
   const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigation = useNavigation();
   const animationRef = useRef(null);
   const [imageUpload, setImageUpload] = useState('');
 
   useEffect(() => {
-    axios.get(api.Server + api.getProfileForEdit, {headers:{Authorization: 'Bearer ' + GlobalVariable.authToken}})
+    axios.get(api.Server + api.getProfileForEdit, { headers: { Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
         const user = response.data.user;
         console.log(user)
@@ -56,9 +65,9 @@ export const EditProfile = () => {
     setVisible(false);
     if (!result.canceled) {
       const manipulateResult = await manipulateAsync(
-          result.assets[0].uri,
-          [{ resize: { width: 1080 } }],
-          { compress: 0.5, base64: true } // from 0 to 1 "1 for best quality"
+        result.assets[0].uri,
+        [{ resize: { width: 1080 } }],
+        { compress: 0.5, base64: true } // from 0 to 1 "1 for best quality"
       );
       setImage1(manipulateResult.uri);
       setImageUpload(manipulateResult.base64);
@@ -77,9 +86,9 @@ export const EditProfile = () => {
     setVisible(false);
     if (!result.canceled) {
       const manipulateResult = await manipulateAsync(
-          result.assets[0].uri,
-          [{ resize: { width: 1080 } }],
-          { compress: 0.5, base64: true } // from 0 to 1 "1 for best quality"
+        result.assets[0].uri,
+        [{ resize: { width: 1080 } }],
+        { compress: 0.5, base64: true } // from 0 to 1 "1 for best quality"
       );
       setImage1(manipulateResult.uri);
       setImageUpload(manipulateResult.base64);
@@ -92,21 +101,23 @@ export const EditProfile = () => {
   const handleCancel = () => {
     setVisible(false);
   };
-  
+
   function updateProfile() {
 
-    const data = {imageUpload, name, location, phoneNumber};
-    axios.post( api.Server + api.updateMyProfile, data, {headers:{'Content-Type': 'application/json',Authorization: 'Bearer ' + GlobalVariable.authToken}})
+    const data = { name, location, phoneNumber, imageUpload };
+    setIsLoading(true);
+    axios.post(api.Server + api.updateMyProfile, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
         console.log(response.data)
+        setIsLoading(false);
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
           setTimeout(() => {
-            handleRefresh();
+            //handleRefresh();
           }, 100)
         }, 2345);
-        
+
       })
       .catch(error => {
         console.error(error);
@@ -118,65 +129,78 @@ export const EditProfile = () => {
       index: 0,
       routes: [{ name: routes.SHOWMYPROFILE }],
     });
-    
+
   };
   return (
     <>
-    {success ? (
-        <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
-          <View style={{justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69}}>
+      {success ? (
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69 }}>
             <LottieView
               ref={animationRef}
-              style={{width: 100, height: 100}}
+              style={{ width: 100, height: 100 }}
               source={checkmark1}
               autoPlay
               duration={3000}
               loop={false}
-              />
+            />
+          </View>
+        </View>
+      ) : (<></>)}
+      {isLoading ? (
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69, width: 100, height: 100 }}>
+            <LottieView
+              ref={animationRef}
+              style={{ width: 100, height: 100 }}
+              source={loading1}
+              autoPlay
+              loop={true}
+            />
           </View>
         </View>
       ) : (<></>)}
       <ScrollView>
-      <View style={{margin: 20, }}>
-        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10}}>
-          <TouchableOpacity style={{}}>
-            <Image source={icons.BACK} style={{ width: 50, height: 50 }}/>
-          </TouchableOpacity>
-          <Text style={{marginHorizontal: 20, fontSize: 20, color: colors.menu}}>Edit My Profile</Text>
-        </View>
-        <View></View>
-        <View>
-          <View style={{backgroundColor: colors.white, borderRadius: 13, overflow: 'hidden'}}>
-            <View style={{padding: 20}}>
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <TouchableOpacity onPress={showDialog} style={{backgroundColor: colors.menu, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 10}}>
-                  <Text style={{color: colors.white, fontSize: 15}}>choose image</Text>
-                </TouchableOpacity>
-                <View >
-                  <View style={{backgroundColor: colors.emptyImg1, width: 100, height: 100, borderRadius: 10}}>
-                    <Image source={{ uri: image1 }} style={{width: 100, height: 100, borderRadius: 10}}/>
+        <View style={{ margin: 20, }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+            <TouchableOpacity onPress={() => { navigation.goBack() }}>
+              <Image source={icons.BACK} style={{ width: 50, height: 50 }} />
+            </TouchableOpacity>
+            <Text style={{ marginHorizontal: 20, fontSize: 20, color: colors.menu }}>Edit My Profile</Text>
+          </View>
+          <View></View>
+          <View>
+            <View style={{ backgroundColor: colors.white, borderRadius: 13, overflow: 'hidden' }}>
+              <View style={{ padding: 20 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <TouchableOpacity onPress={showDialog} style={{ backgroundColor: colors.menu, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 10 }}>
+                    <Text style={{ color: colors.white, fontSize: 15 }}>choose image</Text>
+                  </TouchableOpacity>
+                  <View >
+                    <View style={{ backgroundColor: colors.emptyImg1, width: 100, height: 100, borderRadius: 10 }}>
+                      <Image source={{ uri: image1 }} style={{ width: 100, height: 100, borderRadius: 10 }} />
+                    </View>
                   </View>
                 </View>
+                <View style={{ marginTop: 20 }}>
+                  <TextInput value={name} onChangeText={text => setName(text)} style={styles.inputField} label="Name" />
+                  <TextInput value={location} onChangeText={text => setLocation(text)} style={styles.inputField} label="Location" />
+                  <TextInput value={phoneNumber} label="Phone number" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props} mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
+
+                </View>
               </View>
-              <View style={{marginTop: 20}}>
-                <TextInput value={name} onChangeText={text => setName(text)} style={styles.inputField} label="Name"  />
-                <TextInput value={location} onChangeText={text => setLocation(text)} style={styles.inputField} label="Location"  />
-                <TextInput value={phoneNumber} label="Phone number" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props}mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
-              
-              </View>
+              <TouchableOpacity onPress={updateProfile} style={{ backgroundColor: colors.menu, padding: 10 }}>
+                <Text style={{ color: colors.white, fontSize: 15, textAlign: 'center' }}>Save</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={updateProfile} style={{backgroundColor: colors.menu, padding:10}}>
-              <Text style={{color: colors.white, fontSize: 15, textAlign: 'center'}}>Save</Text>
-            </TouchableOpacity>
           </View>
+          <TouchableOpacity style={{ padding: 10, marginTop: 20 }}>
+            <Text style={{ color: colors.menu, fontSize: 15, textAlign: 'center' }}>reset password</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ padding: 10, marginTop: 30 }}>
+            <Text style={{ color: colors.red, fontSize: 15, textAlign: 'center' }}>delete account</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{padding:10, marginTop: 20}}>
-          <Text style={{color: colors.menu, fontSize: 15, textAlign: 'center'}}>reset password</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{padding:10, marginTop: 30}}>
-          <Text style={{color: colors.red, fontSize: 15, textAlign: 'center'}}>delete account</Text>
-        </TouchableOpacity>
-      </View>
       </ScrollView>
       <Dialog.Container visible={visible} onBackdropPress={handleCancel}>
         <Dialog.Title>Add image</Dialog.Title>
