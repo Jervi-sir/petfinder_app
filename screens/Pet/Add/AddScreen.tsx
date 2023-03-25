@@ -30,7 +30,6 @@ export const AddScreen = () => {
   const animationRef = useRef(null);
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 

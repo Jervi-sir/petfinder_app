@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity, ActivityIndicator } from "react-native"
-import {FlatListSlider} from 'react-native-flatlist-slider';
+import { FlatListSlider } from 'react-native-flatlist-slider';
 import { ScrollView } from "react-native-gesture-handler";
 import { HeaderSearch } from "@components/HeaderSearch";
 import { colors } from "@constants/colors";
@@ -7,10 +7,11 @@ import { icons } from "@constants/icons";
 import axios from 'axios';
 import { api } from "@constants/api";
 import { useEffect, useState } from "react";
-import { calculateAge } from "@functions/helpers";
+import { calculateAge, makePhoneCall } from "@functions/helpers";
 import { GlobalVariable } from '@constants/GlobalVariable';
 import { WINDOW_WIDTH } from '@gorhom/bottom-sheet';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import { Linking } from "react-native";
 
 
 /* input
@@ -24,127 +25,123 @@ export const ShowPetScreen = ({ route, navigation }) => {
 
   const sampleImages = [
     {
-     image:'https://images.unsplash.com/photo-1567226475328-9d6baaf565cf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
-     desc: 'Silent Waters in the mountains in midst of Himilayas',
+      image: 'https://images.unsplash.com/photo-1567226475328-9d6baaf565cf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
+      desc: 'Silent Waters in the mountains in midst of Himilayas',
     }
   ]
 
-   useEffect(() => {
+  useEffect(() => {
     axios.get(api.Server + api.getPet + petId)
-     .then(response => {
-      const result = response.data.pet;
-      console.log(result);
-      setPet(result);
-      setImages(result.images)
-     })
-   }, []);
+      .then(response => {
+        const result = response.data.pet;
+        //console.log(result);
+        setPet(result);
+        setImages(result.images)
+      })
+  }, []);
 
 
-  return(
+  return (
     <>
-      <ScrollView style={{margin: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden', backgroundColor: colors.white, flex:1}}>
-        <View style={{position: 'relative'}}>
-          {images.length > 0 ? (
-            <FlatListSlider
-              data={images}
-              height={WINDOW_WIDTH - 40}
-              timer={5000}
-              onPress={item => alert(JSON.stringify(item))}
-              indicatorContainerStyle={{position:'absolute', bottom: 20}}
-              indicatorActiveColor={colors.menu}
-              indicatorInActiveColor={colors.background}
-              indicatorActiveWidth={30}
-              animation
-              contentContainerStyle={{  }}
-            />
-          ) : (
-            <View style={{width: '100%', height: WINDOW_WIDTH - 40, backgroundColor: colors.emptyImg1}}></View>
-          )}
-          
-          <TouchableOpacity onPress={() => {navigation.goBack()}} style={{position: 'absolute', top: 2, left: 2}}>
-            <Image source={icons.BACK} style={{ width: 50, height: 50 }}/>
-          </TouchableOpacity>
-        </View>
-        <View>
-        <SkeletonPlaceholder borderRadius={4}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{width: 60, height: 60, borderRadius: 50}} />
-            <View style={{marginLeft: 20}}>
-              <Text style={{marginTop: 6, fontSize: 14, lineHeight: 18}}>Hello world</Text>
-            </View>
-          </View>
-        </SkeletonPlaceholder>
-        </View>
-        <View style={{paddingHorizontal: 17, paddingVertical: 10}}>
-          <View style={{marginBottom: 7}}>
-            {/**Name */}
-            <Text style={{fontSize: 20, fontWeight: "500", color:colors.menu}}>{pet.name ? pet.name : 'no name'}</Text>
-            {/**Race, subRace */}
-            <View style={{flexDirection: 'row', marginBottom: 5, alignItems: 'center'}}>
-              <Text style={{fontSize: 13, fontWeight: "600", color:colors.menu, }}>{ pet.race_name }</Text>
-              <Text style={{fontSize: 13, fontWeight: "300", color:colors.menu, marginLeft: 5}}>SubRace</Text>
-            </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
-              <Image source={icons.LOCATION} style={{width:20, height: 20}}/>
-              <Text style={{fontSize: 13, fontWeight: "400", color:colors.menu}}>{ pet.location } - { pet.wilaya_name }</Text>
-            </View>
+      <ScrollView >
+        <View style={{ margin: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden', backgroundColor: colors.white, flex: 1 }}>
+          <View style={{ position: 'relative' }}>
+            {images.length > 0 ? (
+              <FlatListSlider
+                data={images}
+                height={WINDOW_WIDTH - 40}
+                timer={5000}
+                onPress={item => alert(JSON.stringify(item))}
+                indicatorContainerStyle={{ position: 'absolute', bottom: 20 }}
+                indicatorActiveColor={colors.menu}
+                indicatorInActiveColor={colors.background}
+                indicatorActiveWidth={30}
+                animation
+              />
+            ) : (
+              <View style={{ width: '100%', height: WINDOW_WIDTH - 40, backgroundColor: colors.emptyImg1 }}></View>
+            )}
+
+            <TouchableOpacity onPress={() => { navigation.goBack() }} style={{ position: 'absolute', top: 2, left: 2 }}>
+              <Image source={icons.BACK} style={{ width: 50, height: 50 }} />
+            </TouchableOpacity>
           </View>
 
-          <View style={{flexDirection: 'row', marginBottom: 10}}>
-            {/**Age */}
-            {pet.birthday ? (
-              <View style={{backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20}}>
-                <Text style={{fontSize: 12, fontWeight: "400", color:colors.white}}>{ calculateAge(pet.birthday) }</Text>
+          <View style={{ paddingHorizontal: 17, paddingVertical: 10 }}>
+            <View style={{ marginBottom: 7 }}>
+              {/**Name */}
+              <Text style={{ fontSize: 20, fontWeight: "500", color: colors.menu }}>{pet.name ? pet.name : 'no name'}</Text>
+              {/**Race, subRace */}
+              <View style={{ flexDirection: 'row', marginBottom: 5, alignItems: 'center' }}>
+                <Text style={{ fontSize: 13, fontWeight: "600", color: colors.menu, }}>{pet.race_name}</Text>
+                <Text style={{ fontSize: 13, fontWeight: "300", color: colors.menu, marginLeft: 5 }}>SubRace</Text>
               </View>
-            ) : (<></>)}
-            
-            {/**Gender */}
-            <View style={{paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20,
-              backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id]}}>
-              <Text style={{fontSize: 12, fontWeight: "400", color: GlobalVariable.GenderTextColor[pet.gender_id]}}>
-                { GlobalVariable.GenderText[pet.gender_id] }
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5 }}>
+                <Image source={icons.LOCATION} style={{ width: 20, height: 20 }} />
+                <Text style={{ fontSize: 13, fontWeight: "400", color: colors.menu }}>{pet.location} - {pet.wilaya_name}</Text>
+              </View>
+            </View>
+
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+              {/**Age */}
+              {pet.birthday ? (
+                <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
+                  <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{calculateAge(pet.birthday)}</Text>
+                </View>
+              ) : (<></>)}
+
+              {/**Gender */}
+              <View style={{
+                paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10,
+                backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id]
+              }}>
+                <Text style={{ fontSize: 12, fontWeight: "400", color: GlobalVariable.GenderTextColor[pet.gender_id] }}>
+                  {GlobalVariable.GenderText[pet.gender_id]}
+                </Text>
+              </View>
+              {/**Weight */}
+              {pet.weight ? (
+                <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
+                  <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{pet.weight != '' ? pet.weight : 'weight'}</Text>
+                </View>
+              ) : (<></>)}
+              {/**Color */}
+              {pet.color ? (
+                <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
+                  <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{pet.color != '' ? pet.color : 'color'}</Text>
+                </View>
+              ) : (<></>)}
+            </View>
+
+            {/**Description */}
+            <View style={{ marginBottom: 17 }}>
+              <Text style={{ fontSize: 12, fontWeight: '400' }}>
+                {pet.description}
               </Text>
             </View>
-            {/**Weight */}
-            {pet.weight ? (
-              <View style={{backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20}}>
-                <Text style={{fontSize: 12, fontWeight: "400", color:colors.white}}>{pet.weight != '' ? pet.weight : 'weight'}</Text>
-              </View>
-            ) : (<></>)}
-            {/**Color */}
-            {pet.color ? (
-              <View style={{backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20}}>
-                <Text style={{fontSize: 12, fontWeight: "400", color:colors.white}}>{pet.color != '' ? pet.color : 'color'}</Text>
-              </View>
-            ) : (<></>)}
-          </View>
-
-          {/**Description */}
-          <View style={{marginBottom: 17}}>
-            <Text style={{fontSize: 12, fontWeight: '400'}}>
-            { pet.description }
-            </Text>
-          </View>
-          {/**Phone number */}
-          <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 21}}>
-            <Image source={icons.PHONE} style={{width:20, height: 20  }}/>
-            <Text style={{fontSize: 15, fontWeight: "400", color:colors.menu}}>{ pet.phoneNumber }</Text>
-          </View>
-
-          {/**Action */}
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-            <TouchableOpacity>
-              <Image source={icons.LIKE1} style={{width:50, height: 50  }}/>
-            </TouchableOpacity>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity>
-                <Image source={icons.CALL} style={{width:50, height: 50, marginRight: 20  }}/>
-              </TouchableOpacity>
-              <TouchableOpacity style={{backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5}}>
-                <Text style={{fontSize: 13, fontWeight: "400", color:colors.white}}>Send message</Text>
-              </TouchableOpacity>
+            {/**Phone number */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 21 }}>
+              <Image source={icons.PHONE} style={{ width: 20, height: 20 }} />
+              <Text style={{ fontSize: 15, fontWeight: "400", color: colors.menu }}>{pet.phoneNumber}</Text>
             </View>
+
+            {/**Action */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <TouchableOpacity>
+                <Image source={icons.LIKE1} style={{ width: 50, height: 50 }} />
+              </TouchableOpacity>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => { makePhoneCall(pet.phoneNumber) }}>
+                  <Image source={icons.CALL} style={{ width: 50, height: 50, marginRight: 20 }} />
+                </TouchableOpacity>
+                <TouchableOpacity style={{ backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5 }}>
+                  <Text style={{ fontSize: 13, fontWeight: "400", color: colors.white }}>Send message</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={{ marginVertical: 30, width: '100%', height: 30 }}></View>
           </View>
+
         </View>
       </ScrollView>
     </>

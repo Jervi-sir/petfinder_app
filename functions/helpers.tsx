@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Linking } from 'react-native';
 
 export const calculateAge = (date) => {
   let dob;
@@ -25,3 +26,10 @@ export const calculateAge = (date) => {
 
   return stringYears + stringMonths + stringDays;
 };
+
+
+export const makePhoneCall = (phoneNumber) => {
+  phoneNumber = phoneNumber.replaceAll('(', '').replaceAll(')', '').replaceAll('-', '').replaceAll(' ', '');
+  //console.log(`tel:${phoneNumber}`);
+  Linking.openURL(`tel:${phoneNumber}`);
+}
