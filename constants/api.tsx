@@ -1,5 +1,5 @@
 export const api = {
-  Server: 'http://192.168.1.106:8000/api/v1/',
+  Server: 'http://192.168.1.107:8000/api/v1/',
   //Auth
   Login: 'login',
   Register: 'register',

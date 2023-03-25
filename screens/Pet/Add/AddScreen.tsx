@@ -20,10 +20,17 @@ import { useIsFocused } from '@react-navigation/native';
 
 import LottieView from 'lottie-react-native';
 import checkmark1 from '@assets/animations/checkmark1.json';
+import loading1 from '@assets/animations/loading1.json';
+import loading2 from '@assets/animations/loading2.json';
+import loading3 from '@assets/animations/loading3.json';
+import loading4 from '@assets/animations/loading4.json';
+import loading5 from '@assets/animations/loading5.json';
 
 export const AddScreen = () => {
   const animationRef = useRef(null);
   const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
@@ -88,9 +95,11 @@ export const AddScreen = () => {
       name, typeOffer, wilaya_id, location, gender, race_id,
       description, phoneNumber, weight, color, birthday, price, subRace, images
     };
+    setIsLoading(true);
     axios.post(api.Server + api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
         console.log(response.data)
+        setIsLoading(false);
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
@@ -122,6 +131,20 @@ export const AddScreen = () => {
           </View>
         </View>
       ) : (<></>)}
+      {isLoading ? (
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69, width: 100, height: 100 }}>
+            <LottieView
+              ref={animationRef}
+              style={{ width: 100, height: 100 }}
+              source={loading1}
+              autoPlay
+              loop={true}
+            />
+          </View>
+        </View>
+      ) : (<></>)}
+
       <KeyboardAwareScrollView ref={(ref) => { scrollViewRef = ref }} extraScrollHeight={69} contentContainerStyle={{ paddingBottom: 123 }} >
         <ScrollView >
           <View style={{ marginLeft: 20, marginTop: 20 }}>
