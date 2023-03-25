@@ -95,7 +95,7 @@ export const AddScreen = () => {
         setTimeout(() => {
           setSuccess(false);
           setTimeout(() => {
-            handleRefresh();
+            //handleRefresh();
           }, 100)
         }, 2345);
 
