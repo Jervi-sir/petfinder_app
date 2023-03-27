@@ -12,6 +12,8 @@ import axios from "axios";
 import { api } from '@constants/api';
 import { GlobalVariable } from "@constants/GlobalVariable";
 import { FlashList } from "@shopify/flash-list";
+import { CardHorizentalSkeleton } from "@components/Skeletons/CardHorizentalSkeleton";
+import { ProfileCardSkeleton } from "@components/Skeletons/ProfileCardSkeleton";
 
 export const ShowMyProfile = () => {
   const navigation = useNavigation();
@@ -19,10 +21,12 @@ export const ShowMyProfile = () => {
   const [pets, setPets] = useState([]);
   const [nbPets, setNbPets] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.get(api.Server + api.ShowMyProfileData, { headers: { Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
+        setIsLoading(false);
         console.log(response.data.user)
         const data = response.data;
         console.log(data.pets)
@@ -30,6 +34,7 @@ export const ShowMyProfile = () => {
         setPets(data.pets)  //id, birthday, description, gender_id, gender_name, images_preview, is_active, location, name, offer_type_id, offer_type_name, price, race_name, sub_race, wilaya_name, wilaya_number,
         setNbPets(data.pets.length)
       }).catch(error => {
+        setIsLoading(true);
         console.log(error);
       });
   }, []);
@@ -38,7 +43,21 @@ export const ShowMyProfile = () => {
     <>
       <View style={{ margin: 20, marginTop: 0, }}>
         <View style={{ minHeight: 600, }}>
-          {nbPets > 0 ? (
+          {isLoading ? (
+            <FlatList
+              data={[1, 2, 3]}
+              showsVerticalScrollIndicator={false}
+              ListHeaderComponent={() => {
+                return (
+                  <>
+                    <ProfileCardSkeleton />
+                  </>
+                )
+              }}
+              renderItem={() => <CardHorizentalSkeleton />}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          ) : (
             <FlatList
               data={pets}
               showsVerticalScrollIndicator={false}
@@ -65,8 +84,6 @@ export const ShowMyProfile = () => {
                 //setScrollOffset(event.nativeEvent.contentOffset.y);
               }}
             />
-          ) : (
-            <Text>No Pets Added</Text>
           )}
         </View>
       </View>

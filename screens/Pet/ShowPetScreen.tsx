@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ActivityIndicator } from "react-native"
+import { View, Text, Image, TouchableOpacity, ActivityIndicator, Animated } from "react-native"
 import { FlatListSlider } from 'react-native-flatlist-slider';
 import { ScrollView } from "react-native-gesture-handler";
 import { HeaderSearch } from "@components/HeaderSearch";
@@ -22,6 +22,7 @@ export const ShowPetScreen = ({ route, navigation }) => {
   const { petId, mine = false } = route.params;
   const [pet, setPet] = useState([]);
   const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const sampleImages = [
     {
@@ -29,11 +30,34 @@ export const ShowPetScreen = ({ route, navigation }) => {
       desc: 'Silent Waters in the mountains in midst of Himilayas',
     }
   ]
+  const skeletonWidth = new Animated.Value(0);
+
+  Animated.loop(
+    Animated.timing(skeletonWidth, {
+      toValue: 1,
+      duration: 2000,
+      useNativeDriver: false,
+    })
+  ).start();
+
+  const loadingColor = 'rgba(51,58,90,0.2)';
+  const loadingBackgroundColor = '#F5F5F5';
+  const fullWidthSkeletonAniamtion = skeletonWidth.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] });
+  const LessFullWidthSkeletonAniamtion = skeletonWidth.interpolate({ inputRange: [0, 1], outputRange: ['0%', '25%'] });
+  const halfFullWidthSkeletonAniamtion = skeletonWidth.interpolate({ inputRange: [0, 1], outputRange: ['0%', '45%'] });
+  const closeFullWidthSkeletonAniamtion = skeletonWidth.interpolate({ inputRange: [0, 1], outputRange: ['0%', '69%'] });
+
+  const textAnimation = { width: fullWidthSkeletonAniamtion, height: 10, marginBottom: 7, backgroundColor: loadingColor, borderRadius: 10, };
+  const textAnimationLessHalf = { width: LessFullWidthSkeletonAniamtion, height: 10, marginBottom: 7, backgroundColor: loadingColor, borderRadius: 10, };
+  const textAnimationHalf = { width: halfFullWidthSkeletonAniamtion, height: 10, marginBottom: 7, backgroundColor: loadingColor, borderRadius: 10, };
+  const textAnimationMoreHalf = { width: closeFullWidthSkeletonAniamtion, height: 10, marginBottom: 7, backgroundColor: loadingColor, borderRadius: 10, };
+  const imageAnimation = { width: fullWidthSkeletonAniamtion, height: '100%', backgroundColor: loadingColor, borderRadius: 10, };
 
   useEffect(() => {
     axios.get(api.Server + api.getPet + petId)
       .then(response => {
         const result = response.data.pet;
+        setIsLoading(false);
         setPet(result);
         //setImages(result.images)
       })
@@ -69,81 +93,114 @@ export const ShowPetScreen = ({ route, navigation }) => {
           <View style={{ paddingHorizontal: 17, paddingVertical: 10 }}>
             <View style={{ marginBottom: 7 }}>
               {/**Name */}
-              <Text style={{ fontSize: 20, fontWeight: "500", color: colors.menu }}>{pet.name ? pet.name : 'no name'}</Text>
+              {isLoading ? (
+                <Animated.View style={textAnimation}></Animated.View>
+              ) : (
+                <Text style={{ fontSize: 20, fontWeight: "500", color: colors.menu }}>{pet.name ? pet.name : 'no name'}</Text>
+              )}
+
               {/**Race, subRace */}
-              <View style={{ flexDirection: 'row', marginBottom: 5, alignItems: 'center' }}>
-                <Text style={{ fontSize: 13, fontWeight: "600", color: colors.menu, }}>{pet.race_name}</Text>
-                <Text style={{ fontSize: 13, fontWeight: "300", color: colors.menu, marginLeft: 5 }}>SubRace</Text>
-              </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5 }}>
-                <Image source={icons.LOCATION} style={{ width: 20, height: 20 }} />
-                <Text style={{ fontSize: 13, fontWeight: "400", color: colors.menu }}>{pet.location} - {pet.wilaya_name}</Text>
-              </View>
+              {isLoading ? (
+                <Animated.View style={textAnimationMoreHalf}></Animated.View>
+              ) : (
+                <View style={{ flexDirection: 'row', marginBottom: 5, alignItems: 'center' }}>
+                  <Text style={{ fontSize: 13, fontWeight: "600", color: colors.menu, }}>{pet.race_name}</Text>
+                  <Text style={{ fontSize: 13, fontWeight: "300", color: colors.menu, marginLeft: 5 }}>SubRace</Text>
+                </View>
+              )}
+
+              {isLoading ? (
+                <Animated.View style={textAnimationHalf}></Animated.View>
+              ) : (
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5 }}>
+                  <Image source={icons.LOCATION} style={{ width: 20, height: 20 }} />
+                  <Text style={{ fontSize: 13, fontWeight: "400", color: colors.menu }}>{pet.location} - {pet.wilaya_name}</Text>
+                </View>
+              )}
             </View>
 
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-              {/**Age */}
-              {pet.birthday ? (
-                <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
-                  <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{calculateAge(pet.birthday)}</Text>
-                </View>
-              ) : (<></>)}
+            {isLoading ? (
+              <Animated.View style={textAnimationLessHalf}></Animated.View>
+            ) : (
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                {/**Age */}
+                {pet.birthday ? (
+                  <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
+                    <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{calculateAge(pet.birthday)}</Text>
+                  </View>
+                ) : (<></>)}
 
-              {/**Gender */}
-              <View style={{
-                paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10,
-                backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id]
-              }}>
-                <Text style={{ fontSize: 12, fontWeight: "400", color: GlobalVariable.GenderTextColor[pet.gender_id] }}>
-                  {GlobalVariable.GenderText[pet.gender_id]}
-                </Text>
+                {/**Gender */}
+                <View style={{
+                  paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10,
+                  backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id]
+                }}>
+                  <Text style={{ fontSize: 12, fontWeight: "400", color: GlobalVariable.GenderTextColor[pet.gender_id] }}>
+                    {GlobalVariable.GenderText[pet.gender_id]}
+                  </Text>
+                </View>
+                {/**Weight */}
+                {pet.weight ? (
+                  <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
+                    <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{pet.weight != '' ? pet.weight : 'weight'}</Text>
+                  </View>
+                ) : (<></>)}
+                {/**Color */}
+                {pet.color ? (
+                  <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
+                    <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{pet.color != '' ? pet.color : 'color'}</Text>
+                  </View>
+                ) : (<></>)}
               </View>
-              {/**Weight */}
-              {pet.weight ? (
-                <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
-                  <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{pet.weight != '' ? pet.weight : 'weight'}</Text>
-                </View>
-              ) : (<></>)}
-              {/**Color */}
-              {pet.color ? (
-                <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
-                  <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{pet.color != '' ? pet.color : 'color'}</Text>
-                </View>
-              ) : (<></>)}
-            </View>
+            )}
+
 
             {/**Description */}
-            <View style={{ marginBottom: 17 }}>
-              <Text style={{ fontSize: 12, fontWeight: '400' }}>
-                {pet.description}
-              </Text>
-            </View>
+            {isLoading ? (
+              <Animated.View style={textAnimationHalf}></Animated.View>
+            ) : (
+              <View style={{ marginBottom: 17 }}>
+                <Text style={{ fontSize: 12, fontWeight: '400' }}>
+                  {pet.description}
+                </Text>
+              </View>
+            )}
+
             {/**Phone number */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 21 }}>
-              <Image source={icons.PHONE} style={{ width: 20, height: 20 }} />
-              <Text style={{ fontSize: 15, fontWeight: "400", color: colors.menu }}>{pet.phoneNumber}</Text>
-            </View>
+            {isLoading ? (
+              <Animated.View style={textAnimationLessHalf}></Animated.View>
+            ) : (
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 21 }}>
+                <Image source={icons.PHONE} style={{ width: 20, height: 20 }} />
+                <Text style={{ fontSize: 15, fontWeight: "400", color: colors.menu }}>{pet.phoneNumber}</Text>
+              </View>
+            )}
+
 
             {/**Action */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <TouchableOpacity>
-                <Image source={icons.LIKE1} style={{ width: 50, height: 50 }} />
-              </TouchableOpacity>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TouchableOpacity onPress={() => { makePhoneCall(pet.phoneNumber) }}>
-                  <Image source={icons.CALL} style={{ width: 50, height: 50, marginRight: 20 }} />
+            {isLoading ? (
+              <Animated.View style={[textAnimation, { height: 20 }]}></Animated.View>
+            ) : (
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <TouchableOpacity>
+                  <Image source={icons.LIKE1} style={{ width: 50, height: 50 }} />
                 </TouchableOpacity>
-                {!mine ? (
-                  <TouchableOpacity style={{ backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5 }}>
-                    <Text style={{ fontSize: 13, fontWeight: "400", color: colors.white, width: 100, textAlign: 'center' }}>Send message</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TouchableOpacity onPress={() => { makePhoneCall(pet.phoneNumber) }}>
+                    <Image source={icons.CALL} style={{ width: 50, height: 50, marginRight: 20 }} />
                   </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity style={{ backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5 }}>
-                    <Text style={{ fontSize: 13, fontWeight: "400", color: colors.white, width: 100, textAlign: 'center' }}>Edit Post</Text>
-                  </TouchableOpacity>
-                )}
+                  {!mine ? (
+                    <TouchableOpacity style={{ backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5 }}>
+                      <Text style={{ fontSize: 13, fontWeight: "400", color: colors.white, width: 100, textAlign: 'center' }}>Send message</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity style={{ backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5 }}>
+                      <Text style={{ fontSize: 13, fontWeight: "400", color: colors.white, width: 100, textAlign: 'center' }}>Edit Post</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
               </View>
-            </View>
+            )}
             <View style={{ marginVertical: 30, width: '100%', height: 30 }}></View>
           </View>
 

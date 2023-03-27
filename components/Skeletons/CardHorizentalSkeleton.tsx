@@ -1,0 +1,81 @@
+import { Dimensions, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
+import { View, Image, Text, Animated } from "react-native"
+import { icons } from "@constants/icons";
+import { useNavigation } from '@react-navigation/native';
+import { routes } from "@constants/routes";
+import { colors } from "@constants/colors";
+import { useEffect } from "react";
+
+export const CardHorizentalSkeleton = () => {
+  const navigation = useNavigation();
+  const Dimension = Dimensions.get('window').width - 40;
+  const CardWidth = Dimension / 2;
+  const skeletonWidth = new Animated.Value(0);
+
+  Animated.loop(
+    Animated.timing(skeletonWidth, {
+      toValue: 1,
+      duration: 2000,
+      useNativeDriver: false,
+    })
+  ).start();
+
+  const loadingColor = 'rgba(51,58,90,0.2)';
+  const loadingBackgroundColor = '#F5F5F5';
+  const fullWidthSkeletonAniamtion = skeletonWidth.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] });
+  const halfFullWidthSkeletonAniamtion = skeletonWidth.interpolate({ inputRange: [0, 1], outputRange: ['0%', '45%'] });
+  const closeFullWidthSkeletonAniamtion = skeletonWidth.interpolate({ inputRange: [0, 1], outputRange: ['0%', '69%'] });
+
+  const textAnimation = {
+    width: fullWidthSkeletonAniamtion,
+    height: 10,
+    backgroundColor: loadingColor,
+    borderRadius: 10,
+  };
+  const textAnimationHalf = {
+    width: halfFullWidthSkeletonAniamtion,
+    height: 10,
+    backgroundColor: loadingColor,
+    borderRadius: 10,
+  };
+  const textAnimationMoreHalf = {
+    width: closeFullWidthSkeletonAniamtion,
+    height: 10,
+    backgroundColor: loadingColor,
+    borderRadius: 10,
+  };
+  const imageAnimation = {
+    width: fullWidthSkeletonAniamtion,
+    height: '100%',
+    backgroundColor: loadingColor,
+    borderRadius: 10,
+  };
+
+  return (
+    <>
+      <TouchableOpacity
+        style={{ marginBottom: 10 }}
+        activeOpacity={0.8}
+        tvParallaxProperties={{
+          enabled: true,
+          tiltAngle: 0.2,
+          pressDelay: 0.5
+        }}
+      >
+        <View style={{ backgroundColor: colors.white, padding: 5, borderRadius: 15 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ backgroundColor: 'rgba(51,58,90,0.1)', width: 99, height: 99, overflow: 'hidden', justifyContent: 'flex-end', borderRadius: 10 }}>
+              <Animated.View style={imageAnimation}></Animated.View>
+            </View>
+            <View style={{ flex: 1, paddingLeft: 20, justifyContent: 'space-around' }}>
+              <Animated.View style={textAnimation}></Animated.View>
+              <Animated.View style={textAnimation}></Animated.View>
+              <Animated.View style={textAnimationMoreHalf}></Animated.View>
+              <Animated.View style={textAnimationHalf}></Animated.View>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    </>
+  );
+}

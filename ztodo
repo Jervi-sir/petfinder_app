@@ -13,7 +13,7 @@
 [] user see the pet
 [] user save the pet
 
-[] loading component on all screens
+[x] loading component on all screens
 [] use cache fetch if possible
 
 
