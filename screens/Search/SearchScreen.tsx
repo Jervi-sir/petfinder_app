@@ -11,6 +11,7 @@ import { api } from '@constants/api';
 import SkeletonLoading from '@components/Skeletons/SkeletonLoading';
 import { TestSkeleton } from '@components/Skeletons/TestSkeleton';
 import { CardVerticalSkeleton } from '@components/Skeletons/CardVerticalSkeleton';
+import { GlobalVariable } from '@constants/GlobalVariable';
 
 export const SearchScreen = () => {
   const [data, setData] = useState([]);
@@ -21,11 +22,22 @@ export const SearchScreen = () => {
   };
 
   useEffect(() => {
-    axios.get(api.Server + api.getLatestPets)
-      .then(response => {
-        setIsLoading(false);
-        setData(response.data.pets);
-      })
+    if (GlobalVariable.authToken) {
+      axios.get(api.Server + api.getLatestPetsAuth, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+        .then(response => {
+          setIsLoading(false);
+          setData(response.data.pets);
+          console.log(response.data)
+        })
+    } else {
+      axios.get(api.Server + api.getLatestPets)
+        .then(response => {
+          setIsLoading(false);
+          setData(response.data.pets);
+          //console.log(response.data)
+        })
+    }
+
   }, []);
   return (
     <View style={{ backgroundColor: colors.background }}>

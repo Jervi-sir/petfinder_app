@@ -15,6 +15,7 @@ export const colors = {
   unkownBackground: '#FEB237A5',
   unkownText: '#8F8989',
   emptyImg1: '#F9E3D2',
-  red: '#EA0000'
+  red: '#EA0000',
+  likedPet: '#EA0000'
 
 }

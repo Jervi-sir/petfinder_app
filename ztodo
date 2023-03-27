@@ -9,8 +9,8 @@
 [] user delete pet
 [] user search pet
 [] user filter search
-[] user get latest pets
-[] user see the pet
+[x] user get latest pets
+[x] user see the pet
 [] user save the pet
 
 [x] loading component on all screens

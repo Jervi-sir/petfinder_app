@@ -7,8 +7,8 @@ export const api = {
   //Actions
   Like: 'like',
   unLike: 'unlike',
-  Save: 'save',
-  unSave: 'unsave',
+  SavePet: 'save/',
+  unSavePet: 'unsave/',
   Comment: 'comment',
   unComment: 'uncomment',
   //profile
@@ -29,5 +29,6 @@ export const api = {
   getLatestPets: 'pets-latest',
   getLatestPetsByFilter: 'pets-latest/filter=',
   Search: 'search?&keyword=',
+  getLatestPetsAuth: 'auth/pets-latest'
 }
 

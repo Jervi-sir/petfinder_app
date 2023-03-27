@@ -6,18 +6,55 @@ import { routes } from "@constants/routes";
 import { GlobalVariable } from './../constants/GlobalVariable';
 import { calculateAge } from './../functions/helpers';
 import { colors } from "@constants/colors";
+import axios from "axios";
+import { api } from "@constants/api";
+import { useEffect, useState } from "react";
 
 export const CardPet = ({ pet }) => {
   const navigation = useNavigation();
   const Dimension = Dimensions.get('window').width - 40;
   const CardWidth = Dimension / 2;
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    setIsLiked(pet.is_liked);
+  }, []);
 
   const showPet = (itemId) => {
     navigation.navigate(routes.VIEWPET, { petId: itemId, mine: false });
   };
 
   const LikeThisPet = () => {
-    console.log('Like this pet')
+    if (isLiked != null) {
+      setIsLiked(true);
+      axios.post(api.Server + api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+        .then(response => {
+
+          console.log(response.data);
+        })
+        .catch(err => {
+          setIsLiked(false);
+          console.log(err)
+        });
+    } else {
+      console.log('redicrect to null')
+    }
+  }
+
+  const unLikeThisPet = () => {
+    if (isLiked != null) {
+      setIsLiked(false);
+      axios.post(api.Server + api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(err => {
+          setIsLiked(true);
+          console.log(err)
+        });
+    } else {
+      console.log('redicrect to null')
+    }
   }
 
   return (
@@ -31,8 +68,8 @@ export const CardPet = ({ pet }) => {
             <View style={{ width: CardWidth, height: CardWidth, borderRadius: 10, backgroundColor: colors.emptyImg1 }}></View>
           )}
         </TouchableWithoutFeedback>
-        <TouchableOpacity onPress={LikeThisPet} style={{ position: 'absolute', top: 7, right: 7, width: 40, height: 40, alignItems: 'flex-end' }}>
-          <Image style={{ width: 25, height: 25 }} source={icons.LIKE2} />
+        <TouchableOpacity onPress={() => { return isLiked ? unLikeThisPet() : LikeThisPet() }} style={{ position: 'absolute', top: 7, right: 7, width: 40, height: 40, alignItems: 'flex-end' }}>
+          <Image style={{ width: 25, height: 25, tintColor: isLiked ? colors.likedPet : undefined }} source={icons.LIKE2} />
         </TouchableOpacity>
         <View style={{ position: 'absolute', width: '100%', bottom: 0 }}>
           <Text style={{ color: 'white', backgroundColor: 'rgba(51, 58, 90, 0.5)', textAlign: 'center' }}>{pet.name}</Text>
@@ -66,6 +103,6 @@ export const CardPet = ({ pet }) => {
           </View>
         </View>
       </TouchableWithoutFeedback>
-    </View>
+    </View >
   )
 }
