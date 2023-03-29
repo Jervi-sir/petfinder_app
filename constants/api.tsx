@@ -19,11 +19,12 @@ export const api = {
   updateMyProfile: 'profile-edit-update',
   //pet
   getPet: 'pet/',
+  getPetAuth: 'auth/pet/',
   AddPet: 'get-add-pet',
   postPet: 'add-pet',
-  EditPet: 'edit-pet',
-  UPDATEPET: 'update-pet',
-  deletePet: 'delete-pet',
+  EditPet: 'edit-pet/',
+  UPDATEPET: 'update-pet/',
+  deletePet: 'delete-pet/',
   //search
   getRace: 'race',
   getLatestPets: 'pets-latest',

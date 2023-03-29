@@ -36,7 +36,7 @@
 [x] view pet after added
 [x] require input in client side
 [x] error handler
-[] restructure the add screen
+[x] restructure the add screen
 [] home
 [] view pet
 
@@ -49,11 +49,11 @@
 [] editPet
 [] deletePet
 [] archivePet
-[] showProfile
-[] editProfile
+[x] showProfile
+[x] editProfile
 [] search
 [] filter
-[] save
+[x] save
 [] conversation
 
 

@@ -1,183 +1,347 @@
 import { TextInput } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from 'react-native-paper';
-import { useState, useCallback } from 'react';
-import { ScrollView, View, Text, Animated, LayoutAnimation } from 'react-native';
+import { useEffect, useState, useRef } from 'react';
+import { ScrollView, View, Text, TouchableOpacity, Animated, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import DatePicker from 'react-native-modern-datepicker';
-import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
-import moment from 'moment';
-import { EditImages } from './EditImages';
+import { AddImages } from './AddImages';
+import { useNavigation } from '@react-navigation/native';
+
 import { colors } from '@constants/colors';
+import { routes } from '@constants/routes';
 import { FloatingDropdown } from '@components/FloatingDropdown';
-import { HeaderSearch } from '@components/HeaderSearch';
+import { CalendarAge } from './CalendarAge';
+import { api } from '@constants/api';
+import DashedLine from 'react-native-dashed-line';
+import BouncyCheckboxGroup, { ICheckboxButton } from "react-native-bouncy-checkbox-group";
+import axios from 'axios';
+import { GlobalVariable } from '@constants/GlobalVariable';
+import { useIsFocused } from '@react-navigation/native';
 
-export const EditPetScreen = () => {
-  const [value, setValue] = useState(null);
-  const [phone, setPhone] = useState('');
+import LottieView from 'lottie-react-native';
+import checkmark1 from '@assets/animations/checkmark1.json';
+import loading1 from '@assets/animations/loading1.json';
+import loading2 from '@assets/animations/loading2.json';
+import loading3 from '@assets/animations/loading3.json';
+import loading4 from '@assets/animations/loading4.json';
+import loading5 from '@assets/animations/loading5.json';
+import { Dropdown } from 'react-native-element-dropdown';
+
+export const EditPetScreen = ({ route }) => {
+  const { petId } = route.params;
+
+  const animationRef = useRef(null);
+  const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const isFocused = useIsFocused();
+  const navigation = useNavigation();
+
+  /*Form data*/
+  const [images, setImages] = useState([]);
+  const [imagesUri, setImagesUri] = useState([]);
+  const [gender, setGender] = useState(0);
+  const [race_id, setRace] = useState('');
+  const [subRace, setSubRace] = useState('');
+
+  const [typeOffer, setTypeOffer] = useState(0);
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+
+  const [wilaya_id, setWilaya] = useState('');
+  const [wilayaName, setWilayaName] = useState('');
+  const [location, setLocation] = useState('');
+
+  const [birthday, setBirthday] = useState('');
+  const [name, setName] = useState('');
+  const [color, setColor] = useState('');
+  const [weight, setWeight] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  /* from server */
+  const [RaceList, setRaceList] = useState([]);
+  const [WilayaList, setWilayaList] = useState([]);
+  const [SelectedPet, setSelectedPet] = useState([]);
+
   const [age, setAge] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
 
-  const currentDate = new Date().toJSON().slice(0, 10);
+  useEffect(() => {
+    axios.get(api.Server + api.EditPet + petId, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+      .then(response => {
+        const data = response.data;
+        setSelectedPet(data.pet);
+        //console.log(SelectedPet);
+        setTypeOffer(data.pet.offer_type_id);
+        setRace(data.pet.race_id);
+        setSubRace(data.pet.sub_race);
+        setWilaya(data.pet.wilaya_id);
+        setPrice(data.pet.price);
 
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [animation] = useState(new Animated.Value(0));
-  const toggleCollapsibleView = () => {
-    setIsExpanded(!isExpanded);
-    const animationConfig = {
-      duration: 300,
-      update: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-      },
-    };
-    Animated.timing(animation, {
-      toValue: isExpanded ? 0 : 1,
-      duration: animationConfig.duration,
-      useNativeDriver: false,
-    }).start(() => {
-      // Run LayoutAnimation after animation completes
-      LayoutAnimation.configureNext(animationConfig.update);
+        setName(data.pet.name);
+        setColor(data.pet.color);
+        setWeight(data.pet.weight);
+        setPhoneNumber(data.pet.phone_number);
+        setDescription(data.pet.description);
+        setGender(data.pet.gender_id);
+        setLocation(data.pet.location);
+        setBirthday(data.pet.birthday);
+
+        setRaceList(data.races)
+        setWilayaList(data.wilaya)
+      })
+  }, []);
+
+  const handleRefresh = () => {
+    setImagesUri([]);
+    setImages([]);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: routes.m5 }],
     });
   };
+  const [race_idError, setRaceError] = useState(false);
+  const [imagesError, setImagesError] = useState(false);
+  const [wilayaError, setWilayaError] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState(false);
 
+  let scrollViewRef;
+  function AddPet() {
+    if (images.length < 1) { scrollViewRef.scrollToPosition(0, 20); return setImagesError(true); }
+    if (!race_id) { scrollViewRef.scrollToPosition(0, 200); return setRaceError(true); }
+    if (!wilaya_id) { scrollViewRef.scrollToPosition(0, 300); return setWilayaError(true); }
+    if (!phoneNumber) { return setPhoneNumberError(true); }
 
+    const data = {
+      name, typeOffer, wilaya_id, location, gender, race_id,
+      description, phoneNumber, weight, color, birthday, price, subRace, images
+    };
+    setIsLoading(true);
+    axios.post(api.Server + api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+      .then(response => {
+        //console.log(response.data)
+        setIsLoading(false);
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+          setTimeout(() => {
+            handleRefresh();
+          }, 100)
+        }, 2345);
 
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
   return (
-    <SafeAreaView>
-      <KeyboardAwareScrollView >
-        <ScrollView contentContainerStyle={{backgroundColor: colors.background, paddingBottom: 123}}>
-          <View style={{marginLeft: 20, marginTop: 20}}>
-            <Text style={{fontSize: 30, fontWeight: "400", color: colors.button, paddingLeft: 10}}>Add new Pet</Text>
-          </View>
-          <View style={{margin: 20,marginTop: 10, backgroundColor: colors.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50}}>
-            <EditImages />
-            
-            <TextInput
-              style={styles.inputField}
-              label="Name"
+    <View>
+      {success ? (
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69 }}>
+            <LottieView
+              ref={animationRef}
+              style={{ width: 100, height: 100 }}
+              source={checkmark1}
+              autoPlay
+              duration={3000}
+              loop={false}
             />
-            <FloatingDropdown />
-            <FloatingDropdown />
-            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-              <View style={{flex: 0.5}}>
-                <TouchableOpacity onPress={toggleCollapsibleView} style={styles.inputDate}>
-                  <Text>{selectedDate == '' ? 'Birthday' : selectedDate}</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={{flex: 0.5}}>
-                <Text style={{textAlign: 'center'}}>Age: {age} </Text>
-              </View>
-            </View>
-            <Animated.View
-              style={{
-                overflow: 'hidden',
-                height: animation.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 333],
-                }),
+          </View>
+        </View>
+      ) : (<></>)}
+      {isLoading ? (
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69, width: 100, height: 100 }}>
+            <LottieView
+              ref={animationRef}
+              style={{ width: 100, height: 100 }}
+              source={loading1}
+              autoPlay
+              loop={true}
+            />
+          </View>
+        </View>
+      ) : (<></>)}
+
+      <KeyboardAwareScrollView ref={(ref) => { scrollViewRef = ref }} extraScrollHeight={69} contentContainerStyle={{ paddingBottom: 123 }} >
+        <ScrollView >
+          <View style={{ marginLeft: 20, marginTop: 20 }}>
+            <Text style={{ fontSize: 30, fontWeight: "400", color: colors.button, paddingLeft: 10 }}>Add new Pet</Text>
+          </View>
+          {/** Card */}
+          <View style={{ margin: 20, marginTop: 10, backgroundColor: colors.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50 }}>
+            {/** Image Selector */}
+            <AddImages onImageSelected={e => setImages(e)} onImagesUri={e => setImagesUri(e)} />
+            {imagesError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Images 👆</Text></View>) : (<></>)}
+            <Space top={5} bottom={5} />
+            {/** Gender Selector */}
+            <BouncyCheckboxGroup
+              data={GlobalVariable.GenderList}
+              initial={SelectedPet.gender_id}
+              style={{ justifyContent: 'space-between', paddingHorizontal: 20 }}
+              onChange={(selectedItem: ICheckboxButton) => {
+                setGender(selectedItem.id);
               }}
-            >
-              <DatePicker
-                options={{
-                  backgroundColor: colors.background,
-                  textHeaderColor: colors.menu,
-                  textDefaultColor: colors.black,
-                  selectedTextColor: colors.white,
-                  mainColor: colors.menu,
-                  textSecondaryColor: colors.black,
-                  borderColor: colors.background,
-                }}
-                maximumDate={getToday()}
-                onSelectedChange={date => {
-                  setSelectedDate(date)
-                  setAge(calculateAge(getFormatedDate(date, "YYYY/MM/DD")))
-                }}
+            />
+            <Space top={5} bottom={5} />
+            {/** Race Selector */}
+            {race_id ? (
+              <DropDownComponent defaultValue={race_id} select='Race' required={true} data={RaceList} onItemSelected={e => setRace(e)} />
+            ) : (<></>)}
+            {race_idError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Race 👆</Text></View>) : (<></>)}
+            {/** subRace Selector */}
+            {race_id ? (
+              <TextInput label="Sub Race" value={subRace} onChangeText={text => setSubRace(text)} style={styles.inputField} />
+            ) : (
+              <></>
+            )}
 
-                mode="calendar"
-                minuteInterval={30}
-                style={{ 
-                  borderBottomColor: 'gray',
-                  borderBottomWidth: 0.5,
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
+            <Separator title='Details' />
+            {/** Offer Type selector */}
+            <BouncyCheckboxGroup
+              data={GlobalVariable.TypeOfferList}
+              initial={SelectedPet.offer_type_id}
+              style={{ justifyContent: 'space-between', paddingHorizontal: 20 }}
+              onChange={(selectedItem: ICheckboxButton) => {
+                setTypeOffer(selectedItem.id);
+              }}
+            />
+            {/** Price Input */}
+            {typeOffer != 0 ? (
+              <Animated.View>
+                <TextInput label="Price" value={price} onChangeText={text => setPrice(text)} keyboardType="numeric" style={styles.inputField} />
+              </Animated.View>
+            ) : (
+              <></>
+            )}
+            <Space top={5} bottom={5} />
+            {/** description Selector */}
+            <TextInput label="Description" value={description} onChangeText={text => setDescription(text)} maxLength={300} multiline style={styles.inputField} />
+            <Text style={{ textAlign: 'right' }}>{description.length} / 300</Text>
+
+            <Separator title='Location' />
+            {/** Wilaya selector */}
+            {wilaya_id ? (
+              <DropDownComponent defaultValue={wilaya_id} select='Wilaya' required={true} data={WilayaList}
+                onItemSelected={e => {
+                  setWilaya(e);
+                  const itemWithId2 = WilayaList.find(item => item.value === e);
+                  setWilayaName(itemWithId2.label);
                 }}
               />
-      </Animated.View>
+            ) : (<></>)}
+            {wilayaError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Wialaya 👆</Text></View>) : (<></>)}
+            {/** Location Input */}
+            {wilaya_id ? (
+              <TextInput label="Location" value={location} onChangeText={text => setLocation(text)} style={styles.inputField} />
+            ) : (
+              <></>
+            )}
 
-            <TextInput
-              label="Price"
-              keyboardType="numeric"
-              style={styles.inputField}
-            />
-            <TextInput
-              label="Colors"
-              style={styles.inputField}
-            />
-            <TextInput
-              label="Weight"
-              style={styles.inputField}
-            />
-            
-            <TextInput
-              label="Description"
-              multiline
-              style={styles.inputField}
-            />
-            <TextInput
-                label="Phone number"
-                keyboardType="numeric"
-                style={styles.inputField}
-                render={props =>
-                  <MaskInput
-                    {...props}
-                    mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-                  />
-                }
-              />
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                <TouchableOpacity style={{backgroundColor: colors.button, borderRadius: 5, padding: 12, paddingHorizontal: 30 }}>
-                  <Text style={{color: colors.white, textAlign: 'center'}}>Publish</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding: 12, paddingHorizontal: 30}}>
-                  <Text style={{color: colors.menu, textAlign: 'center'}}>Preview</Text>
-                </TouchableOpacity>
-              </View>
+            <Separator title='Optional' />
+            {/** Birthday Input */}
+            {birthday ? (
+              <CalendarAge defaultDate={birthday} onSelectDate={e => setBirthday(e)} />
+            ) : (<></>)}
+            {/** Name Input */}
+            <TextInput label="Name" value={name} onChangeText={text => setName(text)} style={styles.inputField} />
+            {/** Color Input */}
+            <TextInput label="Colors" value={color} onChangeText={text => setColor(text)} style={styles.inputField} />
+            {/** Weight Input */}
+            <TextInput label="Weight" value={weight} onChangeText={text => setWeight(text)} style={styles.inputField} />
+            {/** Phone number Input */}
+            <TextInput value={phoneNumber} label="Phone number *" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props} mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
+            {phoneNumberError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Phone Number 👆</Text></View>) : (<></>)}
+
+
+            <Space top={10} bottom={10} />
+            {/** Actions */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <TouchableOpacity
+                style={{ backgroundColor: colors.button, borderRadius: 5, padding: 12, paddingHorizontal: 30 }}
+                onPress={AddPet}
+              >
+                <Text style={{ color: colors.white, textAlign: 'center' }}>Publish</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ padding: 12, paddingHorizontal: 30 }}
+                onPress={() => navigation.navigate(routes.PREVIEWPET, {
+                  description: description, phoneNumber: phoneNumber,
+                  gender: gender, name: name,
+                  location: location, wilaya: wilayaName,
+                  race: race_id, subRace: subRace,
+                  age: age, date: birthday,
+                  weight: weight, color: color,
+                  typeOffer: typeOffer, price: price,
+                  images: imagesUri
+
+                })} >
+                <Text style={{ color: colors.menu, textAlign: 'center' }}>Preview</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          
+
         </ScrollView>
-      </KeyboardAwareScrollView>   
-    </SafeAreaView>
+      </KeyboardAwareScrollView>
+
+    </View>
+  )
+}
+
+const Separator = ({ title }) => {
+  return (
+    <View style={{ marginTop: 10, marginBottom: 17, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+      <DashedLine style={{ width: 69 }} />
+      <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: '500', color: colors.menu }}>
+        {title}
+      </Text>
+      <DashedLine style={{ width: 69 }} />
+    </View>
+  )
+}
+
+const Space = ({ top = 0, bottom = 0 }) => {
+  return (
+    <View style={{ marginTop: top, marginBottom: bottom }}></View>
+  )
+}
+
+const DropDownComponent = ({ defaultValue, select = 'title', required = false, data, onItemSelected }) => {
+  const [value, setValue] = useState(defaultValue);
+  const [isFocus, setIsFocus] = useState(false);
+  return (
+    <View style={styles.container}>
+      <Text style={[styles.label, isFocus && { color: '#4a148c' }]}>
+        {select}
+        {required ? (<Text style={{ color: colors.red }}> *</Text>) : (<></>)}
+      </Text>
+      <Dropdown
+        style={[styles.dropdown, isFocus && { borderBottomColor: '#4a148c', borderBottomWidth: 2 }]}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        data={data}
+        search
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder={!isFocus ? 'Select ' + select + (required ? ' *' : '') : '...'}
+        searchPlaceholder="Search..."
+        value={value}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
+        onChange={item => {
+          setValue(item.value);
+          setIsFocus(false);
+          onItemSelected(item.value);
+        }}
+      />
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  dropdown: {
-    height: 56,
-    borderBottomColor: 'gray',
-    borderBottomWidth: 0.5,
-    paddingLeft: 5,
-  },
-  icon: {
-    marginRight: 5,
-  },
-  placeholderStyle: {
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-  },
+
+
   inputField: {
     backgroundColor: colors.background,
     marginBottom: 12,
@@ -192,32 +356,49 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.3,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-  }
+  },
+  container: {
+    backgroundColor: colors.background,
+    paddingTop: 9,
+    paddingHorizontal: 0,
+    marginBottom: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  dropdown: {
+    height: 50,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
+    paddingLeft: 5,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    left: 10,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 13,
+    opacity: 0.7,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    paddingLeft: 13,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    paddingLeft: 13,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
 });
 
-const calculateAge = (date) => {
-  let dob;
-  let age;
-
-  const dateArray = date.split('/');
-  const year = dateArray[0];
-  const month = dateArray[1];
-  const day = dateArray[2];
-
-  const selectedDate = moment(`${year}-${month + 1}-${day}`, 'YYYY-MM-DD');
-  dob = (selectedDate.format('DD-MM-YYYY'));
-  const ageInYears = moment().diff(selectedDate, 'years');
-  selectedDate.add(ageInYears, 'years');
-  const ageInMonths = moment().diff(selectedDate, 'months');
-  selectedDate.add(ageInMonths, 'months');
-  const ageInDays = moment().diff(selectedDate, 'days');
-
-  age = (`${ageInYears} years, ${ageInMonths} months, ${ageInDays} days`);
-
-  const stringYears = ageInYears == 0 ? '' : (ageInYears + ' Years, ');
-  const stringMonths = ageInMonths == 0 ? '' : (ageInMonths + ' Months, ');
-  const stringDays = ageInDays == 0 ? '' : (ageInDays + ' Days');
-
-  return stringYears + stringMonths + stringDays;
-
-};

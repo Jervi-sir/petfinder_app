@@ -20,20 +20,21 @@ export default function M5Navigation() {
 
   return (
     <>
-      <Stack.Navigator 
-          initialRouteName={GlobalVariable.authToken != '' ? routes.SHOWMYPROFILE: routes.LOGIN}
-          screenOptions={() => ({
-            headerShown: false,
-            headerLeft: null,
-          })}
-        >
-          <Stack.Screen name={ routes.SHOWMYPROFILE } component={ShowMyProfile} />
-          <Stack.Screen name={ routes.EDITPROFILE } component={EditProfile} />
-          <Stack.Screen name={ routes.SHOWPET } component={ShowPetScreen} />
-          <Stack.Screen name={ routes.LOGIN } component={LoginScreen} />
-          <Stack.Screen name={ routes.REGISTER } component={RegisterScreen} />
+      <Stack.Navigator
+        initialRouteName={GlobalVariable.authToken != '' ? routes.SHOWMYPROFILE : routes.LOGIN}
+        screenOptions={() => ({
+          headerShown: false,
+          headerLeft: null,
+        })}
+      >
+        <Stack.Screen name={routes.SHOWMYPROFILE} component={ShowMyProfile} />
+        <Stack.Screen name={routes.EDITPROFILE} component={EditProfile} />
+        <Stack.Screen name={routes.SHOWPET} component={ShowPetScreen} />
+        <Stack.Screen name={routes.EDITPET} component={EditPetScreen} />
+        <Stack.Screen name={routes.LOGIN} component={LoginScreen} />
+        <Stack.Screen name={routes.REGISTER} component={RegisterScreen} />
 
-        </Stack.Navigator>
+      </Stack.Navigator>
     </>
   )
 }

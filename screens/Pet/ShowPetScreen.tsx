@@ -12,13 +12,16 @@ import { GlobalVariable } from '@constants/GlobalVariable';
 import { WINDOW_WIDTH } from '@gorhom/bottom-sheet';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { Linking } from "react-native";
+import { routes } from "@constants/routes";
+import { useNavigation } from '@react-navigation/native';
 
 
 /* input
   id, name, user_id, location, wilaya_name or wilaya_id, gender, date, offer_type_id, price, race_name, sub_race
   images
 */
-export const ShowPetScreen = ({ route, navigation }) => {
+export const ShowPetScreen = ({ route }) => {
+  const navigation = useNavigation();
   const { petId, mine = false } = route.params;
   const [pet, setPet] = useState([]);
   const [images, setImages] = useState([]);
@@ -54,13 +57,24 @@ export const ShowPetScreen = ({ route, navigation }) => {
   const imageAnimation = { width: fullWidthSkeletonAniamtion, height: '100%', backgroundColor: loadingColor, borderRadius: 10, };
 
   useEffect(() => {
-    axios.get(api.Server + api.getPet + petId)
-      .then(response => {
-        const result = response.data.pet;
-        setIsLoading(false);
-        setPet(result);
-        //setImages(result.images)
-      })
+    if (GlobalVariable.authToken) {
+      axios.get(api.Server + api.getPet + petId, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+        .then(response => {
+          const result = response.data.pet;
+          console.log(result);
+          setIsLoading(false);
+          setPet(result);
+          //setImages(result.images)
+        })
+    } else {
+      axios.get(api.Server + api.getPet + petId)
+        .then(response => {
+          const result = response.data.pet;
+          setIsLoading(false);
+          setPet(result);
+          //setImages(result.images)
+        })
+    }
   }, []);
 
 
@@ -194,7 +208,7 @@ export const ShowPetScreen = ({ route, navigation }) => {
                       <Text style={{ fontSize: 13, fontWeight: "400", color: colors.white, width: 100, textAlign: 'center' }}>Send message</Text>
                     </TouchableOpacity>
                   ) : (
-                    <TouchableOpacity style={{ backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5 }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate(routes.EDITPET, { petId: pet.id }) }} style={{ backgroundColor: colors.menu, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 5 }}>
                       <Text style={{ fontSize: 13, fontWeight: "400", color: colors.white, width: 100, textAlign: 'center' }}>Edit Post</Text>
                     </TouchableOpacity>
                   )}

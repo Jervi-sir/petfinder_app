@@ -6,6 +6,7 @@ export const routes = {
   PROFILE: 'profile',
   ADDNAVIGATION: 'add_navigation',
   PREVIEWPET: 'preview_pet',
+  EDITPET: 'edit_pet',
   VIEWPET: 'view_pet',
   REGISTER: 'register',
   LOGIN: 'login',
