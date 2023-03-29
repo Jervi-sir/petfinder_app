@@ -11,6 +11,9 @@ export const api = {
   unSavePet: 'unsave/',
   Comment: 'comment',
   unComment: 'uncomment',
+  ArchivePet: 'archive/',
+  unArchivePet: 'unarchive/',
+  deletePet: 'deletepet/',
   //profile
   getMyPets: 'my-pets',
   getSavedPets: 'saved-list',
@@ -24,7 +27,6 @@ export const api = {
   postPet: 'add-pet',
   EditPet: 'edit-pet/',
   updatePet: 'update-pet/',
-  deletePet: 'delete-pet/',
   //search
   getRace: 'race',
   getLatestPets: 'pets-latest',

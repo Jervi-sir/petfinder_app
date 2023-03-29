@@ -4,14 +4,15 @@
 [x] user got to its profile
 [x] user edit his profile
 [x] user open his pet
-[] user edit the pet
-[] user update the pet
-[] user delete pet
+[x] user edit the pet
+[x] user update the pet
+[x] user delete pet
 [] user search pet
 [] user filter search
 [x] user get latest pets
 [x] user see the pet
-[] user save the pet
+[x] user save the pet
+[x] loading edit screen
 
 [x] loading component on all screens
 [] use cache fetch if possible
@@ -38,7 +39,7 @@
 [x] error handler
 [x] restructure the add screen
 [] home
-[] view pet
+[x] view pet
 
 --Server
 [x] login
@@ -46,9 +47,9 @@
 [x] addPet
 [x] edit profile
 [] logout
-[] editPet
-[] deletePet
-[] archivePet
+[x] editPet
+[x] deletePet
+[x] archivePet
 [x] showProfile
 [x] editProfile
 [] search

@@ -103,7 +103,6 @@ export const EditProfile = () => {
   };
 
   function updateProfile() {
-
     const data = { name, location, phoneNumber, imageUpload };
     setIsLoading(true);
     axios.post(api.Server + api.updateMyProfile, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })

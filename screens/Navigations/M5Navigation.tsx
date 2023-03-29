@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { LoginScreen } from '@screens/Auth/LoginScreen';
 import { RegisterScreen } from '@screens/Auth/RegisterScreen';
+import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
 import { EditPetScreen } from '@screens/Pet/Edit/EditPetScreen';
 import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
 import { EditProfile } from '@screens/Profile/EditProfile';
@@ -31,6 +32,7 @@ export default function M5Navigation() {
         <Stack.Screen name={routes.EDITPROFILE} component={EditProfile} />
         <Stack.Screen name={routes.SHOWPET} component={ShowPetScreen} />
         <Stack.Screen name={routes.EDITPET} component={EditPetScreen} />
+        <Stack.Screen name={routes.PREVIEWPET} component={PreviewPet} />
         <Stack.Screen name={routes.LOGIN} component={LoginScreen} />
         <Stack.Screen name={routes.REGISTER} component={RegisterScreen} />
 
