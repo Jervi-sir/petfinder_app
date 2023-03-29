@@ -95,7 +95,7 @@ export const EditPetScreen = ({ route }) => {
     setImages([]);
     navigation.reset({
       index: 0,
-      routes: [{ name: routes.m5 }],
+      routes: [{ name: routes.SHOWMYPROFILE }],
     });
   };
   const [race_idError, setRaceError] = useState(false);
@@ -123,7 +123,7 @@ export const EditPetScreen = ({ route }) => {
         setTimeout(() => {
           setSuccess(false);
           setTimeout(() => {
-            //handleRefresh();
+            handleRefresh();
           }, 100)
         }, 2345);
 
