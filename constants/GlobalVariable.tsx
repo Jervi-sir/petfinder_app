@@ -7,9 +7,9 @@ export const GlobalVariable = {
   authToken: '3|fpExjGDJqr0RAbkiTqAotd03AuZNS4CTGS7eOvwN',
 
   GenderList: [
-    { id: 0, text: 'Male', fillColor: colors.maleText, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
-    { id: 1, text: 'Female', fillColor: colors.femaleText, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
-    { id: 2, text: 'Unknown', fillColor: colors.unkownBackground, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
+    { id: 1, text: 'Male', fillColor: colors.maleText, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
+    { id: 2, text: 'Female', fillColor: colors.femaleText, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
+    { id: 3, text: 'Unknown', fillColor: colors.unkownBackground, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
   ],
 
   GenderBackgroundColor: [colors.maleBackground, colors.femaleBackground, colors.unkownBackground],
@@ -17,9 +17,9 @@ export const GlobalVariable = {
   GenderText: ['male', 'female', 'unknown'],
 
   TypeOfferList: [
-    { id: 0, text: 'Adoption', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
-    { id: 1, text: 'Sale', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
-    { id: 2, text: 'Rent', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
+    { id: 1, text: 'Adoption', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
+    { id: 2, text: 'Sale', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
+    { id: 3, text: 'Rent', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
   ],
   TypeOfferText: ['adoption', 'sale', 'rent'],
 

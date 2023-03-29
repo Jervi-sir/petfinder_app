@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, FlatList } from "react-native"
+import { View, Text, Image, TouchableOpacity, ScrollView, FlatList, RefreshControl } from "react-native"
 import { PetCard } from "./petCard"
 
 import { colors } from "@constants/colors";
@@ -22,8 +22,13 @@ export const ShowMyProfile = () => {
   const [nbPets, setNbPets] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
     axios.get(api.Server + api.ShowMyProfileData, { headers: { Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
         setIsLoading(false);
@@ -37,7 +42,14 @@ export const ShowMyProfile = () => {
         setIsLoading(true);
         console.log(error);
       });
-  }, []);
+  }
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    // Run your refresh function here
+    await fetchData();
+    setRefreshing(false);
+  };
 
   return (
     <>
@@ -61,6 +73,7 @@ export const ShowMyProfile = () => {
             <FlatList
               data={pets}
               showsVerticalScrollIndicator={false}
+              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
               ListHeaderComponent={() => {
                 return (
                   <>

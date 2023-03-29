@@ -39,11 +39,11 @@ export const EditPetScreen = ({ route }) => {
   /*Form data*/
   const [images, setImages] = useState([]);
   const [imagesUri, setImagesUri] = useState([]);
-  const [gender, setGender] = useState(0);
+  const [gender, setGender] = useState(1);
   const [race_id, setRace] = useState('');
   const [subRace, setSubRace] = useState('');
 
-  const [typeOffer, setTypeOffer] = useState(0);
+  const [typeOffer, setTypeOffer] = useState(1);
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
 
@@ -69,7 +69,7 @@ export const EditPetScreen = ({ route }) => {
       .then(response => {
         const data = response.data;
         setSelectedPet(data.pet);
-        //console.log(SelectedPet);
+        setImages(data.pet.images);
         setTypeOffer(data.pet.offer_type_id);
         setRace(data.pet.race_id);
         setSubRace(data.pet.sub_race);
@@ -104,7 +104,7 @@ export const EditPetScreen = ({ route }) => {
   const [phoneNumberError, setPhoneNumberError] = useState(false);
 
   let scrollViewRef;
-  function AddPet() {
+  function UpdatePet() {
     if (images.length < 1) { scrollViewRef.scrollToPosition(0, 20); return setImagesError(true); }
     if (!race_id) { scrollViewRef.scrollToPosition(0, 200); return setRaceError(true); }
     if (!wilaya_id) { scrollViewRef.scrollToPosition(0, 300); return setWilayaError(true); }
@@ -115,15 +115,15 @@ export const EditPetScreen = ({ route }) => {
       description, phoneNumber, weight, color, birthday, price, subRace, images
     };
     setIsLoading(true);
-    axios.post(api.Server + api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    axios.post(api.Server + api.updatePet + petId, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
-        //console.log(response.data)
+        console.log(response.data)
         setIsLoading(false);
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
           setTimeout(() => {
-            handleRefresh();
+            //handleRefresh();
           }, 100)
         }, 2345);
 
@@ -171,7 +171,9 @@ export const EditPetScreen = ({ route }) => {
           {/** Card */}
           <View style={{ margin: 20, marginTop: 10, backgroundColor: colors.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50 }}>
             {/** Image Selector */}
-            <AddImages onImageSelected={e => setImages(e)} onImagesUri={e => setImagesUri(e)} />
+            {images.length > 0 ? (
+              <AddImages imagesFromServer={images} onImageSelected={e => setImages(e)} onImagesUri={e => setImagesUri(e)} />
+            ) : (<></>)}
             {imagesError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Images 👆</Text></View>) : (<></>)}
             <Space top={5} bottom={5} />
             {/** Gender Selector */}
@@ -207,7 +209,7 @@ export const EditPetScreen = ({ route }) => {
               }}
             />
             {/** Price Input */}
-            {typeOffer != 0 ? (
+            {typeOffer != 1 ? (
               <Animated.View>
                 <TextInput label="Price" value={price} onChangeText={text => setPrice(text)} keyboardType="numeric" style={styles.inputField} />
               </Animated.View>
@@ -259,9 +261,9 @@ export const EditPetScreen = ({ route }) => {
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <TouchableOpacity
                 style={{ backgroundColor: colors.button, borderRadius: 5, padding: 12, paddingHorizontal: 30 }}
-                onPress={AddPet}
+                onPress={UpdatePet}
               >
-                <Text style={{ color: colors.white, textAlign: 'center' }}>Publish</Text>
+                <Text style={{ color: colors.white, textAlign: 'center' }}>Update</Text>
               </TouchableOpacity>
               <TouchableOpacity style={{ padding: 12, paddingHorizontal: 30 }}
                 onPress={() => navigation.navigate(routes.PREVIEWPET, {

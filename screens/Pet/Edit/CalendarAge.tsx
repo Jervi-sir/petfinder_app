@@ -10,8 +10,6 @@ export const CalendarAge = ({ defaultDate = '', defaultAge = '', onSelectDate })
   const [age, setAge] = useState(defaultAge);
   const [selectedDate, setSelectedDate] = useState(defaultDate);
 
-  console.log(typeof (selectedDate));
-
   const [isExpanded, setIsExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
 

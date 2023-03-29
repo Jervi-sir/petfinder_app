@@ -36,11 +36,11 @@ export const AddScreen = () => {
   /*Form data*/
   const [images, setImages] = useState([]);
   const [imagesUri, setImagesUri] = useState([]);
-  const [gender, setGender] = useState(0);
+  const [gender, setGender] = useState(1);
   const [race_id, setRace] = useState('');
   const [subRace, setSubRace] = useState('');
 
-  const [typeOffer, setTypeOffer] = useState(0);
+  const [typeOffer, setTypeOffer] = useState(1);
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
 
@@ -158,7 +158,7 @@ export const AddScreen = () => {
             {/** Gender Selector */}
             <BouncyCheckboxGroup
               data={GlobalVariable.GenderList}
-              initial={0}
+              initial={1}
               style={{ justifyContent: 'space-between', paddingHorizontal: 20 }}
               onChange={(selectedItem: ICheckboxButton) => {
                 setGender(selectedItem.id);
@@ -179,14 +179,14 @@ export const AddScreen = () => {
             {/** Offer Type selector */}
             <BouncyCheckboxGroup
               data={GlobalVariable.TypeOfferList}
-              initial={0}
+              initial={1}
               style={{ justifyContent: 'space-between', paddingHorizontal: 20 }}
               onChange={(selectedItem: ICheckboxButton) => {
                 setTypeOffer(selectedItem.id);
               }}
             />
             {/** Price Input */}
-            {typeOffer != 0 ? (
+            {typeOffer != 1 ? (
               <Animated.View>
                 <TextInput label="Price" onChangeText={text => setPrice(text)} keyboardType="numeric" style={styles.inputField} />
               </Animated.View>

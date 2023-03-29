@@ -38,8 +38,8 @@ export const PetCard = ({ pet }) => {
             <Text style={{ fontSize: 13, fontWeight: '500', color: colors.menu }}>{offerType[pet.offer_type_id - 1]}</Text>
           </View>
           <View >
-            <View style={{ backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id], borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3, marginBottom: 11 }}>
-              <Text style={{ color: GlobalVariable.GenderTextColor[pet.gender_id], textAlign: 'center', fontSize: 13 }}>{GlobalVariable.GenderText[pet.gender_id]}</Text>
+            <View style={{ backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id - 1], borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3, marginBottom: 11 }}>
+              <Text style={{ color: GlobalVariable.GenderTextColor[pet.gender_id - 1], textAlign: 'center', fontSize: 13 }}>{GlobalVariable.GenderText[pet.gender_id - 1]}</Text>
             </View>
             {pet.birthday ? (
               <View style={{ backgroundColor: colors.lightWhite, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3 }}>

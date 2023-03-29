@@ -81,8 +81,8 @@ export const CardPet = ({ pet }) => {
           {/* name and gender */}
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
             <Text>{pet.race_name}</Text>
-            <View style={{ backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id], paddingHorizontal: 10, borderRadius: 100 }}>
-              <Text style={{ color: GlobalVariable.GenderTextColor[pet.gender_id], fontSize: 12 }}>{GlobalVariable.GenderText[pet.gender_id]}</Text>
+            <View style={{ backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id - 1], paddingHorizontal: 10, borderRadius: 100 }}>
+              <Text style={{ color: GlobalVariable.GenderTextColor[pet.gender_id - 1], fontSize: 12 }}>{GlobalVariable.GenderText[pet.gender_id - 1]}</Text>
             </View>
           </View>
           {/* Location */}

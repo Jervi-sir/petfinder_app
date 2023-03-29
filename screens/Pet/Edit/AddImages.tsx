@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import { View, ScrollView, Image, TouchableOpacity, Text, StyleSheet, Animated } from "react-native";
 import Dialog from "react-native-dialog";
@@ -9,13 +9,23 @@ import { colors } from "@constants/colors";
 let images = ['', '', '', ''];
 let imagesUri = ['', '', '', ''];
 
-export const AddImages = ({ onImageSelected, onImagesUri }) => {
+export const AddImages = ({ onImageSelected, onImagesUri, imagesFromServer }) => {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [image4, setImage4] = useState(null);
   const [visible, setVisible] = useState(false);
   const [selectedInput, setSelectedInput] = useState(false);
+  const [addedImages, setAddedImages] = useState([]);
+  const [removedimages, setRemovedImages] = useState([]);
+
+  useEffect(() => {
+    console.log(imagesFromServer)
+    if (imagesFromServer[0]) { images[0] = imagesFromServer[0]; setImage1(imagesFromServer[0]); }
+    if (imagesFromServer[1]) { images[1] = imagesFromServer[1]; setImage2(imagesFromServer[1]); }
+    if (imagesFromServer[2]) { images[2] = imagesFromServer[2]; setImage3(imagesFromServer[2]); }
+    if (imagesFromServer[3]) { images[3] = imagesFromServer[3]; setImage4(imagesFromServer[3]); }
+  }, [])
 
   let scrollX = new Animated.Value(0);
 
@@ -27,6 +37,7 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
       aspect: [4, 3],
       //base64: true,
     });
+    console.log(result);
     setVisible(false);
     if (!result.canceled) {
       const manipulateResult = await manipulateAsync(
@@ -35,10 +46,10 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
         { compress: 0.5, base64: true }, // from 0 to 1 "1 for best quality"
 
       );
-      if (number == 1) { setImage1(manipulateResult); }
-      if (number == 2) { setImage2(manipulateResult); }
-      if (number == 3) { setImage3(manipulateResult); }
-      if (number == 4) { setImage4(manipulateResult); }
+      if (number == 1) { setImage1(manipulateResult.uri); }
+      if (number == 2) { setImage2(manipulateResult.uri); }
+      if (number == 3) { setImage3(manipulateResult.uri); }
+      if (number == 4) { setImage4(manipulateResult.uri); }
 
       images[number - 1] = manipulateResult.base64;
       imagesUri[number - 1] = manipulateResult.uri;
@@ -64,10 +75,10 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
         [{ resize: { width: 1080 } }],
         { compress: 0.5, base64: true } // from 0 to 1 "1 for best quality"
       );
-      if (number == 1) { setImage1(manipulateResult) }
-      if (number == 2) { setImage2(manipulateResult) }
-      if (number == 3) { setImage3(manipulateResult) }
-      if (number == 4) { setImage4(manipulateResult) }
+      if (number == 1) { setImage1(manipulateResult.uri) }
+      if (number == 2) { setImage2(manipulateResult.uri) }
+      if (number == 3) { setImage3(manipulateResult.uri) }
+      if (number == 4) { setImage4(manipulateResult.uri) }
 
       images[number - 1] = manipulateResult.base64
       onImageSelected(images);
@@ -84,7 +95,7 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
     if (number == 3) { setImage3(null) }
     if (number == 4) { setImage4(null) }
 
-    images[number - 1] = ''
+    images[number - 1] = '';
     onImageSelected(images);
     imagesUri[number - 1] = '';
     onImagesUri(imagesUri);
@@ -111,10 +122,10 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
             { useNativeDriver: true })}
         >
-          {image1 != null && <Image source={{ uri: image1.uri }} style={styles.imageSelectedPreview} />}
-          {image2 != null && <Image source={{ uri: image2.uri }} style={styles.imageSelectedPreview} />}
-          {image3 != null && <Image source={{ uri: image3.uri }} style={styles.imageSelectedPreview} />}
-          {image4 != null && <Image source={{ uri: image4.uri }} style={styles.imageSelectedPreview} />}
+          {image1 != null && <Image source={{ uri: image1 }} style={styles.imageSelectedPreview} />}
+          {image2 != null && <Image source={{ uri: image2 }} style={styles.imageSelectedPreview} />}
+          {image3 != null && <Image source={{ uri: image3 }} style={styles.imageSelectedPreview} />}
+          {image4 != null && <Image source={{ uri: image4 }} style={styles.imageSelectedPreview} />}
         </Animated.ScrollView>
         <View style={{
           left: 0,
@@ -141,7 +152,7 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
               <Text style={styles.addText}>+</Text>
             </TouchableOpacity>
           }
-          {image1 != null && <Image source={{ uri: image1.uri }} style={styles.imageSelected} />}
+          {image1 != null && <Image source={{ uri: image1 }} style={styles.imageSelected} />}
           {image1 != null &&
             <TouchableOpacity onPress={() => removeImage(1)} style={styles.removeButton}>
               <Text style={styles.removeText}>X</Text>
@@ -155,7 +166,7 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
               <Text style={styles.addText}>+</Text>
             </TouchableOpacity>
           }
-          {image2 != null && <Image source={{ uri: image2.uri }} style={styles.imageSelected} />}
+          {image2 != null && <Image source={{ uri: image2 }} style={styles.imageSelected} />}
           {image2 != null &&
             <TouchableOpacity onPress={() => removeImage(2)} style={styles.removeButton}>
               <Text style={styles.removeText}>X</Text>
@@ -169,7 +180,7 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
               <Text style={styles.addText}>+</Text>
             </TouchableOpacity>
           }
-          {image3 != null && <Image source={{ uri: image3.uri }} style={styles.imageSelected} />}
+          {image3 != null && <Image source={{ uri: image3 }} style={styles.imageSelected} />}
           {image3 != null &&
             <TouchableOpacity onPress={() => removeImage(3)} style={styles.removeButton}>
               <Text style={styles.removeText}>X</Text>
@@ -183,7 +194,7 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
               <Text style={styles.addText}>+</Text>
             </TouchableOpacity>
           }
-          {image4 != null && <Image source={{ uri: image4.uri }} style={styles.imageSelected} />}
+          {image4 != null && <Image source={{ uri: image4 }} style={styles.imageSelected} />}
           {image4 != null &&
             <TouchableOpacity onPress={() => removeImage(4)} style={styles.removeButton}>
               <Text style={styles.removeText}>X</Text>

@@ -23,7 +23,7 @@ export const api = {
   AddPet: 'get-add-pet',
   postPet: 'add-pet',
   EditPet: 'edit-pet/',
-  UPDATEPET: 'update-pet/',
+  updatePet: 'update-pet/',
   deletePet: 'delete-pet/',
   //search
   getRace: 'race',

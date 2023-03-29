@@ -147,10 +147,10 @@ export const ShowPetScreen = ({ route }) => {
                 {/**Gender */}
                 <View style={{
                   paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10,
-                  backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id]
+                  backgroundColor: GlobalVariable.GenderBackgroundColor[pet.gender_id - 1]
                 }}>
-                  <Text style={{ fontSize: 12, fontWeight: "400", color: GlobalVariable.GenderTextColor[pet.gender_id] }}>
-                    {GlobalVariable.GenderText[pet.gender_id]}
+                  <Text style={{ fontSize: 12, fontWeight: "400", color: GlobalVariable.GenderTextColor[pet.gender_id - 1] }}>
+                    {GlobalVariable.GenderText[pet.gender_id - 1]}
                   </Text>
                 </View>
                 {/**Weight */}
