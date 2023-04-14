@@ -4,7 +4,7 @@ export const GlobalVariable = {
   isLoggedIn: false,
   username: '',
   email: '',
-  authToken: '3|fpExjGDJqr0RAbkiTqAotd03AuZNS4CTGS7eOvwN',
+  authToken: '5|m9OsH83kWJFgEwDgFKhfQiNitVLY5QSq8neYdUGa',
 
   GenderList: [
     { id: 1, text: 'Male', fillColor: colors.maleText, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },

@@ -1,37 +1,38 @@
 export const api = {
+  //Server: 'http://20.115.82.62:8000/api/v1/',
   Server: 'http://192.168.1.107:8000/api/v1/',
   //Auth
   Login: 'login',
   Register: 'register',
   Logout: 'logout',
   //Actions
-  Like: 'like',
-  unLike: 'unlike',
-  SavePet: 'save/',
-  unSavePet: 'unsave/',
-  Comment: 'comment',
-  unComment: 'uncomment',
-  ArchivePet: 'archive/',
-  unArchivePet: 'unarchive/',
-  deletePet: 'deletepet/',
+  SavePet: 'auth/actions/save/',
+  unSavePet: 'auth/actions/unsave/',
+  ArchivePet: 'auth/actions/archive/',
+  unArchivePet: 'auth/actions/unarchive/',
+  deletePet: 'auth/actions/deletepet/',
   //profile
-  getMyPets: 'my-pets',
-  getSavedPets: 'saved-list',
-  ShowMyProfileData: 'showMyProfile',
-  getProfileForEdit: 'profile-edit-get',
-  updateMyProfile: 'profile-edit-update',
+  getMyPets: 'auth/profile/my-pets',
+  getSavedPets: 'auth/profile/saved-list',
+  ShowMyProfileData: 'auth/profile/show-my-profile',
+  getProfileForEdit: 'auth/profile/edit-profile',
+  updateMyProfile: 'auth/profile/edit-profile',
+  //pet auth add edit
+  AddPet: 'auth/pet/add-pet',
+  postPet: 'auth/pet/add-pet',
+  EditPet: 'auth/pet/edit-pet/',
+  updatePet: 'auth/pet/edit-pet/',
+  //pet auth
+  getPetAuth: 'auth/pets/id/',
+  getLatestPetsAuth: 'auth/pets/latest',
+
   //pet
-  getPet: 'pet/',
-  getPetAuth: 'auth/pet/',
-  AddPet: 'get-add-pet',
-  postPet: 'add-pet',
-  EditPet: 'edit-pet/',
-  updatePet: 'update-pet/',
+  getPet: 'pets/id/',
+  getRace: 'pets/race/',
+  getLatestPets: 'pets/latest',
+  getLatestPetsByFilter: 'pets/latest/race=',
+
   //search
-  getRace: 'race',
-  getLatestPets: 'pets-latest',
-  getLatestPetsByFilter: 'pets-latest/filter=',
-  Search: 'search?&keyword=',
-  getLatestPetsAuth: 'auth/pets-latest'
+  Search: 'search/keyword=',
 }
 
