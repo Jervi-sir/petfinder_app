@@ -1,8 +1,10 @@
 import { GlobalVariable } from '@constants/GlobalVariable';
 import { routes } from '@constants/routes';
 import { getAuthToken } from '@functions/cookies';
+import { SCREEN_HEIGHT } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { AuthScreen } from '@screens/Auth/AuthScreen';
 import { LoginScreen } from '@screens/Auth/LoginScreen';
 import { RegisterScreen } from '@screens/Auth/RegisterScreen';
 import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
@@ -22,7 +24,6 @@ export default function M5Navigation() {
   return (
     <>
       <Stack.Navigator
-        initialRouteName={GlobalVariable.authToken != '' ? routes.SHOWMYPROFILE : routes.LOGIN}
         screenOptions={() => ({
           headerShown: false,
           headerLeft: null,
@@ -33,8 +34,14 @@ export default function M5Navigation() {
         <Stack.Screen name={routes.SHOWPET} component={ShowPetScreen} />
         <Stack.Screen name={routes.EDITPET} component={EditPetScreen} />
         <Stack.Screen name={routes.PREVIEWPET} component={PreviewPet} />
-        <Stack.Screen name={routes.LOGIN} component={LoginScreen} />
-        <Stack.Screen name={routes.REGISTER} component={RegisterScreen} />
+        <Stack.Screen name={routes.AUTH} component={AuthScreen} options={{
+          cardStyle: {
+            backgroundColor: 'transparent',
+            height: '70%'
+          },
+          presentation: 'modal',
+          gestureEnabled: false,
+        }}/>
 
       </Stack.Navigator>
     </>

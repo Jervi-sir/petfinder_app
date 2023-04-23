@@ -1,21 +1,23 @@
-import { cookies } from '@constants/cookies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { removeToken, setToken } from './authToken';
 
 //getAuthToken().then(e => console.log(e))
 export const getAuthToken = async () => {
-  const token = await AsyncStorage.getItem(cookies.AUTH);
+  const token = await AsyncStorage.getItem('authToken');
   if(token) return token
   else return null
 };
 
 //saveAuthToken('bruhVerj');
 export const saveAuthToken = async (value) => {
-  await AsyncStorage.setItem(cookies.AUTH, value);
+  await AsyncStorage.setItem('authToken', value);
+  setToken(value);
   return true;
 };
 
 export const removeAuthToken = async () => {
-  await AsyncStorage.removeItem(cookies.AUTH);
+  await AsyncStorage.removeItem('authToken');
+  removeToken();
   return true;
 };
 

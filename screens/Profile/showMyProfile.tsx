@@ -1,19 +1,16 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, FlatList, RefreshControl } from "react-native"
+import { View, Text, Image, TouchableOpacity, FlatList, RefreshControl } from "react-native"
 import { PetCard } from "./petCard"
 
 import { colors } from "@constants/colors";
-import { icons } from "@constants/icons";
-import { StatusBar } from "@components/StatusBar";
-import { HeaderSearch } from "@components/HeaderSearch";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { routes } from "@constants/routes";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { api } from '@constants/api';
 import { GlobalVariable } from "@constants/GlobalVariable";
-import { FlashList } from "@shopify/flash-list";
 import { CardHorizentalSkeleton } from "@components/Skeletons/CardHorizentalSkeleton";
 import { ProfileCardSkeleton } from "@components/Skeletons/ProfileCardSkeleton";
+import { getToken } from "@functions/authToken";
 
 export const ShowMyProfile = () => {
   const navigation = useNavigation();
@@ -25,11 +22,24 @@ export const ShowMyProfile = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if(getToken() == null) {
+      navigation.navigate(routes.AUTH)
+    } else {
+      fetchData();
+    }
+  }, [getToken()]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if(getToken() == null) {
+        navigation.navigate(routes.AUTH)
+      } 
+      fetchData();
+    }, [getToken()])
+  );
 
   const fetchData = () => {
-    axios.get(api.Server + api.ShowMyProfileData, { headers: { Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    axios.get(api.Server + api.ShowMyProfileData, { headers: { Authorization: 'Bearer ' + getToken() } })
       .then(response => {
         setIsLoading(false);
         console.log(response.data.user)

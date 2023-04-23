@@ -18,5 +18,6 @@ export const icons = {
   PHONE: require('@assets/icons/phone.png'),
   CALL: require('@assets/icons/call.png'),
   CROSS: require('@assets/icons/cross.png'),
+  HAMBURGER: require('@assets/icons/hamburger.png'),
 
 }

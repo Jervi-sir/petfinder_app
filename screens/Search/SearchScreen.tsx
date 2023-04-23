@@ -3,13 +3,10 @@ import DashedLine from 'react-native-dashed-line';
 import { FilterSearch } from './FilterSearch';
 import { Separator } from '@components/Separator';
 import { colors } from '@constants/colors';
-import { icons } from '@constants/icons';
 import { CardPet } from '@components/CardPet';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { api } from '@constants/api';
-import SkeletonLoading from '@components/Skeletons/SkeletonLoading';
-import { TestSkeleton } from '@components/Skeletons/TestSkeleton';
 import { CardVerticalSkeleton } from '@components/Skeletons/CardVerticalSkeleton';
 import { GlobalVariable } from '@constants/GlobalVariable';
 

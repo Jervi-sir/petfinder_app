@@ -1,3 +1,4 @@
+import { HeaderSearch } from '@components/HeaderSearch';
 import { routes } from '@constants/routes';
 import { getAuthToken } from '@functions/cookies';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -17,6 +18,7 @@ export default function M2Navigation() {
 
   return (
     <>
+      <HeaderSearch />
       <Stack.Navigator 
         screenOptions={() => ({
           headerShown: false,

@@ -33,3 +33,29 @@ export const makePhoneCall = (phoneNumber) => {
   //console.log(`tel:${phoneNumber}`);
   Linking.openURL(`tel:${phoneNumber}`);
 }
+
+export const displayAge = (date) => {
+  let dob;
+  let age;
+
+  const dateArray = date.split('/');
+  const year = dateArray[0];
+  const month = dateArray[1];
+  const day = dateArray[2];
+
+  const selectedDate = moment(`${year}-${month + 1}-${day}`, 'YYYY-MM-DD');
+  dob = (selectedDate.format('DD-MM-YYYY'));
+  const ageInYears = moment().diff(selectedDate, 'years');
+  selectedDate.add(ageInYears, 'years');
+  const ageInMonths = moment().diff(selectedDate, 'months');
+  selectedDate.add(ageInMonths, 'months');
+  const ageInDays = moment().diff(selectedDate, 'days');
+
+  age = (`${ageInYears} years, ${ageInMonths} months, ${ageInDays} days`);
+
+  const stringYears = ageInYears == 0 ? '' : (ageInYears + ' y, ');
+  const stringMonths = ageInMonths == 0 ? '' : (ageInMonths + ' m, ');
+  const stringDays = ageInDays == 0 ? '' : (ageInDays + ' d');
+
+  return stringYears + stringMonths + (ageInYears > 0 ? '' : stringDays);
+};

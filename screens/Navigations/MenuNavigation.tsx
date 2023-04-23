@@ -16,7 +16,6 @@ const Tab = createBottomTabNavigator();
 export default function MenuNavigation() {
   return (
     <>
-      <HeaderSearch />
       <Tab.Navigator initialRouteName={routes.m3}
         screenOptions={{
           tabBarStyle: styles.menu2,
@@ -42,6 +41,7 @@ const styles = StyleSheet.create({
     shadowColor: colors.menu,
   },
   menu2: {
+    zIndex: 99,
     backgroundColor: colors.menu,
     shadowOffset: {
       width: 0,

@@ -4,12 +4,12 @@ import { TouchableOpacity } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
 import { Link } from '@react-navigation/native';
 
-import { StatusBar } from "@components/StatusBar";
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import { api } from "@constants/api";
 import { routes } from "@constants/routes";
 import { getAuthToken, saveAuthToken } from "@functions/cookies";
+import { SCREEN_HEIGHT } from "@gorhom/bottom-sheet";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -35,12 +35,8 @@ export const LoginScreen = ({ navigation }) => {
   }
 
   return(
-    <View style={{backgroundColor: colors.background, flex: 1}}>
+    <View style={{backgroundColor: colors.background, position: 'absolute', left: 0, right: 0, bottom: 0, top: SCREEN_HEIGHT * 0.2, borderTopLeftRadius: 20, borderTopRightRadius: 20}}>
       <ScrollView >
-          <View style={{position: 'absolute',top: 50, flexDirection: 'row', justifyContent:'center', width: '100%'}}>
-            <Image source={icons.LOGO} style={{width: 70, height: 70}} />
-          </View>
-
           <View style={{
             justifyContent: 'center',
             alignItems: 'center',

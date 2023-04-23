@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
-import { calculateAge } from "@functions/helpers";
+import { displayAge } from "@functions/helpers";
 import { useNavigation } from '@react-navigation/native';
 import { routes } from '@constants/routes';
 import { GlobalVariable } from '@constants/GlobalVariable';
@@ -9,7 +9,7 @@ import { GlobalVariable } from '@constants/GlobalVariable';
 export const PetCard = ({ pet }) => {
   const navigation = useNavigation();
   const gender = ['male', 'female', 'unknown'];
-  const offerType = ['Adoption', 'Sale', 'rent'];
+  const offerType = ['Adoption', 'Sale', 'rent', 'accouplement'];
 
   return (
     <TouchableOpacity
@@ -33,8 +33,8 @@ export const PetCard = ({ pet }) => {
           </View>
           <View style={{ flex: 1, paddingLeft: 20, justifyContent: 'space-around' }}>
             <Text style={{ fontSize: 20, fontWeight: '500', color: colors.menu }}>{pet.name ? pet.name : 'unknown'}</Text>
-            <Text style={{ fontSize: 14, fontWeight: '400', color: colors.lightGrey }}>{pet.race_name ? pet.race_name : 'unknown'}</Text>
-            <Text style={{ fontSize: 14, fontWeight: '400', color: colors.lightGrey }}>{pet.description ? pet.description : 'unknown'}</Text>
+            <Text style={{ fontSize: 12, fontWeight: '500', color: colors.menu }}>{displayAge(pet.birthday)}</Text>
+            <Text style={{ fontSize: 14, fontWeight: '400', color: colors.lightGrey }}>{pet.sub_race ? pet.sub_race : 'unknown'}</Text>
             <Text style={{ fontSize: 13, fontWeight: '500', color: colors.menu }}>{offerType[pet.offer_type_id - 1]}</Text>
           </View>
           <View >
@@ -43,7 +43,7 @@ export const PetCard = ({ pet }) => {
             </View>
             {pet.birthday ? (
               <View style={{ backgroundColor: colors.lightWhite, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3 }}>
-                <Text style={{ color: colors.menu, textAlign: 'center', fontSize: 13 }}>{calculateAge(pet.birthday)}</Text>
+                <Text style={{ color: colors.menu, textAlign: 'center', fontSize: 13 }}>{pet.race_name}</Text>
               </View>
             ) : (<></>)}
           </View>

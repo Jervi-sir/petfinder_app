@@ -1,11 +1,12 @@
 import { TextInput } from 'react-native-paper';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Animated, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
 import { AddImages } from './AddImages';
 import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { colors } from '@constants/colors';
 import { routes } from '@constants/routes';
@@ -25,6 +26,7 @@ import loading2 from '@assets/animations/loading2.json';
 import loading3 from '@assets/animations/loading3.json';
 import loading4 from '@assets/animations/loading4.json';
 import loading5 from '@assets/animations/loading5.json';
+import { getToken } from '@functions/authToken';
 
 export const AddScreen = () => {
   const animationRef = useRef(null);
@@ -61,14 +63,28 @@ export const AddScreen = () => {
   const [age, setAge] = useState('');
 
   useEffect(() => {
-    axios.get(api.Server + api.AddPet, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    if(getToken() == null) {
+      navigation.navigate(routes.AUTH)
+    } else {
+      navigation.navigate(routes.ADDPET)
+      axios.get(api.Server + api.AddPet, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
       .then(response => {
         const data = response.data;
         setPhoneNumber(data.phone_number)
         setRaceList(data.races)
         setWilayaList(data.wilaya)
       })
-  }, []);
+    }
+  }, [getToken()]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if(getToken() == null) {
+        navigation.navigate(routes.AUTH)
+      }
+    }, [getToken()])
+  );
+  
 
   const handleRefresh = () => {
     setImagesUri([]);

@@ -1,11 +1,11 @@
+import { createContext } from "react";
 import { colors } from "./colors";
 
 export const GlobalVariable = {
   isLoggedIn: false,
   username: '',
   email: '',
-  authToken: '5|m9OsH83kWJFgEwDgFKhfQiNitVLY5QSq8neYdUGa',
-
+  phone_number: '',
   GenderList: [
     { id: 1, text: 'Male', fillColor: colors.maleText, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
     { id: 2, text: 'Female', fillColor: colors.femaleText, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
@@ -20,7 +20,8 @@ export const GlobalVariable = {
     { id: 1, text: 'Adoption', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
     { id: 2, text: 'Sale', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
     { id: 3, text: 'Rent', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
+    { id: 4, text: 'Coupling', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
   ],
-  TypeOfferText: ['adoption', 'sale', 'rent'],
+  TypeOfferText: ['adoption', 'sale', 'rent', 'coupling'],
 
 };
