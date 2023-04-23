@@ -5,13 +5,14 @@ import MenuNavigation from './MenuNavigation';
 import { useEffect } from 'react';
 import { getAuthToken } from '@functions/cookies';
 import { GlobalVariable } from '@constants/GlobalVariable';
+import { setToken } from '@functions/authToken';
 
 const Stack = createStackNavigator();
 
 export default function AppNavigation() {
   
   useEffect(() => {
-    //getAuthToken().then(e => { GlobalVariable.authToken = e;}).catch(e => console.log(e));
+    getAuthToken().then(e => { setToken(e);}).catch(e => console.log(e));
   }, []);
 
   return(
