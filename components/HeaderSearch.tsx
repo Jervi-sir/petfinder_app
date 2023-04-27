@@ -1,8 +1,10 @@
-import {View, Text, Image, ScrollView, TextInput} from 'react-native'
+import {View, Text, Image, ScrollView, TextInput, TouchableOpacity} from 'react-native'
 import DashedLine from 'react-native-dashed-line';
 import { colors } from '@constants/colors';
+import { useState } from 'react';
 
-export const HeaderSearch = () => {
+export const HeaderSearch = ({ onPress }) => {
+  const [keywords, setKeywords] = useState('');
   return (
     <>
       <View style={{  flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 7}}>
@@ -12,10 +14,13 @@ export const HeaderSearch = () => {
             <TextInput
               style={{ height: 40, borderColor: 'gray',flex: 1 ,paddingLeft: 5 }}
               placeholder="Insert your text!"
-              onChangeText={text => {
+              onChangeText={(text) => {
+                setKeywords(text);
               }}
             />
-            <Image style={{width: 40, height: 40}} source={require('@assets/icons/search.png')} />
+            <TouchableOpacity onPress={() => onPress(keywords)}>
+              <Image style={{width: 40, height: 40}} source={require('@assets/icons/search.png')} />
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </View>

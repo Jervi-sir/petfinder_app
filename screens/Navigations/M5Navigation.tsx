@@ -16,6 +16,7 @@ import { View } from 'react-native';
 import DashedLine from 'react-native-dashed-line';
 import { useNavigationState } from '@react-navigation/native';
 import { useDrawerStatus } from '@react-navigation/drawer';
+import { setToken } from '@functions/authToken';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

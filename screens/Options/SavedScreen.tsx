@@ -2,15 +2,14 @@ import { CardPet } from "@components/CardPet"
 import { CardVerticalSkeleton } from "@components/Skeletons/CardVerticalSkeleton"
 import { api } from "@constants/api"
 import { colors } from "@constants/colors"
-import { icons } from "@constants/icons"
 import { routes } from "@constants/routes"
 import { getToken } from "@functions/authToken"
 import axios from "axios"
 import { useEffect, useRef, useState } from "react"
-import { View, Text, Image, FlatList, Animated } from "react-native"
+import { View, FlatList, Animated } from "react-native"
 import { FilterSearch } from "./FilterSearch"
 
-export const OtherScreen = () => {
+export const SavedScreen = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const flatListRef = useRef(null);
@@ -38,7 +37,7 @@ export const OtherScreen = () => {
   }, []);
   return (
     <View style={{minHeight: '100%', backgroundColor: colors.background}}>
-      <FilterSearch onPressToTop={scrollToTop} title={'Other'} />
+      <FilterSearch onPressToTop={scrollToTop} title={'Liked Pets'} />
       <View style={{}}>
         {/* card */}
         {isLoading ? (
@@ -65,9 +64,10 @@ export const OtherScreen = () => {
               //ItemSeparatorComponent={() => <View style={{height: 20}} />}
               columnWrapperStyle={{ justifyContent: 'space-between', paddingTop: 10, }}
               style={{ paddingHorizontal: 15, }}
-              onScroll={Animated.event([
+              onScroll={
+                Animated.event([
                 //{ nativeEvent: { contentOffset: { y: scrollOffsetY }}}              
-              ])
+                ])
               }
             />
           )}

@@ -4,6 +4,7 @@ export const icons = {
   FAVORITE: require('@assets/icons/menu/fav.png'),
   ADDPET: require('@assets/icons/menu/add.png'),
   PROFILE: require('@assets/icons/menu/profile.png'),
+  SEARCHMENU: require('@assets/icons/menu/search.png'),
   LOGO: require('@assets/icons/logo.png'),
   CATLOGIN: require('@assets/icons/catLogin.png'),
   LOCATION: require('@assets/icons/location.png'),

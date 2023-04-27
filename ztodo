@@ -43,7 +43,7 @@
 [x] require input in client side
 [x] error handler
 [x] restructure the add screen
-[] home
+[x] home
 [x] view pet
 
 --Server
@@ -57,10 +57,12 @@
 [x] archivePet
 [x] showProfile
 [x] editProfile
-[] search
+[x] search
 [] filter
 [x] save
 [] conversation
+
+[] M3 pet name generator
 
 
 --All screens--

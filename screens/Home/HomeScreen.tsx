@@ -1,12 +1,9 @@
-import {View, Text, Image, TextInput, FlatList, ScrollView, Animated, StyleSheet} from 'react-native'
-import { MasonryFlashList } from "@shopify/flash-list";
-import { useState,useRef, lazy } from 'react';
+import {View, Text, Image, TextInput, ScrollView, Animated, StyleSheet} from 'react-native'
+import { useState,useRef } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import { StatusBar } from "@components/StatusBar";
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
-import { CardPet } from '@components/CardPet';
 import { CatScreen } from './CatScreen';
 import { HorseScreen } from './HorseScreen';
 import { DogScreen } from './DogScreen';
@@ -18,36 +15,17 @@ import { BirdScreen } from './BirdScreen';
 const Tab = createMaterialTopTabNavigator();
 
 export const HomeScreen = () => {
-  const [userDidInput, setUserDidInput] = useState(false);
-  const data = [1, 2, 3, 4, 5, 6, 7];
-
-  let currentInputStyle = !userDidInput ? styles.inputStyle1 : styles.inputStyle2;
-  
-  const scrollOffsetY = useRef(new Animated.Value(0)).current;
-  const [h_max_height, H_MAX_HEIGHT] = useState(150);
-  const H_MIN_HEIGHT = 0;
-  const [h_scroll_distance, H_SCROLL_DISTANCE] = useState(h_max_height - H_MIN_HEIGHT);
-  
-  const headerScrollHeight = scrollOffsetY.interpolate({
-    inputRange: [0, h_scroll_distance],
-    outputRange: [h_max_height, H_MIN_HEIGHT],
-    extrapolate: "clamp"
-  });
 
   return (
     <View style={{backgroundColor: colors.background}}>
-      <Animated.View style={[currentInputStyle,{ height: !userDidInput ? headerScrollHeight : h_max_height }]}>
+      <Animated.View style={[styles.inputStyle2]}>
         <Image style={{width: 69, height: 69}} source={icons.LOGO} />
-        {!userDidInput ? (<Text style={styles.titleStyle1}>Find your Favorite Pet</Text>) : ''}
         <ScrollView keyboardShouldPersistTaps='handled'>
           <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
             <TextInput
               style={{ height: 40, borderColor: 'gray',flex: 1 ,paddingLeft: 5 }}
-              placeholder="Insert your text!"
-              onChangeText={text => {
-                setUserDidInput(true);
-                H_MAX_HEIGHT(69);
-              }}
+              placeholder="Find your Favorite Pet"
+              onChangeText={text => {}}
             />
             <Image style={{width: 40, height: 40}} source={icons.SEARCH} />
           </View>
@@ -57,17 +35,20 @@ export const HomeScreen = () => {
 
       {/* pet filter */}
       <View style={{height: 800}}>
-        <Tab.Navigator screenOptions={{
+        <Tab.Navigator 
+        
+        screenOptions={{
+          lazy: true,
           tabBarScrollEnabled: true,
           tabBarIndicatorStyle:{ backgroundColor: colors.menu, height: 0, } ,
           tabBarItemStyle: {width: 71},
           tabBarContentContainerStyle:{alignItems: 'flex-start' , alignContent: 'flex-start' },
-          tabBarStyle: {backgroundColor:'transparent', height: 71, alignItems: 'flex-start', },
+          tabBarStyle: {backgroundColor:'transparent', height: 71, alignItems: 'flex-start' },
         }}
         >
           <Tab.Screen 
             name="All" 
-            component={() => <AllScreen data={data} />} 
+            component={AllScreen} 
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -78,7 +59,7 @@ export const HomeScreen = () => {
           />
           <Tab.Screen 
             name="Cat" 
-            component={() => <CatScreen data={data} />} 
+            component={CatScreen} 
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -90,7 +71,7 @@ export const HomeScreen = () => {
           />
           <Tab.Screen 
             name="Dog" 
-            component={() => <DogScreen data={data} />} 
+            component={DogScreen} 
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -102,7 +83,7 @@ export const HomeScreen = () => {
           />
           <Tab.Screen 
             name="Bird" 
-            component={() => <BirdScreen data={data} />} 
+            component={BirdScreen} 
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -114,7 +95,7 @@ export const HomeScreen = () => {
           />
           <Tab.Screen 
             name="Horse" 
-            component={() => <HorseScreen data={data} />} 
+            component={HorseScreen} 
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -126,7 +107,7 @@ export const HomeScreen = () => {
           />
           <Tab.Screen 
             name="Other" 
-            component={() => <OtherScreen data={data} />} 
+            component={OtherScreen} 
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -173,3 +154,40 @@ const styles = StyleSheet.create({
   },
 });
 
+
+const HeaderExample = () => {
+  const [userDidInput, setUserDidInput] = useState(false);
+
+  let currentInputStyle = !userDidInput ? styles.inputStyle1 : styles.inputStyle2;
+  
+  const scrollOffsetY = useRef(new Animated.Value(0)).current;
+  const [h_max_height, H_MAX_HEIGHT] = useState(150);
+  const H_MIN_HEIGHT = 0;
+  const [h_scroll_distance, H_SCROLL_DISTANCE] = useState(h_max_height - H_MIN_HEIGHT);
+  
+  const headerScrollHeight = scrollOffsetY.interpolate({
+    inputRange: [0, h_scroll_distance],
+    outputRange: [h_max_height, H_MIN_HEIGHT],
+    extrapolate: "clamp"
+  });
+  return (
+    <Animated.View style={[currentInputStyle,{ height: !userDidInput ? headerScrollHeight : h_max_height }]}>
+        <Image style={{width: 69, height: 69}} source={icons.LOGO} />
+        {!userDidInput ? (<Text style={styles.titleStyle1}>Find your Favorite Pet</Text>) : ''}
+        <ScrollView keyboardShouldPersistTaps='handled'>
+          <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
+            <TextInput
+              style={{ height: 40, borderColor: 'gray',flex: 1 ,paddingLeft: 5 }}
+              placeholder="Insert your text!"
+              onChangeText={text => {
+                setUserDidInput(true);
+                H_MAX_HEIGHT(69);
+              }}
+            />
+            <Image style={{width: 40, height: 40}} source={icons.SEARCH} />
+          </View>
+        </ScrollView>
+        {/* Dotted Line */}
+      </Animated.View>
+  )
+}

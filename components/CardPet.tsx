@@ -9,8 +9,9 @@ import { colors } from "@constants/colors";
 import axios from "axios";
 import { api } from "@constants/api";
 import { useEffect, useState } from "react";
+import { getToken } from "@functions/authToken";
 
-export const CardPet = ({ pet }) => {
+export const CardPet = ({ pet, viewPetRoute }) => {
   const navigation = useNavigation();
   const Dimension = Dimensions.get('window').width - 40;
   const CardWidth = Dimension / 2;
@@ -21,13 +22,13 @@ export const CardPet = ({ pet }) => {
   }, []);
 
   const showPet = (itemId) => {
-    navigation.navigate(routes.VIEWPET, { petId: itemId, mine: false });
+    navigation.navigate(viewPetRoute, { petId: itemId, mine: false });
   };
 
   const LikeThisPet = () => {
     if (isLiked != null) {
       setIsLiked(true);
-      axios.post(api.Server + api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+      axios.post(api.Server + api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
         .then(response => {
 
           console.log(response.data);
@@ -44,7 +45,7 @@ export const CardPet = ({ pet }) => {
   const unLikeThisPet = () => {
     if (isLiked != null) {
       setIsLiked(false);
-      axios.post(api.Server + api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+      axios.post(api.Server + api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
         .then(response => {
           console.log(response.data);
         })

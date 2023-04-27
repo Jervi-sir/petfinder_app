@@ -16,6 +16,7 @@ export const routes = {
   SEARCH: 'search',
   SHOWPROFILE: 'show_profile',
   MESSAGELIST: 'messages_list',
+  MESSAGE: 'message',
   m1: 'm1',
   m2: 'm2',
   m3: 'm3',
@@ -23,5 +24,9 @@ export const routes = {
   m5: 'm5',
   MENU: 'menu',
   AUTH: 'auth',
-
+  OPTIONS: 'options',
+  SAVED: 'saved',
+  SHOPS: 'shops',
+  NAMEGEN: 'name_generator',
+  OPTIONLIST: 'Option List'
 }

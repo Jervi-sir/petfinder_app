@@ -162,9 +162,7 @@ export const AddScreen = () => {
 
       <KeyboardAwareScrollView ref={(ref) => { scrollViewRef = ref }} extraScrollHeight={69} contentContainerStyle={{ paddingBottom: 123 }} >
         <ScrollView >
-          <View style={{ marginLeft: 20, marginTop: 20 }}>
-            <Text style={{ fontSize: 30, fontWeight: "400", color: colors.button, paddingLeft: 10 }}>Add new Pet</Text>
-          </View>
+          
           {/** Card */}
           <View style={{ margin: 20, marginTop: 10, backgroundColor: colors.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50 }}>
             {/** Image Selector */}
