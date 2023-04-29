@@ -20,14 +20,14 @@ export const CatScreen = () => {
 
   useEffect(() => {
     if (getToken) {
-      axios.get(api.Server + api.getLatestPetsAuth, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+      axios.get(api.Server + api.getRaceAuth + 1, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
         .then(response => {
           setIsLoading(false);
           setData(response.data.pets);
           console.log(response.data)
         })
     } else {
-      axios.get(api.Server + api.getLatestPets)
+      axios.get(api.Server + api.getRace + 1)
         .then(response => {
           setIsLoading(false);
           setData(response.data.pets);

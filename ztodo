@@ -1,9 +1,9 @@
-[] add a header with hamburger in M5
-[] make auth protection
+[x] add a header with hamburger in M5
+[x] make auth protection
 
 
 
-[] user register or login
+[x] user register or login
 [x] user will visit add pet screen
 [x] user upload pet
 [x] user got to its profile

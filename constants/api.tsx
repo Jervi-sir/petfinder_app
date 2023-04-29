@@ -25,6 +25,7 @@ export const api = {
   //pet auth
   getPetAuth: 'auth/pets/id/',
   getLatestPetsAuth: 'auth/pets/latest',
+  getRaceAuth: 'auth/pets/race/',
 
   //pet
   getPet: 'pets/id/',

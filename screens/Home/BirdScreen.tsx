@@ -18,16 +18,18 @@ export const BirdScreen = () => {
     flatListRef.current.scrollToOffset({ offset: 0, animated: true });
   };
 
+  
+
   useEffect(() => {
     if (getToken) {
-      axios.get(api.Server + api.getLatestPetsAuth, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+      axios.get(api.Server + api.getRaceAuth + 3, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
         .then(response => {
           setIsLoading(false);
           setData(response.data.pets);
           console.log(response.data)
         })
     } else {
-      axios.get(api.Server + api.getLatestPets)
+      axios.get(api.Server + api.getRace + 3)
         .then(response => {
           setIsLoading(false);
           setData(response.data.pets);
@@ -36,6 +38,7 @@ export const BirdScreen = () => {
     }
 
   }, []);
+  
   return (
     <View style={{minHeight: '100%', backgroundColor: colors.background}}>
       <FilterSearch onPressToTop={scrollToTop} title={'Recent Birds'} />
