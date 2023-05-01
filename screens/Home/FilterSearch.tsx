@@ -4,16 +4,31 @@ import { colors } from '@constants/colors';
 import { FilterDropdown } from './FilterDropdown';
 import { icons } from '@constants/icons';
 
-const data = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
+const wilayaList = [
+  { label: '1- Adrar', value: '1' },
+  { label: '13- Tlemcen', value: '13' },
+  { label: '15- Tizi Ouzou', value: '15' },
+  { label: '16- Alger', value: '16' },
+  { label: '17- Djelfa', value: '17' },
+  { label: '31- Oran', value: '31' },
+  { label: '46- Ain Temouchent', value: '46' },
+  { label: '47- Ghardaia', value: '47' },
 ];
+
+const offerList = [
+  { label: 'Adoption', value: '1' },
+  { label: 'Sales', value: '2' },
+  { label: 'Rent', value: '3' },
+  { label: 'Coupling', value: '4' },
+]
+
+const colorList = [
+  { label: 'Black', value: '1' },
+  { label: 'White', value: '2' },
+  { label: 'Brown', value: '3' },
+  { label: 'Grey', value: '4' },
+  { label: 'Orange', value: '5' }
+]
 
 export const FilterSearch = ({ onPressToTop, title }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -66,9 +81,9 @@ export const FilterSearch = ({ onPressToTop, title }) => {
             <Text style={{ textAlign: 'center', fontSize: 21, fontWeight: '400', color: colors.menu }}>Filter</Text>
           </View>
           <View style={{ paddingHorizontal: 17 }}>
-            <FilterDropdown placeholder={'Wilaya'} data={data} />
-            <FilterDropdown placeholder={'Offer Type'} data={data} />
-            <FilterDropdown placeholder={'Color'} data={data} />
+            <FilterDropdown placeholder={'Wilaya'} data={wilayaList} />
+            <FilterDropdown placeholder={'Offer Type'} data={offerList} />
+            <FilterDropdown placeholder={'Color'} data={colorList} />
           </View>
           <TouchableOpacity onPress={SearchFilter} style={{ backgroundColor: colors.menu, paddingVertical: 10 }}>
             <Text style={{ textAlign: 'center', fontSize: 17, color: colors.white }}>Filter Results</Text>

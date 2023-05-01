@@ -8,14 +8,13 @@ import { EditPetScreen } from '@screens/Pet/Edit/EditPetScreen';
 import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
 import { EditProfile } from '@screens/Profile/EditProfile';
 import { ShowMyProfile } from '@screens/Profile/showMyProfile';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
 import { useState, useEffect } from 'react';
 import { colors } from '@constants/colors';
 import { Image, Text, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import DashedLine from 'react-native-dashed-line';
 import { useNavigationState } from '@react-navigation/native';
-import { useDrawerStatus } from '@react-navigation/drawer';
 import { setToken } from '@functions/authToken';
 
 const Stack = createStackNavigator();
@@ -55,6 +54,8 @@ export default function M5Navigation() {
               maxPointers: 0
             }
         }}
+        drawerContent={(props) => <CustomDrawerContent {...props}/>}
+
         >
         <Drawer.Screen name="My Profile" component={MainScreen} />
         <Drawer.Screen name="Soon" component={SoonScreen} />
@@ -80,6 +81,37 @@ const HeaderHamburger = ({onPress, open}) => {
       <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
     </>
   )
+}
+
+function CustomDrawerContent(props) {
+  const { navigation } = props;
+
+  const handleLogout = () => {
+    console.log(11)
+    //setOpen(false);
+    // Perform your logout logic here
+    navigation.closeDrawer(); // Close the drawer after logging out
+  };
+
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItem
+        label="My Profile"
+        onPress={() => navigation.navigate('My Profile')}
+      />
+      <DrawerItem
+        label="Soon"
+        onPress={() => navigation.navigate('Soon')}
+      />
+      {/* Add other drawer items here if necessary */}
+
+      <View style={{paddingLeft: 18, marginTop: 31}}>
+        <TouchableOpacity onPress={handleLogout}>
+          <Text style={{ fontSize: 15, color: 'red' }}>Logout</Text>
+        </TouchableOpacity>
+      </View>
+    </DrawerContentScrollView>
+  );
 }
 
 const MainScreen = () => {

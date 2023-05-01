@@ -22,6 +22,6 @@ export const GlobalVariable = {
     { id: 3, text: 'Rent', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
     { id: 4, text: 'Coupling', fillColor: colors.menu, style: { flexDirection: 'column' }, textStyle: { textAlign: 'center', textDecorationLine: 'none', marginLeft: -15 } },
   ],
-  TypeOfferText: ['adoption', 'sale', 'rent', 'coupling'],
+  TypeOfferText: ['Adoption', 'Sale', 'Rent', 'Coupling'],
 
 };

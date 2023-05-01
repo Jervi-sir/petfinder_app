@@ -4,7 +4,7 @@ import { icons } from "@constants/icons";
 import { useNavigation } from '@react-navigation/native';
 import { routes } from "@constants/routes";
 import { GlobalVariable } from './../constants/GlobalVariable';
-import { calculateAge } from './../functions/helpers';
+import { displayAge } from './../functions/helpers';
 import { colors } from "@constants/colors";
 import axios from "axios";
 import { api } from "@constants/api";
@@ -94,13 +94,11 @@ export const CardPet = ({ pet, viewPetRoute }) => {
           {/* age and price */}
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             {pet.birthday ? (
-              <Text style={{ fontSize: 12 }}>{calculateAge(pet.birthday)}</Text>
+              <Text style={{ fontSize: 12 }}>{displayAge(pet.birthday)}</Text>
             ) : (<Text></Text>)}
-            {pet.offer_type_id == 0 ? (
-              <Text style={{ color: 'black', fontSize: 13 }}>{GlobalVariable.TypeOfferText[pet.offer_type_id]}</Text>
-            ) : (
-              <Text style={{ color: 'black', fontSize: 13 }}>{pet.price}</Text>
-            )}
+            
+              <Text style={{ color: 'black', fontSize: 13 }}>{GlobalVariable.TypeOfferText[pet.offer_type_id - 1]}</Text>
+            
           </View>
         </View>
       </TouchableWithoutFeedback>
