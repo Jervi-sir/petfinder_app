@@ -1,11 +1,9 @@
-import { HeaderSearch } from '@components/HeaderSearch';
 import { routes } from '@constants/routes';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 import { SearchScreen } from '@screens/Search/SearchScreen';
 import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
-import { useState } from 'react';
 
 export default function M2Navigation() {
   
