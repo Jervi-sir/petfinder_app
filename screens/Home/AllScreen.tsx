@@ -32,7 +32,7 @@ export const AllScreen = () => {
     if (loading || !hasMore) return;
     setLoading(true);
     
-    axios.get(api.Server + (getToken ? api.getLatestPetsAuth : api.getLatestPets) + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+    axios.get(api.Server + (getToken() ? api.getLatestPetsAuth : api.getLatestPets) + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
     .then(response => {
       setData([...data, ...response.data.pets]);
       setFirstLoading(false);

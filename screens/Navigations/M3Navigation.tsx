@@ -17,15 +17,15 @@ export default function M3Navigation() {
     <>
       <HeaderSearch />
       <Stack.Navigator 
-          initialRouteName={ routes.HOME }
+          initialRouteName={ routes.HOME + 'm3' }
           screenOptions={() => ({
             headerShown: false,
             headerLeft: null
           })}
         >
         
-        <Stack.Screen name={ routes.OPTIONS } component={OptionScreen} />
-        <Stack.Screen name={ routes.VIEWPET } component={ShowPetScreen} />
+        <Stack.Screen name={ routes.OPTIONS + 'm3' } component={OptionScreen} />
+        <Stack.Screen name={ routes.VIEWPET + 'm3' } component={ShowPetScreen} />
       </Stack.Navigator>
     </>
   )

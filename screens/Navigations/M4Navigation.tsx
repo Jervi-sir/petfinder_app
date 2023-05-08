@@ -2,8 +2,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { AddScreen } from '@screens/Pet/Add/AddScreen';
 import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
 import { routes } from '@constants/routes';
-import { DrawerActions, useNavigation } from '@react-navigation/native';
-import React from "react";
+import { DrawerActions, useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect } from "react";
 import { View, Text } from "react-native";
 import { colors } from '@constants/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -12,42 +12,78 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Image } from 'react-native';
 import DashedLine from 'react-native-dashed-line';
 import { useNavigationState } from '@react-navigation/native';
+import { getToken } from '@functions/authToken';
 
 const Stack = createStackNavigator();
 const DrawerM4 = createDrawerNavigator();
 
 export default function M4Navigation() {
-  const navigation = useNavigation();
-  const navigationState = useNavigationState((state) => state);
-    const handlePressFromChild = () => {
-    console.log('Current Navigation State:', navigationState);
-  };
   return(
     <>
-    <HeaderHamburger onPress={handlePressFromChild}/>
-    <DrawerM4.Navigator 
-      initialRouteName="Add new Pet" 
-      screenOptions={{
-          headerShown: false,
-          drawerPosition: 'right',
-          drawerStyle: {
-            backgroundColor: colors.background,
-            width: 240,
-          },
-          //drawerActiveBackgroundColor: 'rgba(91, 94, 151, 0.43)'
-          drawerActiveTintColor: colors.menu
-      }}
-      
-      >
-      <DrawerM4.Screen name="Add new Pet" component={MainScreen} />
-      <DrawerM4.Screen name="Soon" component={SoonScreen} />
-    </DrawerM4.Navigator>
-      
+      <Stack.Navigator
+          screenOptions={() => ({
+            headerShown: false,
+            headerLeft: null,
+          })}
+        >
+          <Stack.Screen name='main screen m4' component={MainDrawer} />
+          <Stack.Screen name={routes.AUTH} options={{
+            cardStyle: {
+              backgroundColor: 'transparent',
+              height: '70%'
+            },
+            presentation: 'modal',
+            gestureEnabled: false,
+          }}>
+            {() => <AuthScreen redirectAfterAuth='Add new Pet m4' />}
+          </Stack.Screen>
+      </Stack.Navigator>
     </>
   )
 }
 
-const HeaderHamburger = ({onPress}) => {
+const MainDrawer = () => {
+  const navigation = useNavigation();
+  
+  useEffect(() => {
+    if(getToken() == null) {
+      navigation.navigate(routes.AUTH)
+    }
+  }, [getToken()]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if(getToken() == null) {
+        navigation.navigate(routes.AUTH)
+      } 
+    }, [getToken()])
+  );
+
+  return (
+    <>
+    
+      <DrawerM4.Navigator 
+          initialRouteName="Add new Pet" 
+          screenOptions={{
+              headerShown: false,
+              drawerPosition: 'right',
+              drawerStyle: {
+                backgroundColor: colors.background,
+                width: 240,
+              },
+              //drawerActiveBackgroundColor: 'rgba(91, 94, 151, 0.43)'
+              drawerActiveTintColor: colors.menu
+          }}
+          
+          >
+          <DrawerM4.Screen name="Add new Pet m4" component={MainScreen} />
+          <DrawerM4.Screen name="Soon m4" component={SoonScreen} />
+      </DrawerM4.Navigator>
+    </>
+  )
+}
+
+const HeaderHamburger = () => {
   return (
     <>
       <View style={{  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 7}}>
@@ -61,7 +97,9 @@ const HeaderHamburger = ({onPress}) => {
 
 const MainScreen = () => {
   return (
-    <Stack.Navigator 
+    <>
+      <HeaderHamburger/>
+      <Stack.Navigator 
         initialRouteName={routes.ADDPET}
         screenOptions={{
           headerShown: false,
@@ -71,15 +109,10 @@ const MainScreen = () => {
       >
         <Stack.Screen name={ routes.ADDPET } component={AddScreen} />
         <Stack.Screen name={ routes.PREVIEWPET } component={PreviewPet} />
-        <Stack.Screen name={routes.AUTH} component={AuthScreen} options={{
-          cardStyle: {
-            backgroundColor: 'transparent',
-            height: '70%'
-          },
-          presentation: 'modal',
-          gestureEnabled: false,
-        }}/>
     </Stack.Navigator>
+    </>
+
+   
   )
 }
 

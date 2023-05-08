@@ -26,19 +26,25 @@ export const CardPet = ({ pet, viewPetRoute }) => {
   };
 
   const LikeThisPet = () => {
-    if (isLiked != null) {
-      setIsLiked(true);
-      axios.post(api.Server + api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
-        .then(response => {
+    if(getToken()) {
+      if (isLiked != null) {
+        setIsLiked(true);
+        axios.post(api.Server + api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+          .then(response => {
 
-          console.log(response.data);
-        })
-        .catch(err => {
-          setIsLiked(false);
-          console.log(err)
-        });
+            console.log(response.data);
+          })
+          .catch(err => {
+            setIsLiked(false);
+            console.log(err)
+          });
+      } else {
+        console.log('redicrect to null')
+      }
     } else {
-      console.log('redicrect to null')
+      setIsLiked(false);
+      console.log('you are not logged in')
+      navigation.navigate(routes.AUTH)
     }
   }
 

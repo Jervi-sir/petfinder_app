@@ -2,15 +2,15 @@ import { View, Text, Image, TouchableOpacity, FlatList, RefreshControl } from "r
 import { PetCard } from "./petCard"
 
 import { colors } from "@constants/colors";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { CommonActions, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { routes } from "@constants/routes";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { api } from '@constants/api';
-import { GlobalVariable } from "@constants/GlobalVariable";
 import { CardHorizentalSkeleton } from "@components/Skeletons/CardHorizentalSkeleton";
 import { ProfileCardSkeleton } from "@components/Skeletons/ProfileCardSkeleton";
 import { getToken } from "@functions/authToken";
+import { Button } from "react-native";
 
 export const ShowMyProfile = () => {
   const navigation = useNavigation();
@@ -20,25 +20,22 @@ export const ShowMyProfile = () => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if(getToken() == null) {
-      navigation.navigate(routes.AUTH)
-    } else {
-      fetchData();
-    }
+    fetchData();
   }, [getToken()]);
 
   useFocusEffect(
     useCallback(() => {
       if(getToken() == null) {
-        navigation.navigate(routes.AUTH)
+        fetchData();
       } 
-      fetchData();
     }, [getToken()])
   );
 
   const fetchData = () => {
+    console.log("Fetching data...");
     axios.get(api.Server + api.ShowMyProfileData, { headers: { Authorization: 'Bearer ' + getToken() } })
       .then(response => {
         setIsLoading(false);
@@ -59,6 +56,16 @@ export const ShowMyProfile = () => {
     // Run your refresh function here
     await fetchData();
     setRefreshing(false);
+  };
+  const handleNavigate = () => {
+    console.log(124)
+    
+    navigation.dispatch(
+      CommonActions.navigate({
+        name: routes.SHOWMYPROFILE + 'm5',
+        params: { id: 123 },
+      })
+      )
   };
 
   return (

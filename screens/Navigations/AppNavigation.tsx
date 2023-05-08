@@ -24,7 +24,6 @@ export default function AppNavigation() {
         })}
       >
         <Stack.Screen name={ routes.MENU } component={MenuNavigation} />
-        <Stack.Screen name={ routes.AUTH } component={AuthNavigation} />
       </Stack.Navigator>
     </>
       

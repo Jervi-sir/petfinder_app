@@ -33,7 +33,7 @@ export const RaceScreen = ({ raceId }) => {
     if (loading || !hasMore) return;
     setLoading(true);
     
-    axios.get(api.Server + (getToken ? api.getRaceAuth : api.getRace) + raceId + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+    axios.get(api.Server + (getToken() ? api.getRaceAuth : api.getRace) + raceId + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
     .then(response => {
       setData([...data, ...response.data.pets]);
       setFirstLoading(false);

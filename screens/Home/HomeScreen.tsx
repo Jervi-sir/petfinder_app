@@ -4,14 +4,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
-import { CatScreen } from './CatScreen';
-import { HorseScreen } from './HorseScreen';
-import { DogScreen } from './DogScreen';
-import { OtherScreen } from './OtherScreen';
 import { AllScreen } from './AllScreen';
-import { BirdScreen } from './BirdScreen';
 import { RaceScreen } from './RaceScreen';
-
 
 const Tab = createMaterialTopTabNavigator();
 

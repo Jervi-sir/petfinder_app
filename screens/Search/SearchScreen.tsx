@@ -45,7 +45,7 @@ export const SearchScreen = () => {
   }, []);
 
   function fetchSearch(keywords) {
-    if (getToken) {
+    if (getToken()) {
       axios.get(api.Server + api.getLatestPetsAuth, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
         .then(response => {
           setIsLoading(false);

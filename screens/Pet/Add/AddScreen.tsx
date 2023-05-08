@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
 import { AddImages } from './AddImages';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { colors } from '@constants/colors';
@@ -27,6 +27,7 @@ import loading3 from '@assets/animations/loading3.json';
 import loading4 from '@assets/animations/loading4.json';
 import loading5 from '@assets/animations/loading5.json';
 import { getToken } from '@functions/authToken';
+import { HeaderHamburger } from '@components/HeaderHamburger';
 
 export const AddScreen = () => {
   const animationRef = useRef(null);
@@ -64,7 +65,7 @@ export const AddScreen = () => {
 
   useEffect(() => {
     if(getToken() == null) {
-      navigation.navigate(routes.AUTH)
+      //navigation.navigate(routes.AUTH)
     } else {
       navigation.navigate(routes.ADDPET)
       axios.get(api.Server + api.AddPet, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
@@ -80,7 +81,7 @@ export const AddScreen = () => {
   useFocusEffect(
     useCallback(() => {
       if(getToken() == null) {
-        navigation.navigate(routes.AUTH)
+        //navigation.navigate(routes.AUTH)
       }
     }, [getToken()])
   );
@@ -128,7 +129,6 @@ export const AddScreen = () => {
         console.error(error);
       });
   }
-
 
   return (
     <View>
