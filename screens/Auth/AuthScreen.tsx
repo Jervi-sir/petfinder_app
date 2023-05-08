@@ -42,7 +42,6 @@ export const AuthScreen = ({redirectAfterAuth = null}) => {
 const LoginScreen = ({ navigation, routeName }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   function loginAuth() {
     const data = {email, password};
     fetch( api.Server + api.Login, {
@@ -133,12 +132,20 @@ const LoginScreen = ({ navigation, routeName }) => {
                 I don't have an Account
                 </Text>
               </TouchableOpacity>
-
-              <TouchableOpacity 
-                onPress={() => {navigation.popToTop()}}
-                style={{backgroundColor: colors.maleBackground, paddingHorizontal: 10, paddingVertical:7, borderRadius: 7}}>
-                <Text style={{color: colors.button, fontSize: 18}}>Continue Without Login</Text>
-              </TouchableOpacity>
+              
+              {
+                routeName ? 
+                  <>
+                  </>
+                  :
+                  <>
+                    <TouchableOpacity 
+                      onPress={() => {navigation.popToTop()}}
+                      style={{backgroundColor: colors.maleBackground, paddingHorizontal: 10, paddingVertical:7, borderRadius: 7}}>
+                      <Text style={{color: colors.button, fontSize: 18}}>Continue Without Login</Text>
+                    </TouchableOpacity>
+                  </>
+                }
 
             </View>
           </View>
@@ -256,11 +263,19 @@ const RegisterScreen = ({ navigation, routeName }) => {
                   Already have an account?
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity 
-                onPress={() => {navigation.popToTop()}}
-                style={{backgroundColor: colors.maleBackground, paddingHorizontal: 10, paddingVertical:7, borderRadius: 7}}>
-                <Text style={{color: colors.button, fontSize: 18}}>Continue Without Login</Text>
-              </TouchableOpacity>
+                {
+                  routeName ? 
+                  <>
+                  </>
+                  :
+                  <>
+                    <TouchableOpacity 
+                      onPress={() => {navigation.popToTop()}}
+                      style={{backgroundColor: colors.maleBackground, paddingHorizontal: 10, paddingVertical:7, borderRadius: 7}}>
+                      <Text style={{color: colors.button, fontSize: 18}}>Continue Without Login</Text>
+                    </TouchableOpacity>
+                  </>
+                }
               </View>
             </View>
       </View>

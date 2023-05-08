@@ -14,7 +14,7 @@ export const HomeScreen = () => {
   return (
     <View style={{backgroundColor: colors.background}}>
       <Animated.View style={[styles.inputStyle2]}>
-        <Image style={{width: 69, height: 69}} source={icons.LOGO} />
+        <Image style={{width: 69 - 20, height: 69 - 20}} source={icons.LOGO} />
         <ScrollView keyboardShouldPersistTaps='handled'>
           <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
             <TextInput
