@@ -13,6 +13,7 @@ import { Image } from 'react-native';
 import DashedLine from 'react-native-dashed-line';
 import { useNavigationState } from '@react-navigation/native';
 import { getToken } from '@functions/authToken';
+import { LogoHeader } from '@components/LogoHeader';
 
 const Stack = createStackNavigator();
 const DrawerM4 = createDrawerNavigator();
@@ -87,7 +88,7 @@ const HeaderHamburger = () => {
   return (
     <>
       <View style={{  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 7}}>
-        <Image style={{width: 69 - 20, height: 69 - 20, marginRight: 17}} source={require('@assets/icons/logo.png')} />
+        <LogoHeader />
         <Text style={{ fontSize: 30, fontWeight: "400", color: colors.button, paddingRight: 20 }}>Add new Pet</Text>
       </View>
       <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />

@@ -17,6 +17,7 @@ import DashedLine from 'react-native-dashed-line';
 import { getToken } from '@functions/authToken';
 import { removeAuthToken } from '@functions/cookies';
 import { useNavigationState } from '@react-navigation/native';
+import { LogoHeader } from '@components/LogoHeader';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -118,7 +119,7 @@ const HeaderHamburger = ({onPress, open}) => {
   return (
     <>
       <View style={{  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 7}}>
-        <Image style={{width: 69 - 20, height: 69 - 20, marginRight: 17}} source={require('@assets/icons/logo.png')} />
+        <LogoHeader />
         <TouchableOpacity onPress={onPress}>
           {!open 
           ? 

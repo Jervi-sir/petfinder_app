@@ -6,6 +6,7 @@ import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import { AllScreen } from './AllScreen';
 import { RaceScreen } from './RaceScreen';
+import { LogoHeader } from '@components/LogoHeader';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -14,7 +15,7 @@ export const HomeScreen = () => {
   return (
     <View style={{backgroundColor: colors.background}}>
       <Animated.View style={[styles.inputStyle2]}>
-        <Image style={{width: 69 - 20, height: 69 - 20}} source={icons.LOGO} />
+        <LogoHeader />
         <ScrollView keyboardShouldPersistTaps='handled'>
           <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
             <TextInput

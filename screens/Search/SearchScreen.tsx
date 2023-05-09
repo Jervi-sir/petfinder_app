@@ -12,6 +12,7 @@ import { GlobalVariable } from '@constants/GlobalVariable';
 import { getToken } from '@functions/authToken';
 import { routes } from '@constants/routes';
 import {TouchableOpacity} from 'react-native'
+import { LogoHeader } from '@components/LogoHeader';
 
 export const SearchScreen = () => {
   const [data, setData] = useState([]);
@@ -126,19 +127,19 @@ export const HeaderSearch = ({ onPress }) => {
   return (
     <>
       <View style={{  flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 7}}>
-        <Image style={{width: 69 - 20, height: 69 - 20, marginRight: 17}} source={require('@assets/icons/logo.png')} />
-          <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
-            <TextInput
-              style={{ height: 40, borderColor: 'gray',flex: 1 ,paddingLeft: 5 }}
-              placeholder="Insert your text!"
-              onChangeText={(text) => {
-                setKeywords(text);
-              }}
-            />
-            <TouchableOpacity onPress={() => onPress(keywords)}>
-              <Image style={{width: 40, height: 40}} source={require('@assets/icons/search.png')} />
-            </TouchableOpacity>
-          </View>
+        <LogoHeader />
+        <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
+          <TextInput
+            style={{ height: 40, borderColor: 'gray',flex: 1 ,paddingLeft: 5 }}
+            placeholder="Insert your text!"
+            onChangeText={(text) => {
+              setKeywords(text);
+            }}
+          />
+          <TouchableOpacity onPress={() => onPress(keywords)}>
+            <Image style={{width: 40, height: 40}} source={require('@assets/icons/search.png')} />
+          </TouchableOpacity>
+        </View>
       </View>
       <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
     </>
