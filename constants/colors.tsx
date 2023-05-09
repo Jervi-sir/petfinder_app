@@ -16,6 +16,7 @@ export const colors = {
   unkownText: '#8F8989',
   emptyImg1: '#F9E3D2',
   red: '#EA0000',
-  likedPet: '#EA0000'
+  likedPet: '#EA0000',
+  error: '#EA0000',
 
 }

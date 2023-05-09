@@ -1,7 +1,7 @@
-import { useState } from "react"
-import { Text, View, ScrollView, Image, TouchableOpacity } from "react-native"
-import { TextInput } from "react-native-paper"
-import { Link, useNavigation } from '@react-navigation/native';
+import { useEffect, useRef, useState } from "react"
+import { Text, View, ScrollView, Image, TouchableOpacity, Animated } from "react-native"
+import { ActivityIndicator, TextInput } from "react-native-paper"
+import { Link, useIsFocused, useNavigation } from '@react-navigation/native';
 
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
@@ -14,7 +14,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { getToken } from "@functions/authToken";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
+import axios from "axios";
 const Stack = createStackNavigator();
 
 export const AuthScreen = ({redirectAfterAuth = null}) => {
@@ -39,19 +39,57 @@ export const AuthScreen = ({redirectAfterAuth = null}) => {
   )
 }
 
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+const isValidPassword = (password) => {
+  const passwordRegex = /^.{8,}$/;
+  return passwordRegex.test(password);
+};
+
 const LoginScreen = ({ navigation, routeName }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
+  const [errorGlobal, setErrorGlobal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+
+  const isFocused = useIsFocused();
+  const translateYValue = useRef(new Animated.Value(100)).current;
+
+  useEffect(() => {
+    if (isFocused) {
+      Animated.timing(translateYValue, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(translateYValue, {
+        toValue: 200,
+        duration: 500,
+        useNativeDriver: true,
+        delay: 200,
+      }).start();
+    }
+  }, [isFocused]);
+
+
   function loginAuth() {
-    const data = {email, password};
-    fetch( api.Server + api.Login, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-      .then(response => response.json())
-      .then(data => {
-        var token = data.token;
+    if(!isValidEmail(email)) return setErrorEmail(true);
+    else setErrorEmail(false);
+
+    if(!isValidPassword(email)) return setErrorPassword(true);
+    else setErrorPassword(false);
+
+    setIsProcessing(true);
+    axios.post(api.Server + api.Login, {email, password}, {headers: {'Accept': 'application/json','Content-Type': 'application/json','Language': 'fr'}})
+      .then(response => {
+        var token = response.data.token;
         saveAuthToken(token);
         setTimeout(() => {
           console.log(getToken())
@@ -62,10 +100,16 @@ const LoginScreen = ({ navigation, routeName }) => {
               routes: [{ name: routeName }],
             });
           }
+          setIsProcessing(false);
         }, 500);
       })
       .catch(error => {
-        console.error(error);
+        const errors = error.response.data.message
+        setErrorMessage(errors);
+        setErrorGlobal(true);
+        setErrorPassword(true);
+        setErrorEmail(true);
+        setIsProcessing(false);
       });
   }
   return (
@@ -84,46 +128,61 @@ const LoginScreen = ({ navigation, routeName }) => {
               justifyContent: 'space-around'
             }}>
               <Text style={{fontSize: 25, color: colors.button, fontWeight: '500', marginTop: 20}}>Login</Text>
-              <Image source={icons.CATLOGIN} />
+              <View >
+                <Animated.Image style={{ transform: [{translateY: translateYValue,}]}} source={icons.CATLOGIN} />
+              </View>
             </View>
             <View style={{
                 backgroundColor: 'white',
                 width: '80%',
                 borderRadius: 15,
                 paddingHorizontal:20,
-                paddingBottom: 40,
+                paddingBottom: 20,
                 paddingTop: 20,
                 marginTop: -5
               }}>
               <TextInput
                 label="Email"
                 value={email}
-                onChangeText={text => setEmail(text)}
+                onChangeText={text => {setEmail(text); setErrorEmail(false); setErrorGlobal(false)}}
                 style={{marginBottom: 10, backgroundColor: colors.white}}
+                error={errorEmail}
               />
               <TextInput
                 label="Password"
                 value={password}
                 secureTextEntry={true}
-                onChangeText={text => setPassword(text)}
+                onChangeText={text => {setPassword(text); setErrorPassword(false); setErrorGlobal(false)}}
                 style={{marginBottom: 20, backgroundColor: colors.white}}
+                error={errorPassword}
               />
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                <View >
-                  <Link style={{color: colors.button, fontSize:12, paddingLeft: 15}} to={{ screen: 'ForgotPassword', params: { id: 'jane' } }}>
-                    forgot my Password
-                  </Link>
-                </View>
+              {errorGlobal ?
+                <Text style={{textAlign: 'center', paddingBottom: 15, color: colors.error}}>{errorMessage}</Text>
+              :
+                <></>
+              }
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity onPress={loginAuth} style={{
-                  width: 104,
-                  height: 40,
+                  width: '100%',
+                  paddingVertical: 15,
                   borderRadius: 5,
                   backgroundColor: colors.menu,
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  <Text style={{color: 'white'}}>Login</Text>
+                  {isProcessing ? 
+                    <ActivityIndicator size="small" color={colors.background} />
+                    :
+                    <View style={{marginVertical: 3}}>
+                      <Text style={{color: colors.white}}>Login</Text>
+                    </View>
+                  }
                 </TouchableOpacity>
+                <View style={{marginTop: 20}}>
+                  <Link style={{color: colors.button, fontSize:12}} to={{ screen: 'ForgotPassword', params: { id: 'jane' } }}>
+                    forgot my Password
+                  </Link>
+                </View>
               </View>
             </View>
             <View>
@@ -162,32 +221,66 @@ const RegisterScreen = ({ navigation, routeName }) => {
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(true);
   
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
+  const [errorGlobal, setErrorGlobal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+
+  const isFocused = useIsFocused();
+  const translateYValue = useRef(new Animated.Value(100)).current;
+
+  useEffect(() => {
+    if (isFocused) {
+      Animated.timing(translateYValue, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(translateYValue, {
+        toValue: 200,
+        duration: 500,
+        useNativeDriver: true,
+        delay: 200,
+      }).start();
+    }
+  }, [isFocused]);
+
   function registerAuth() {
-    const data = {name, email, password};
-    fetch( api.Server + api.Register, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+    if(!isValidEmail(email)) return setErrorEmail(true);
+    else setErrorEmail(false);
+
+    if(!isValidPassword(email)) return setErrorPassword(true);
+    else setErrorPassword(false);
+
+    axios.post(api.Server + api.Register, {name, email, password}, {headers: {'Accept': 'application/json','Content-Type': 'application/json','Language': 'fr'}})
+    .then(response => {
+      console.log('response')
+      var token = response.data.token;
+      saveAuthToken(token);
+      setTimeout(() => {
+        console.log(getToken())
+        navigation.popToTop();
+        if(routeName) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: routeName }],
+          });
+        }
+        setIsProcessing(false);
+      }, 500);
     })
-      .then(response => response.json())
-      .then(data => {
-        var token = data.token;
-        saveAuthToken(token);
-        setTimeout(() => {
-          console.log(getToken())
-          navigation.popToTop();
-          if(routeName) {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: routeName }],
-            });
-          }
-        }, 500);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    .catch(error => {
+      const errors = error.response.data.message
+      setErrorMessage(errors);
+      setErrorGlobal(true);
+      setErrorPassword(true);
+      setErrorEmail(true);
+      setIsProcessing(false);
+    });
   }
+
   return (
     <KeyboardAwareScrollView extraScrollHeight={69}>
       <View style={{backgroundColor: colors.background, minHeight: '100%'}}>
@@ -204,7 +297,9 @@ const RegisterScreen = ({ navigation, routeName }) => {
                 justifyContent: 'space-around'
               }}>
                 <Text style={{fontSize: 25, color: colors.button, fontWeight: '500', marginTop: 20}}>Register</Text>
-                <Image source={icons.CATLOGIN} />
+                <View >
+                  <Animated.Image style={{ transform: [{translateY: translateYValue,}]}} source={icons.CATLOGIN} />
+                </View>
               </View>
               <View style={{
                   backgroundColor: 'white',
@@ -224,15 +319,17 @@ const RegisterScreen = ({ navigation, routeName }) => {
                 <TextInput
                   label="Email"
                   value={email}
-                  onChangeText={text => setEmail(text)}
                   style={{marginBottom: 10, backgroundColor: 'white'}}
+                  onChangeText={text => {setEmail(text); setErrorEmail(false); setErrorGlobal(false)}}
+                  error={errorEmail}
                 />
                 <TextInput
                   label="Password"
                   value={password}
                   secureTextEntry={true}
-                  onChangeText={text => setPassword(text)}
+                  onChangeText={text => {setPassword(text); setErrorPassword(false); setErrorGlobal(false)}}
                   style={{marginBottom: 20, backgroundColor: 'white'}}
+                  error={errorPassword}
                 />
                 <View style={{marginBottom: 20}}>
                   <BouncyCheckbox
@@ -242,23 +339,54 @@ const RegisterScreen = ({ navigation, routeName }) => {
                     text="I want to join"
                     textStyle={{fontSize:15, fontWeight: '300', textDecorationLine: "none"}}
                     innerIconStyle={{ borderWidth: 2 }}
-                    onPress={(isChecked: boolean) => {setChecked(isChecked)}}
+                    onPress={() => {setChecked(!checked)}}
                   />
                   </View>
-                  <TouchableOpacity style={{
+                  {errorGlobal ?
+                    <Text style={{textAlign: 'center', paddingBottom: 15, color: colors.error}}>{errorMessage}</Text>
+                  :
+                    <></>
+                  }
+                  {!checked
+                  ?
+                  <TouchableOpacity 
+                    style={{
+                      width: '100%',
+                      height: 40,
+                      borderRadius: 5,
+                      backgroundColor: colors.menu,
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    onPress={registerAuth}
+                  >
+                    {isProcessing ? 
+                      <ActivityIndicator size="small" color={colors.background} />
+                      :
+                      <View style={{marginVertical: 3}}>
+                        <Text style={{color: colors.white}}>Register</Text>
+                      </View>
+                    }
+                  </TouchableOpacity>
+                  :
+                  <View  style={{
                     width: '100%',
                     height: 40,
                     borderRadius: 5,
                     backgroundColor: colors.menu,
+                    opacity: 0.3,
                     alignItems: 'center',
                     justifyContent: 'center'
-                  }}
-                  onPress={registerAuth}>
-                    <Text style={{color: 'white'}}>Register</Text>
-                  </TouchableOpacity>
+                  }}>
+                    <View style={{marginVertical: 3}}>
+                      <Text style={{color: colors.white}}>Register</Text>
+                    </View>
+                  </View>
+                  }
+                  
               </View>
               <View>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 10}}>
+                <TouchableOpacity onPress={() => navigation.navigate(routes.LOGIN)} style={{ marginTop: 10}}>
                   <Text style={{color: colors.button, textAlign: 'center'}}>
                   Already have an account?
                   </Text>

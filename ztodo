@@ -1,7 +1,9 @@
 [x] add a header with hamburger in M5
 [x] make auth protection
 
-
+[] use cache fetch if possible
+[] user search pet
+[] user filter search
 
 [x] user register or login
 [x] user will visit add pet screen
@@ -12,16 +14,13 @@
 [x] user edit the pet
 [x] user update the pet
 [x] user delete pet
-[] user search pet
-[] user filter search
+
 [x] user get latest pets
 [x] user see the pet
 [x] user save the pet
 [x] loading edit screen
 
 [x] loading component on all screens
-[] use cache fetch if possible
-
 
 [x] login page
 [x] register screen
@@ -47,23 +46,23 @@
 [x] view pet
 
 --Server
+[] logout
+[] conversation
+[] filter
+
+[] M3 pet name generator
+
 [x] login
 [x] register
 [x] addPet
 [x] edit profile
-[] logout
 [x] editPet
 [x] deletePet
 [x] archivePet
 [x] showProfile
 [x] editProfile
 [x] search
-[] filter
 [x] save
-[] conversation
-
-[] M3 pet name generator
-
 
 --All screens--
 ALL:: home, search, login, register, showPet, 
