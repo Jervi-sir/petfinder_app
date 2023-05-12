@@ -5,7 +5,7 @@ import { HomeScreen } from '@screens/Home/HomeScreen';
 import { MessageScreen } from '@screens/Message/messageScreen';
 import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
 import { ShowProfile } from '@screens/Profile/ShowProfile';
-import { SearchScreen } from '@screens/Search/SearchScreen';
+
 const Stack = createStackNavigator();
 export default function M1Navigation() {
   return (
@@ -14,6 +14,7 @@ export default function M1Navigation() {
           screenOptions={() => ({
             headerShown: false,
             headerLeft: null,
+            animationEnabled: true
           })}
         >
           <Stack.Screen name='main screen m1' component={MainScreen} />
@@ -42,7 +43,6 @@ const MainScreen = () => {
           })}
         >
           <Stack.Screen name={routes.HOME} component={HomeScreen} />
-          <Stack.Screen name={routes.SEARCH} component={SearchScreen} />
           <Stack.Screen name={routes.VIEWPET} component={ShowPetScreen} />
           <Stack.Screen name={routes.SHOWPROFILE} component={ShowProfile} />
           <Stack.Screen name={routes.MESSAGELIST} component={MessageScreen} />

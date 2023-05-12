@@ -3,6 +3,7 @@ export const routes = {
   CHAT: 'chat',
   FAVORITE: 'favorite',
   ADDPET: 'addpet',
+  ALERTPET: 'alertpet',
   PROFILE: 'profile',
   ADDNAVIGATION: 'add_navigation',
   PREVIEWPET: 'preview_pet',

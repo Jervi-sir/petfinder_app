@@ -7,28 +7,24 @@ import { icons } from "@constants/icons";
 import { AllScreen } from './AllScreen';
 import { RaceScreen } from './RaceScreen';
 import { LogoHeader } from '@components/LogoHeader';
+import DashedLine from 'react-native-dashed-line';
+import { HeaderWithTitle } from '@components/HeaderWithTitle';
+import { useRoute } from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
 export const HomeScreen = () => {
+  const [ selectedTab, setSelectedTab ] = useState('');
+
+  const handleSelectedTab = name => {
+    setSelectedTab(name)
+    console.log('argument from Child: ', name);
+  };
+
 
   return (
     <View style={{backgroundColor: colors.background}}>
-      <Animated.View style={[styles.inputStyle2]}>
-        <LogoHeader />
-        <ScrollView keyboardShouldPersistTaps='handled'>
-          <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
-            <TextInput
-              style={{ height: 40, borderColor: 'gray',flex: 1 ,paddingLeft: 5 }}
-              placeholder="Find your Favorite Pet"
-              onChangeText={text => {}}
-            />
-            <Image style={{width: 40, height: 40}} source={icons.SEARCH} />
-          </View>
-        </ScrollView>
-        {/* Dotted Line */}
-      </Animated.View>
-
+      <HeaderWithTitle title={'New ' + selectedTab} />
       {/* pet filter */}
       <View style={{height: 800}}>
         <Tab.Navigator 
@@ -40,11 +36,12 @@ export const HomeScreen = () => {
           tabBarItemStyle: {width: 71},
           tabBarContentContainerStyle:{alignItems: 'flex-start' , alignContent: 'flex-start' },
           tabBarStyle: {backgroundColor:'transparent', height: 71, alignItems: 'flex-start' },
+          animationEnabled: true,
+          swipeEnabled: false,
         }}
         >
           <Tab.Screen 
-            name="All" 
-            component={AllScreen} 
+            name="Pets" 
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -52,7 +49,9 @@ export const HomeScreen = () => {
                   <Text style={{color: focused ? colors.white : colors.menu}}>All</Text>
                 </View>
               )  }} 
-          />
+          >
+            {() => <AllScreen setTabName={handleSelectedTab} raceName={"Pets"}/>}
+          </Tab.Screen>
           <Tab.Screen 
             name="Cat" 
             options={{
@@ -64,7 +63,7 @@ export const HomeScreen = () => {
                 </View>
               )  }}
           >
-          {() => <RaceScreen raceId="1" />}
+          {() => <RaceScreen raceId="1" setTabName={handleSelectedTab} raceName={"Cats"}/>}
           </Tab.Screen>
           <Tab.Screen 
             name="Dog" 
@@ -77,7 +76,7 @@ export const HomeScreen = () => {
                 </View>
               )  }}
           >
-          {() => <RaceScreen raceId="2" />}
+          {() => <RaceScreen raceId="2" setTabName={handleSelectedTab} raceName={"Dog"}/>}
           </Tab.Screen>
           <Tab.Screen 
             name="Bird" 
@@ -90,7 +89,7 @@ export const HomeScreen = () => {
                 </View>
               )  }}
           >
-          {() => <RaceScreen raceId="3" />}
+          {() => <RaceScreen raceId="3" setTabName={handleSelectedTab} raceName={"Bird"}/>}
           </Tab.Screen>
           <Tab.Screen 
             name="Horse" 
@@ -103,7 +102,7 @@ export const HomeScreen = () => {
                 </View>
               )  }}
           >
-          {() => <RaceScreen raceId="4" />}
+          {() => <RaceScreen raceId="4" setTabName={handleSelectedTab} raceName={"Horse"}/>}
           </Tab.Screen>
           <Tab.Screen 
             name="Other" 
@@ -116,7 +115,7 @@ export const HomeScreen = () => {
                 </View>
               )  }}
             >
-            {() => <RaceScreen raceId="5" />}
+            {() => <RaceScreen raceId="5" setTabName={handleSelectedTab} raceName={"Other"}/>}
             </Tab.Screen>
 
         </Tab.Navigator>
@@ -155,6 +154,25 @@ const styles = StyleSheet.create({
   },
 });
 
+
+const HeaderWithSearch = () => {
+  return (
+    <Animated.View style={[styles.inputStyle2]}>
+      <LogoHeader />
+      <ScrollView keyboardShouldPersistTaps='handled'>
+        <View style={{flexDirection: 'row', flex:1, backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 7}}>
+          <TextInput
+            style={{ height: 40, borderColor: 'gray',flex: 1 ,paddingLeft: 5 }}
+            placeholder="Find your Favorite Pet"
+            onChangeText={text => {}}
+          />
+          <Image style={{width: 40, height: 40}} source={icons.SEARCH} />
+        </View>
+      </ScrollView>
+      {/* Dotted Line */}
+    </Animated.View>
+  )
+}
 
 const HeaderExample = () => {
   const [userDidInput, setUserDidInput] = useState(false);

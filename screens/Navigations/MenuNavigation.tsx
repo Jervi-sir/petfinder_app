@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Animated, StyleSheet } from 'react-native';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
@@ -7,13 +7,17 @@ import { routes } from '@constants/routes';
 import M1Navigation from './M1Navigation';
 import M2Navigation from './M2Navigation';
 import M3Navigation from './M3Navigation';
-import M4Navigation from './M4Navigation';
+import M4Navigation, { MainScreen, SoonScreen } from './M4Navigation';
 import M5Navigation from './M5Navigation';
 import { HeaderSearch } from '@components/HeaderSearch';
+import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { removeAuthToken } from '@functions/cookies';
 
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-export default function MenuNavigation() {
+export default function MenuNavigation({ navigation }) {
   return (
     <>
       <Tab.Navigator initialRouteName={routes.m2}

@@ -8,6 +8,7 @@ import {View, Text, Image, ScrollView, TextInput} from 'react-native'
 import DashedLine from 'react-native-dashed-line';
 import { colors } from '@constants/colors';
 import { LogoHeader } from '@components/LogoHeader';
+import { HeaderWithTitle } from '@components/HeaderWithTitle';
 
 
 const Stack = createStackNavigator();
@@ -16,15 +17,15 @@ export default function M3Navigation() {
 
   return(
     <>
-      <HeaderSearch />
+      <HeaderWithTitle title='Discover' />
       <Stack.Navigator 
-          initialRouteName={ routes.HOME + 'm3' }
+          initialRouteName={ routes.OPTIONS + 'm3' }
           screenOptions={() => ({
             headerShown: false,
-            headerLeft: null
+            headerLeft: null,
+            animationEnabled: true
           })}
         >
-        
         <Stack.Screen name={ routes.OPTIONS + 'm3' } component={OptionScreen} />
         <Stack.Screen name={ routes.VIEWPET + 'm3' } component={ShowPetScreen} />
       </Stack.Navigator>

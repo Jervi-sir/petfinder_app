@@ -10,10 +10,6 @@ import { setToken } from '@functions/authToken';
 const Stack = createStackNavigator();
 
 export default function AppNavigation() {
-  
-  useEffect(() => {
-    getAuthToken().then(e => { setToken(e);}).catch(e => console.log(e));
-  }, []);
 
   return(
     <>
@@ -21,6 +17,7 @@ export default function AppNavigation() {
         screenOptions={() => ({
           headerShown: false,
           headerLeft: null,
+          animationEnabled: true
         })}
       >
         <Stack.Screen name={ routes.MENU } component={MenuNavigation} />

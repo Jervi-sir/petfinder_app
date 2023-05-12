@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, FlatList, RefreshControl } from "react-native"
+import { View, Image, TouchableOpacity, FlatList, RefreshControl } from "react-native"
 import { PetCard } from "./petCard"
 
 import { colors } from "@constants/colors";
@@ -11,6 +11,7 @@ import { CardHorizentalSkeleton } from "@components/Skeletons/CardHorizentalSkel
 import { ProfileCardSkeleton } from "@components/Skeletons/ProfileCardSkeleton";
 import { getToken } from "@functions/authToken";
 import { Button } from "react-native";
+import { Text } from '@components/Text';
 
 export const ShowMyProfile = () => {
   const navigation = useNavigation();
@@ -95,12 +96,12 @@ export const ShowMyProfile = () => {
                 return (
                   <>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 20, marginBottom: 7 }}>
-                      <Text style={{ marginHorizontal: 20, fontSize: 20, color: colors.menu, fontWeight: '600' }}>My Profile</Text>
+                      <Text weight="700" style={{ marginHorizontal: 20, fontSize: 17, color: colors.menu}}>My Profile</Text>
                     </View>
                     <ProfileCard user={user} navigation={navigation} />
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <Text style={{ marginHorizontal: 20, marginBottom: 10, fontSize: 17, color: colors.menu, fontWeight: '600' }}>My Pets</Text>
-                      <Text style={{ marginHorizontal: 20, marginBottom: 10, fontSize: 17, color: colors.menu }}>
+                      <Text weight="700" style={{ marginHorizontal: 20, marginBottom: 10, fontSize: 17, color: colors.menu}}>My Pets</Text>
+                      <Text weight="400" style={{ marginHorizontal: 20, marginBottom: 10, fontSize: 17, color: colors.menu }}>
                         {nbPets} pet{nbPets > 0 ? 's' : ''}
                       </Text>
                     </View>
@@ -135,7 +136,7 @@ const ProfileCard = ({ user, navigation }) => {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 10 }}>
             <View>
               <ProfileText data={user.name} placeholder={'name'} />
-              <Text>{user.email}</Text>
+              <Text weight="600">{user.email}</Text>
               <ProfileText data={user.location} placeholder={'location'} />
               <ProfileText data={user.phone_number} placeholder={'phone number'} />
             </View>

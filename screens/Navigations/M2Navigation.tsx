@@ -13,6 +13,7 @@ export default function M2Navigation() {
         screenOptions={() => ({
           headerShown: false,
           headerLeft: null,
+          animationEnabled: true
         })}
       >
         <Stack.Screen name={ routes.HOME } component={SearchScreen} />

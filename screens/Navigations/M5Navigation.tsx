@@ -1,6 +1,6 @@
 import { routes } from '@constants/routes';
 import { getAuthToken } from '@functions/cookies';
-import { DrawerActions, useFocusEffect, useNavigation } from '@react-navigation/native';
+import { DrawerActions, useFocusEffect, useNavigation, useNavigationContainerRef, useRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthScreen } from '@screens/Auth/AuthScreen';
 import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
@@ -11,13 +11,14 @@ import { ShowMyProfile } from '@screens/Profile/showMyProfile';
 import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
 import { useState, useEffect, useCallback } from 'react';
 import { colors } from '@constants/colors';
-import { Image, Text, TouchableOpacity } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import DashedLine from 'react-native-dashed-line';
 import { getToken } from '@functions/authToken';
 import { removeAuthToken } from '@functions/cookies';
 import { useNavigationState } from '@react-navigation/native';
 import { LogoHeader } from '@components/LogoHeader';
+import { Text } from '@components/Text';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -30,6 +31,7 @@ export default function M5Navigation() {
           screenOptions={() => ({
             headerShown: false,
             headerLeft: null,
+            animationEnabled: true
           })}
         >
           <Stack.Screen name='main screen m5' component={MainDrawer} />
@@ -47,9 +49,12 @@ export default function M5Navigation() {
     </>
   )
 }
+const MainDrawer = ({navigation}) => {
+  const currentState = navigation.getParent().getState();
+  const { index, routeNames} = currentState;
+  const currentTab = routeNames[index];
+  console.log(navigation.getState())
 
-const MainDrawer = () => {
-  const navigation = useNavigation();
   const [open, setOpen] = useState(null);
   const handlePressFromChild = () => {
     navigation.getParent().dispatch(DrawerActions.toggleDrawer())
@@ -74,7 +79,7 @@ const MainDrawer = () => {
     <>
       <HeaderHamburger onPress={handlePressFromChild} open={open} />
       <Drawer.Navigator 
-        initialRouteName="My Profile m8" 
+        initialRouteName="My Profile m5" 
         screenOptions={{
             headerShown: false,
             drawerPosition: 'right',

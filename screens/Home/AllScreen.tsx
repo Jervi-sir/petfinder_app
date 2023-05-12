@@ -7,12 +7,22 @@ import { routes } from "@constants/routes"
 import { getToken } from "@functions/authToken"
 import { FilterDropdown } from "@screens/Search/FilterDropdown"
 import axios from "axios"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { LayoutAnimation, TouchableOpacity } from "react-native"
 import { View, Text, Image, FlatList, Animated, ActivityIndicator } from "react-native"
 import { FilterSearch } from "./FilterSearch"
+import { useFocusEffect, useNavigationState, useRoute } from "@react-navigation/native"
 
-export const AllScreen = () => {
+export const AllScreen = ({ setTabName, raceName }) => {
+
+  useFocusEffect(
+    useCallback(() => {
+      setTabName(raceName);
+      return () => {
+      };
+    }, [])
+  );
+
   const [data, setData] = useState([]);
   const [firstLoading, setFirstLoading] = useState(true);
   const flatListRef = useRef(null);

@@ -1,19 +1,21 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { AddScreen } from '@screens/Pet/Add/AddScreen';
+import { AddScreen as AlertScreen } from '@screens/Pet/Add/AddScreen';
 import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
 import { routes } from '@constants/routes';
 import { DrawerActions, useFocusEffect, useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect } from "react";
-import { View, Text } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { View } from "react-native";
 import { colors } from '@constants/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthScreen } from '@screens/Auth/AuthScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Image } from 'react-native';
 import DashedLine from 'react-native-dashed-line';
-import { useNavigationState } from '@react-navigation/native';
 import { getToken } from '@functions/authToken';
 import { LogoHeader } from '@components/LogoHeader';
+import { Text } from '@components/Text';
+import { AlertPet } from '@screens/Pet/Alert/AlertPet';
 
 const Stack = createStackNavigator();
 const DrawerM4 = createDrawerNavigator();
@@ -25,9 +27,10 @@ export default function M4Navigation() {
           screenOptions={() => ({
             headerShown: false,
             headerLeft: null,
+            animationEnabled: true
           })}
         >
-          <Stack.Screen name='main screen m4' component={MainDrawer} />
+          <Stack.Screen name='main screen m4' component={MainScreen} />
           <Stack.Screen name={routes.AUTH} options={{
             cardStyle: {
               backgroundColor: 'transparent',
@@ -43,63 +46,36 @@ export default function M4Navigation() {
   )
 }
 
-const MainDrawer = () => {
-  const navigation = useNavigation();
-  
-  useEffect(() => {
-    if(getToken() == null) {
-      navigation.navigate(routes.AUTH)
-    }
-  }, [getToken()]);
 
-  useFocusEffect(
-    useCallback(() => {
-      if(getToken() == null) {
-        navigation.navigate(routes.AUTH)
-      } 
-    }, [getToken()])
-  );
-
-  return (
-    <>
-    
-      <DrawerM4.Navigator 
-          initialRouteName="Add new Pet" 
-          screenOptions={{
-              headerShown: false,
-              drawerPosition: 'right',
-              drawerStyle: {
-                backgroundColor: colors.background,
-                width: 240,
-              },
-              //drawerActiveBackgroundColor: 'rgba(91, 94, 151, 0.43)'
-              drawerActiveTintColor: colors.menu
-          }}
-          
-          >
-          <DrawerM4.Screen name="Add new Pet m4" component={MainScreen} />
-          <DrawerM4.Screen name="Soon m4" component={SoonScreen} />
-      </DrawerM4.Navigator>
-    </>
-  )
-}
-
-const HeaderHamburger = () => {
+const HeaderHamburger = ({onPress}) => {
+  const navigator = useNavigation();
   return (
     <>
       <View style={{  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 7}}>
         <LogoHeader />
-        <Text style={{ fontSize: 30, fontWeight: "400", color: colors.button, paddingRight: 20 }}>Add new Pet</Text>
+        <View style={{flexDirection:'row', alignItems: 'center', paddingRight: 20}}>
+          <TouchableOpacity onPress={() => navigator.navigate(routes.ADDPET)}>
+            <Text weight='700' size={18}>Add</Text>
+          </TouchableOpacity>
+          <View style={{ paddingHorizontal: 17 }}>
+            <Text size={17}>|</Text>
+          </View>
+          <TouchableOpacity onPress={() => navigator.navigate(routes.ALERTPET)}>
+            <Text weight='600' size={18}>Lost</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
     </>
   )
 }
 
-const MainScreen = () => {
+export const MainScreen = () => {
+  const handlePressFromChild = () => {
+  };
   return (
     <>
-      <HeaderHamburger/>
+      <HeaderHamburger onPress={handlePressFromChild} />
       <Stack.Navigator 
         initialRouteName={routes.ADDPET}
         screenOptions={{
@@ -110,6 +86,8 @@ const MainScreen = () => {
       >
         <Stack.Screen name={ routes.ADDPET } component={AddScreen} />
         <Stack.Screen name={ routes.PREVIEWPET } component={PreviewPet} />
+        <Stack.Screen name={ routes.ALERTPET } component={AlertPet} />
+        <Stack.Screen name={ routes.PREVIEWPET + 'lost' } component={PreviewPet} />
     </Stack.Navigator>
     </>
 
@@ -117,7 +95,7 @@ const MainScreen = () => {
   )
 }
 
-function SoonScreen({ navigation }) {
+export function SoonScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Mzl Nzidha later</Text>

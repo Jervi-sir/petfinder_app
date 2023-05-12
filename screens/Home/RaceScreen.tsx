@@ -7,13 +7,24 @@ import { routes } from "@constants/routes"
 import { getToken } from "@functions/authToken"
 import { FilterDropdown } from "@screens/Search/FilterDropdown"
 import axios from "axios"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { LayoutAnimation, TouchableOpacity } from "react-native"
 import { View, Text, Image, FlatList, Animated, ActivityIndicator } from "react-native"
 import { FilterSearch } from "./FilterSearch"
+import { useFocusEffect, useIsFocused, useNavigationState, useRoute } from "@react-navigation/native"
 
 
-export const RaceScreen = ({ raceId }) => {
+export const RaceScreen = ({ raceId, setTabName, raceName }) => {
+
+  useFocusEffect(
+    useCallback(() => {
+      setTabName(raceName);
+      return () => {
+      };
+    }, [])
+  );
+
+
   const [data, setData] = useState([]);
   const [firstLoading, setFirstLoading] = useState(true);
   const flatListRef = useRef(null);
@@ -48,7 +59,7 @@ export const RaceScreen = ({ raceId }) => {
 
   return (
     <View style={{minHeight: '100%', backgroundColor: colors.background}}>
-      <FilterSearch onPressToTop={scrollToTop} title={'Recent'} />
+      <FilterSearch onPressToTop={scrollToTop} title={'Recent ' + raceName} />
       <View style={{}}>
         {/* card */}
         {firstLoading ? (

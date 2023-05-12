@@ -12,6 +12,7 @@ export default function AuthNavigation() {
           screenOptions={() => ({
             headerShown: false,
             headerLeft: null,
+            animationEnabled: true
           })}
         >
           <Stack.Screen name={ routes.LOGIN } component={LoginScreen} />
