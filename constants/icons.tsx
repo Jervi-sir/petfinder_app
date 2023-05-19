@@ -21,4 +21,11 @@ export const icons = {
   CROSS: require('@assets/icons/cross.png'),
   HAMBURGER: require('@assets/icons/hamburger.png'),
 
+  CATFILTER: require('@assets/icons/pet_icons/cat.png'),
+  DOGFILTER: require('@assets/icons/pet_icons/dog2.png'),
+  FISHFILTER: require('@assets/icons/pet_icons/fish.png'),
+  BIRDFILTER: require('@assets/icons/pet_icons/bird.png'),
+  HAMSTERFILTER: require('@assets/icons/pet_icons/hamster.png'),
+  HORSEFILTER: require('@assets/icons/pet_icons/horse.png'),
+  FARMFILTER: require('@assets/icons/pet_icons/farm.png'),
 }

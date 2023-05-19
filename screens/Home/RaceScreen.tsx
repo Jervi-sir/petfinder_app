@@ -8,13 +8,30 @@ import { getToken } from "@functions/authToken"
 import { FilterDropdown } from "@screens/Search/FilterDropdown"
 import axios from "axios"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { LayoutAnimation, TouchableOpacity } from "react-native"
+import { LayoutAnimation, RefreshControl, TouchableOpacity } from "react-native"
 import { View, Text, Image, FlatList, Animated, ActivityIndicator } from "react-native"
 import { FilterSearch } from "./FilterSearch"
 import { useFocusEffect, useIsFocused, useNavigationState, useRoute } from "@react-navigation/native"
 
 
 export const RaceScreen = ({ raceId, setTabName, raceName }) => {
+
+  useEffect(() => {
+    setFirstLoading(true);
+    fetchPosts();
+  }, []);
+
+  const [data, setData] = useState([]);
+  const [firstLoading, setFirstLoading] = useState(true);
+  const flatListRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const scrollToTop = () => {
+    flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -23,22 +40,6 @@ export const RaceScreen = ({ raceId, setTabName, raceName }) => {
       };
     }, [])
   );
-
-
-  const [data, setData] = useState([]);
-  const [firstLoading, setFirstLoading] = useState(true);
-  const flatListRef = useRef(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
-
-  const scrollToTop = () => {
-    flatListRef.current.scrollToOffset({ offset: 0, animated: true });
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   const fetchPosts = async () => {
     if (loading || !hasMore) return;
@@ -54,7 +55,12 @@ export const RaceScreen = ({ raceId, setTabName, raceName }) => {
         setHasMore(false);
       }
     })
-    
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchPosts();
+    setRefreshing(false);
   };
 
   return (
@@ -73,6 +79,7 @@ export const RaceScreen = ({ raceId, setTabName, raceName }) => {
             />
           ) : (
             <FlatList
+              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
               ref={flatListRef}
               data={data}
               renderItem={({ item }) => <CardPet pet={item} viewPetRoute={routes.VIEWPET}/>}

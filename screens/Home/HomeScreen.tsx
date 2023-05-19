@@ -7,9 +7,7 @@ import { icons } from "@constants/icons";
 import { AllScreen } from './AllScreen';
 import { RaceScreen } from './RaceScreen';
 import { LogoHeader } from '@components/LogoHeader';
-import DashedLine from 'react-native-dashed-line';
 import { HeaderWithTitle } from '@components/HeaderWithTitle';
-import { useRoute } from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -18,24 +16,21 @@ export const HomeScreen = () => {
 
   const handleSelectedTab = name => {
     setSelectedTab(name)
-    console.log('argument from Child: ', name);
   };
-
 
   return (
     <View style={{backgroundColor: colors.background}}>
-      <HeaderWithTitle title={'New ' + selectedTab} />
+      {/* <HeaderWithTitle title={'New ' + selectedTab} /> */}
       {/* pet filter */}
       <View style={{height: 800}}>
         <Tab.Navigator 
-        
         screenOptions={{
           lazy: true,
           tabBarScrollEnabled: true,
           tabBarIndicatorStyle:{ backgroundColor: colors.menu, height: 0, } ,
-          tabBarItemStyle: {width: 71},
-          tabBarContentContainerStyle:{alignItems: 'flex-start' , alignContent: 'flex-start' },
-          tabBarStyle: {backgroundColor:'transparent', height: 71, alignItems: 'flex-start' },
+          tabBarItemStyle: {width: 71, },
+          tabBarContentContainerStyle:{alignItems: 'flex-start' , alignContent: 'flex-start',   },
+          tabBarStyle: {backgroundColor:'transparent', height: 71, alignItems: 'flex-start'},
           animationEnabled: true,
           swipeEnabled: false,
         }}
@@ -45,8 +40,8 @@ export const HomeScreen = () => {
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
-                <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
-                  <Text style={{color: focused ? colors.white : colors.menu}}>All</Text>
+                <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'rgba(51, 58, 90, 0.0)'}]}>
+                  <Image style={{width: focused ? 45 : 55, height: focused ? 45 : 55}} source={icons.LOGO} />
                 </View>
               )  }} 
           >
@@ -58,7 +53,7 @@ export const HomeScreen = () => {
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
                 <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
-                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                  <Image style={{width: 45, height: 45}} source={icons.CATFILTER} />
                   <Text style={{color: focused ? colors.white : colors.menu}}>Cat</Text>
                 </View>
               )  }}
@@ -71,7 +66,7 @@ export const HomeScreen = () => {
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
                 <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
-                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                  <Image style={{width: 45, height: 45}} source={icons.DOGFILTER} />
                   <Text style={{color: focused ? colors.white : colors.menu}}>Dog</Text>
                 </View>
               )  }}
@@ -84,7 +79,7 @@ export const HomeScreen = () => {
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
                 <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
-                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                  <Image style={{width: 45, height: 45}} source={icons.BIRDFILTER} />
                   <Text style={{color: focused ? colors.white : colors.menu}}>Bird</Text>
                 </View>
               )  }}
@@ -97,10 +92,10 @@ export const HomeScreen = () => {
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
                 <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
-                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                  <Image style={{width: 45, height: 45}} source={icons.HORSEFILTER} />
                   <Text style={{color: focused ? colors.white : colors.menu}}>Horse</Text>
                 </View>
-              )  }}
+              )}}
           >
           {() => <RaceScreen raceId="4" setTabName={handleSelectedTab} raceName={"Horse"}/>}
           </Tab.Screen>
@@ -109,8 +104,8 @@ export const HomeScreen = () => {
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
-                <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white'}]}>
-                  <Image style={{width: 45, height: 45}} source={icons.FILTER} />
+                <View style={[styles.filterButton, {backgroundColor: focused ? 'rgba(51, 58, 90, 0.3)' : 'white',}]}>
+                  <Image style={{width: 45, height: 45}} source={icons.FARMFILTER} />
                   <Text style={{color: focused ? colors.white : colors.menu}}>Other</Text>
                 </View>
               )  }}

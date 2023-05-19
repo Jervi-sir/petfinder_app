@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, Image } from 'react-native';
 
-export const LogoHeader = () => {
+export const LogoHeader = ({ size = 69 }) => {
   const scaleStrat = 1.05;
   const scaleValue = useRef(new Animated.Value(scaleStrat)).current;
 
@@ -27,8 +27,8 @@ export const LogoHeader = () => {
   }, []);
 
   const imageStyle = {
-    width: 69 - 20,
-    height: 69 - 20,
+    width: size - 20,
+    height: size - 20,
     transform: [{
       scale: scaleValue
     }],

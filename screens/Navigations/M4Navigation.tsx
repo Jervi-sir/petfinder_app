@@ -70,7 +70,14 @@ const HeaderHamburger = ({onPress}) => {
   )
 }
 
-export const MainScreen = () => {
+export const MainScreen = ({ navigation }) => {
+  
+  useEffect(() => {
+    if(getToken() == null) {
+      navigation.navigate(routes.AUTH)
+    }
+  }, [getToken()]);
+
   const handlePressFromChild = () => {
   };
   return (
