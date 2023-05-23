@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "petfinder_app",
-    "slug": "petfinder_app",
+    "name": "Mira_app",
+    "slug": "Mira_app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,9 +10,6 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "**/*"
@@ -24,7 +21,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#ffffff"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
@@ -44,7 +41,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "011e84f4-abde-468f-9538-90baa626bd90"
+        "projectId": "6524046c-1377-47b1-ad85-21c8d6aca93c"
       }
     }
   }
