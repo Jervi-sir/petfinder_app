@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { Text, View, ScrollView, Image, TouchableOpacity, Animated } from "react-native"
+import { Text, View, TouchableOpacity, Animated } from "react-native"
 import { ActivityIndicator, TextInput } from "react-native-paper"
 import { Link, useIsFocused, useNavigation } from '@react-navigation/native';
 
@@ -7,15 +7,17 @@ import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import { api } from "@constants/api";
 import { routes } from "@constants/routes";
-import { getAuthToken, saveAuthToken } from "@functions/cookies";
-import { SCREEN_HEIGHT } from "@gorhom/bottom-sheet";
+import { saveAuthToken } from "@functions/cookies";
+//import { SCREEN_HEIGHT } from "@gorhom/bottom-sheet";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { getToken } from "@functions/authToken";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
+import {Dimensions} from 'react-native';
+
 const Stack = createStackNavigator();
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export const AuthScreen = ({redirectAfterAuth = null}) => {
   const navigation = useNavigation();

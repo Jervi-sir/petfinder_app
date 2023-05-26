@@ -13,7 +13,7 @@ export const Text = ({ weight = '500', size = 14, color = 'black', style = {}, c
   }
 
   return (
-    <TT style={[{ fontFamily: fontName, fontSize: size, color: color }, style]} {...props}>
+    <TT style={[{ fontSize: size, color: color }, style]} {...props}>
       {children}
     </TT>
   );

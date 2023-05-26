@@ -1,6 +1,5 @@
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from "react-native"
 import { TextInput } from 'react-native-paper';
-import { StatusBar } from "@components/StatusBar";
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import Dialog from "react-native-dialog";
@@ -15,10 +14,6 @@ import MaskInput from 'react-native-mask-input';
 import LottieView from 'lottie-react-native';
 import checkmark1 from '@assets/animations/checkmark1.json';
 import loading1 from '@assets/animations/loading1.json';
-import loading2 from '@assets/animations/loading2.json';
-import loading3 from '@assets/animations/loading3.json';
-import loading4 from '@assets/animations/loading4.json';
-import loading5 from '@assets/animations/loading5.json';
 
 import { routes } from "@constants/routes";
 

@@ -1,16 +1,14 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { AddScreen } from '@screens/Pet/Add/AddScreen';
-import { AddScreen as AlertScreen } from '@screens/Pet/Add/AddScreen';
 import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
 import { routes } from '@constants/routes';
-import { DrawerActions, useFocusEffect, useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from "react";
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { colors } from '@constants/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthScreen } from '@screens/Auth/AuthScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Image } from 'react-native';
 import DashedLine from 'react-native-dashed-line';
 import { getToken } from '@functions/authToken';
 import { LogoHeader } from '@components/LogoHeader';

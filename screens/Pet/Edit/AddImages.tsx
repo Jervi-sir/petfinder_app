@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
-import { View, ScrollView, Image, TouchableOpacity, Text, StyleSheet, Animated } from "react-native";
+import { View, Image, TouchableOpacity, Text, StyleSheet, Animated } from "react-native";
 import Dialog from "react-native-dialog";
 import { manipulateAsync } from 'expo-image-manipulator';
 import RNAnimatedScrollIndicators from 'react-native-animated-scroll-indicators';

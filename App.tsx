@@ -23,16 +23,12 @@ export default function App() {
   };
 
   useEffect(() => {
-
-    loadFonts();
-
+    //loadFonts();
     getAuthToken()
-      .then(e => 
-      { 
+      .then(e =>  { 
         checkToken(e);
       })
       .catch(e => console.log(e));
-    
   }, []);
 
   const checkToken = async (token) => {

@@ -7,7 +7,6 @@ import { icons } from "@constants/icons";
 import { AllScreen } from './AllScreen';
 import { RaceScreen } from './RaceScreen';
 import { LogoHeader } from '@components/LogoHeader';
-import { HeaderWithTitle } from '@components/HeaderWithTitle';
 
 const Tab = createMaterialTopTabNavigator();
 

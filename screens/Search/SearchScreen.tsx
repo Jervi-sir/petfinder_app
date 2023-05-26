@@ -1,14 +1,12 @@
-import { View, Image, TextInput, FlatList, ScrollView, Animated, StyleSheet } from 'react-native'
+import { View, Image, TextInput, FlatList, Animated, StyleSheet } from 'react-native'
 import DashedLine from 'react-native-dashed-line';
 import { FilterSearch } from './FilterSearch';
-import { Separator } from '@components/Separator';
 import { colors } from '@constants/colors';
 import { CardPet } from '@components/CardPet';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import axios from 'axios';
 import { api } from '@constants/api';
 import { CardVerticalSkeleton } from '@components/Skeletons/CardVerticalSkeleton';
-import { GlobalVariable } from '@constants/GlobalVariable';
 import { getToken } from '@functions/authToken';
 import { routes } from '@constants/routes';
 import {TouchableOpacity} from 'react-native'

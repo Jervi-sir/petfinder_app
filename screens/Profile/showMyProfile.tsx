@@ -10,7 +10,6 @@ import { api } from '@constants/api';
 import { CardHorizentalSkeleton } from "@components/Skeletons/CardHorizentalSkeleton";
 import { ProfileCardSkeleton } from "@components/Skeletons/ProfileCardSkeleton";
 import { getToken } from "@functions/authToken";
-import { Button } from "react-native";
 import { Text } from '@components/Text';
 
 export const ShowMyProfile = () => {

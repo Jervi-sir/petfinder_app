@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Animated, View, Text, TouchableOpacity, LayoutAnimation, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 
 export const CalendarTry = () => {
   const [age, setAge] = useState('');

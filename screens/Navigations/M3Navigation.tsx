@@ -4,7 +4,7 @@ import { routes } from '@constants/routes';
 import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
 import { OptionScreen } from '@screens/Options/OptionScreen';
 
-import {View, Text, Image, ScrollView, TextInput} from 'react-native'
+import {View, Text } from 'react-native'
 import DashedLine from 'react-native-dashed-line';
 import { colors } from '@constants/colors';
 import { LogoHeader } from '@components/LogoHeader';

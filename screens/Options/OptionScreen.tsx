@@ -4,7 +4,7 @@ import { SavedScreen } from './SavedScreen';
 import { MessageList } from './MessageList';
 import { PetNameGenerator } from './PetNameGenerator';
 import { routes } from '@constants/routes';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { MessageScreen } from './MessageScreen';
 import { colors } from '@constants/colors';
 
