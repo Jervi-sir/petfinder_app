@@ -1,15 +1,8 @@
-import { Dimensions, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
-import { View, Image, Text, Animated } from "react-native"
-import { icons } from "@constants/icons";
-import { useNavigation } from '@react-navigation/native';
-import { routes } from "@constants/routes";
+import { TouchableOpacity } from "react-native"
+import { View, Animated } from "react-native"
 import { colors } from "@constants/colors";
-import { useEffect } from "react";
 
 export const CardHorizentalSkeleton = () => {
-  const navigation = useNavigation();
-  const Dimension = Dimensions.get('window').width - 40;
-  const CardWidth = Dimension / 2;
   const skeletonWidth = new Animated.Value(0);
 
   Animated.loop(

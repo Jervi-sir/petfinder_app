@@ -6,7 +6,7 @@ import Dialog from "react-native-dialog";
 import * as ImagePicker from 'expo-image-picker';
 import { manipulateAsync } from 'expo-image-manipulator';
 import { useEffect, useState, useRef } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { api } from "@constants/api";
 import { GlobalVariable } from "@constants/GlobalVariable";
@@ -14,6 +14,10 @@ import MaskInput from 'react-native-mask-input';
 import LottieView from 'lottie-react-native';
 import checkmark1 from '@assets/animations/checkmark1.json';
 import loading1 from '@assets/animations/loading1.json';
+import loading2 from '@assets/animations/loading2.json';
+import loading3 from '@assets/animations/loading3.json';
+import loading4 from '@assets/animations/loading4.json';
+import loading5 from '@assets/animations/loading5.json';
 
 import { routes } from "@constants/routes";
 

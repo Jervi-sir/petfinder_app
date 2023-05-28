@@ -9,13 +9,14 @@ import M2Navigation from './M2Navigation';
 import M3Navigation from './M3Navigation';
 import M4Navigation from './M4Navigation';
 import M5Navigation from './M5Navigation';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Tab = createBottomTabNavigator();
 
-export default function MenuNavigation() {
+export default function MenuNavigation({ navigation }) {
   return (
     <>
-      <Tab.Navigator initialRouteName={routes.m1}
+      <Tab.Navigator initialRouteName={routes.m2}
         screenOptions={{
           tabBarStyle: styles.menu2,
           //tabBarStyle: {backgroundColor: colors.menu, height: '12%', paddingTop: 20, position: 'absolute', bottom:-10, left: 0, zIndex: -1},

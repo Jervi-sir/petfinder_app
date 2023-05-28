@@ -7,10 +7,9 @@ import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import { api } from "@constants/api";
 import { routes } from "@constants/routes";
-import { getAuthToken, saveAuthToken } from "@functions/cookies";
+import { saveAuthToken } from "@functions/cookies";
 import { TextInput } from "react-native-paper"
 
-import { StatusBar } from "@components/StatusBar";
 import { GlobalVariable } from '@constants/GlobalVariable';
 
 

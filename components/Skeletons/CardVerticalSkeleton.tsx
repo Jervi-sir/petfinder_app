@@ -1,10 +1,6 @@
-import { Dimensions, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
-import { View, Image, Text, Animated } from "react-native"
-import { icons } from "@constants/icons";
+import { Dimensions, TouchableWithoutFeedback } from "react-native"
+import { View, Animated } from "react-native"
 import { useNavigation } from '@react-navigation/native';
-import { routes } from "@constants/routes";
-import { colors } from "@constants/colors";
-import { useEffect } from "react";
 
 export const CardVerticalSkeleton = () => {
   const navigation = useNavigation();

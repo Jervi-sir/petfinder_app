@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Animated, View, Text, TouchableOpacity, LayoutAnimation, StyleSheet } from "react-native";
 import DatePicker from 'react-native-modern-datepicker';
-import { getToday } from 'react-native-modern-datepicker';
+import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
+import moment from 'moment';
 import { colors } from "@constants/colors";
 import { calculateAge } from "@functions/helpers";
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, Image } from 'react-native';
+import { Animated, Easing } from 'react-native';
 
 export const LogoHeader = ({ size = 69 }) => {
   const scaleStrat = 1.05;

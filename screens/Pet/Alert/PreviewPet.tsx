@@ -1,12 +1,9 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native"
+import { View, Text, Image, TouchableOpacity } from "react-native"
 import { FlatListSlider } from 'react-native-flatlist-slider';
 import { ScrollView } from "react-native-gesture-handler";
 import { icons } from "@constants/icons";
 import { colors } from "@constants/colors";
-//import { WINDOW_WIDTH } from "@gorhom/bottom-sheet";
-import {Dimensions} from 'react-native';
-
-const WINDOW_WIDTH = Dimensions.get('window').width;
+import { WINDOW_WIDTH } from "@gorhom/bottom-sheet";
 
 export const PreviewPet = ({ route, navigation }) => {
   const {

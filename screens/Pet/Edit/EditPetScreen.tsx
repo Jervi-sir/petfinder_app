@@ -21,8 +21,10 @@ import { useIsFocused } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import checkmark1 from '@assets/animations/checkmark1.json';
 import loading1 from '@assets/animations/loading1.json';
-
-import { Dropdown } from 'react-native-element-dropdown';
+import loading2 from '@assets/animations/loading2.json';
+import loading3 from '@assets/animations/loading3.json';
+import loading4 from '@assets/animations/loading4.json';
+import loading5 from '@assets/animations/loading5.json';
 
 export const EditPetScreen = ({ route }) => {
   const { petId } = route.params;

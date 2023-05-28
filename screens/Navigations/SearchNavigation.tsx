@@ -1,6 +1,5 @@
 
 import { createStackNavigator } from '@react-navigation/stack';
-
 import { routes } from '@constants/routes';
 import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
 import { SearchScreen } from '@screens/Search/SearchScreen';

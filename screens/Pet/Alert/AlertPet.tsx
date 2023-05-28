@@ -1,6 +1,6 @@
 import { TextInput } from 'react-native-paper';
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, Animated } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Animated, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
@@ -23,9 +23,11 @@ import { useIsFocused } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import checkmark1 from '@assets/animations/checkmark1.json';
 import loading1 from '@assets/animations/loading1.json';
-
+import loading2 from '@assets/animations/loading2.json';
+import loading3 from '@assets/animations/loading3.json';
+import loading4 from '@assets/animations/loading4.json';
+import loading5 from '@assets/animations/loading5.json';
 import { getToken } from '@functions/authToken';
-import { HeaderHamburger } from '@components/HeaderHamburger';
 
 export const AlertPet = () => {
   const animationRef = useRef(null);

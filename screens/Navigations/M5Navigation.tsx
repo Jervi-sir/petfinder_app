@@ -1,25 +1,22 @@
-import { Image, TouchableOpacity, View } from 'react-native';
-
-import { useState, useEffect, useCallback } from 'react';
-import { LogoHeader } from '@components/LogoHeader';
-import { Text } from '@components/Text';
-import { colors } from '@constants/colors';
 import { routes } from '@constants/routes';
-import { getToken } from '@functions/authToken';
-import { removeAuthToken } from '@functions/cookies';
+import { DrawerActions, useFocusEffect, useNavigation, useNavigationContainerRef, useRoute } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { AuthScreen } from '@screens/Auth/AuthScreen';
 import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
+import { EditPetScreen } from '@screens/Pet/Edit/EditPetScreen';
 import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
 import { EditProfile } from '@screens/Profile/EditProfile';
 import { ShowMyProfile } from '@screens/Profile/showMyProfile';
-import { EditPetScreen } from '@screens/Pet/Edit/EditPetScreen';
-
-import { createStackNavigator } from '@react-navigation/stack';
-import { DrawerActions, useFocusEffect } from '@react-navigation/native';
 import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
+import { useState, useEffect, useCallback } from 'react';
+import { colors } from '@constants/colors';
+import { Image, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import DashedLine from 'react-native-dashed-line';
-
-
+import { getToken } from '@functions/authToken';
+import { removeAuthToken } from '@functions/cookies';
+import { LogoHeader } from '@components/LogoHeader';
+import { Text } from '@components/Text';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

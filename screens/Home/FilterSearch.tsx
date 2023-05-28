@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, LayoutAnimation, Animated } from 'react-native'
+import { View, Text, TouchableOpacity, LayoutAnimation, FlatList, ScrollView, Animated, StyleSheet } from 'react-native'
 import { useState } from 'react';
 import { colors } from '@constants/colors';
 import { FilterDropdown } from './FilterDropdown';

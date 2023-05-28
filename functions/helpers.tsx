@@ -1,6 +1,5 @@
 import moment from 'moment';
-//import { Linking } from 'react-native';
-import * as Linking from 'expo-linking';
+import { Linking } from 'react-native';
 
 export const calculateAge = (date) => {
   let dob;

@@ -11,6 +11,7 @@ import { View, FlatList, ActivityIndicator } from "react-native"
 import { FilterSearch } from "./FilterSearch"
 import { useFocusEffect } from "@react-navigation/native"
 
+
 export const RaceScreen = ({ raceId, setTabName, raceName }) => {
 
   useEffect(() => {

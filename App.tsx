@@ -23,7 +23,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    //loadFonts();
+    loadFonts();
     getAuthToken()
       .then(e =>  { 
         checkToken(e);

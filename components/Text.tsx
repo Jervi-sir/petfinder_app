@@ -1,7 +1,7 @@
 import { Text as TT } from "react-native"
 
 export const Text = ({ weight = '500', size = 14, color = 'black', style = {}, children, ...props }) => {
-  let fontName = 'Poppins-Regular';
+  /*let fontName = 'Poppins-Regular';
   switch(weight) {
     case '800': fontName = 'Poppins-Black'; break;
     case '700': fontName = 'Poppins-Bold'; break;
@@ -11,7 +11,7 @@ export const Text = ({ weight = '500', size = 14, color = 'black', style = {}, c
     case '300': fontName = 'Poppins-Thin'; break;
     default:  // code block
   }
-
+  */
   return (
     <TT style={[{ fontSize: size, color: color }, style]} {...props}>
       {children}

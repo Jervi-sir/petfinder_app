@@ -8,14 +8,11 @@ import { api } from "@constants/api";
 import { useEffect, useState } from "react";
 import { calculateAge, makePhoneCall } from "@functions/helpers";
 import { GlobalVariable } from '@constants/GlobalVariable';
-//import { WINDOW_WIDTH } from '@gorhom/bottom-sheet';
+import { WINDOW_WIDTH } from '@gorhom/bottom-sheet';
 import { routes } from "@constants/routes";
 import { useNavigation } from '@react-navigation/native';
-import {Dimensions} from 'react-native';
 
 
-
-const WINDOW_WIDTH = Dimensions.get('window').width;
 /* input
   id, name, user_id, location, wilaya_name or wilaya_id, gender, date, offer_type_id, price, race_name, sub_race
   images
