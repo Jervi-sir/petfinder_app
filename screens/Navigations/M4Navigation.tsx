@@ -2,21 +2,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { AddScreen } from '@screens/Pet/Add/AddScreen';
 import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
 import { routes } from '@constants/routes';
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from "react";
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect } from "react";
 import { View } from "react-native";
 import { colors } from '@constants/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthScreen } from '@screens/Auth/AuthScreen';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import DashedLine from 'react-native-dashed-line';
 import { getToken } from '@functions/authToken';
 import { LogoHeader } from '@components/LogoHeader';
 import { Text } from '@components/Text';
 import { AlertPet } from '@screens/Pet/Alert/AlertPet';
+import { StyleSheet, Platform } from 'react-native';
 
 const Stack = createStackNavigator();
-const DrawerM4 = createDrawerNavigator();
+const currentPlatform = Platform.OS;
 
 export default function M4Navigation() {
   return(
@@ -31,10 +31,10 @@ export default function M4Navigation() {
           <Stack.Screen name='main screen m4' component={MainScreen} />
           <Stack.Screen name={routes.AUTH} options={{
             cardStyle: {
-              backgroundColor: 'transparent',
-              height: '70%'
+              backgroundColor: currentPlatform == 'android' ? 'rgba(0,0,0,0.5)' : 'transparent',
+              height: '10%'
             },
-            presentation: 'modal',
+            presentation: currentPlatform == 'android' ? 'transparentModal' : 'modal',
             gestureEnabled: false,
           }}>
             {() => <AuthScreen redirectAfterAuth='Add new Pet m4' />}
@@ -76,6 +76,14 @@ export const MainScreen = ({ navigation }) => {
     }
   }, [getToken()]);
 
+  useFocusEffect(
+    useCallback(() => {
+      if(getToken() == null) {
+        navigation.navigate(routes.AUTH)
+      } 
+    }, [getToken()])
+  );
+
   const handlePressFromChild = () => {
   };
   return (
@@ -90,9 +98,9 @@ export const MainScreen = ({ navigation }) => {
       }}
       >
         <Stack.Screen name={ routes.ADDPET } component={AddScreen} />
-        <Stack.Screen name={ routes.PREVIEWPET } component={PreviewPet} />
-        <Stack.Screen name={ routes.ALERTPET } component={AlertPet} />
-        <Stack.Screen name={ routes.PREVIEWPET + 'lost' } component={PreviewPet} />
+        {/*<Stack.Screen name={ routes.PREVIEWPET } component={PreviewPet} />*/}
+        {/*<Stack.Screen name={ routes.ALERTPET } component={AlertPet} />*/}
+        {/*<Stack.Screen name={ routes.PREVIEWPET + 'lost' } component={PreviewPet} />*/}
     </Stack.Navigator>
     </>
 

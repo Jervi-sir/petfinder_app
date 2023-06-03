@@ -1,6 +1,7 @@
-import {View, Text, Image, TextInput, ScrollView, Animated, StyleSheet} from 'react-native'
+import {View, Text, TextInput, ScrollView, Animated, StyleSheet} from 'react-native'
 import { useState,useRef } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Image } from 'expo-image';
 
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
@@ -13,10 +14,6 @@ const Tab = createMaterialTopTabNavigator();
 export const HomeScreen = () => {
   const [ selectedTab, setSelectedTab ] = useState('');
 
-  const handleSelectedTab = name => {
-    setSelectedTab(name)
-  };
-
   return (
     <View style={{backgroundColor: colors.background}}>
       {/* <HeaderWithTitle title={'New ' + selectedTab} /> */}
@@ -28,14 +25,16 @@ export const HomeScreen = () => {
           tabBarScrollEnabled: true,
           tabBarIndicatorStyle:{ backgroundColor: colors.menu, height: 0, } ,
           tabBarItemStyle: {width: 71, },
-          tabBarContentContainerStyle:{alignItems: 'flex-start' , alignContent: 'flex-start',   },
+          tabBarContentContainerStyle:{alignItems: 'flex-start' , alignContent: 'flex-start'},
           tabBarStyle: {backgroundColor:'transparent', height: 71, alignItems: 'flex-start'},
           animationEnabled: true,
           swipeEnabled: false,
         }}
+
         >
           <Tab.Screen 
             name="Pets" 
+            component={AllScreen}
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -43,11 +42,10 @@ export const HomeScreen = () => {
                   <Image style={{width: focused ? 45 : 55, height: focused ? 45 : 55}} source={icons.LOGO} />
                 </View>
               )  }} 
-          >
-            {() => <AllScreen setTabName={handleSelectedTab} raceName={"Pets"}/>}
-          </Tab.Screen>
+          />
           <Tab.Screen 
             name="Cat" 
+            component={CatTab}
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -56,11 +54,10 @@ export const HomeScreen = () => {
                   <Text style={{color: focused ? colors.white : colors.menu}}>Cat</Text>
                 </View>
               )  }}
-          >
-          {() => <RaceScreen raceId="1" setTabName={handleSelectedTab} raceName={"Cats"}/>}
-          </Tab.Screen>
+          />
           <Tab.Screen 
             name="Dog" 
+            component={DogTab}
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -69,11 +66,10 @@ export const HomeScreen = () => {
                   <Text style={{color: focused ? colors.white : colors.menu}}>Dog</Text>
                 </View>
               )  }}
-          >
-          {() => <RaceScreen raceId="2" setTabName={handleSelectedTab} raceName={"Dog"}/>}
-          </Tab.Screen>
+          />
           <Tab.Screen 
             name="Bird" 
+            component={BirdTab}
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -82,11 +78,11 @@ export const HomeScreen = () => {
                   <Text style={{color: focused ? colors.white : colors.menu}}>Bird</Text>
                 </View>
               )  }}
-          >
-          {() => <RaceScreen raceId="3" setTabName={handleSelectedTab} raceName={"Bird"}/>}
-          </Tab.Screen>
+          />
+
           <Tab.Screen 
             name="Horse" 
+            component={HorseTab}
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -95,11 +91,11 @@ export const HomeScreen = () => {
                   <Text style={{color: focused ? colors.white : colors.menu}}>Horse</Text>
                 </View>
               )}}
-          >
-          {() => <RaceScreen raceId="4" setTabName={handleSelectedTab} raceName={"Horse"}/>}
-          </Tab.Screen>
+          />
+         
           <Tab.Screen 
             name="Other" 
+            component={OtherTab}
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -108,10 +104,7 @@ export const HomeScreen = () => {
                   <Text style={{color: focused ? colors.white : colors.menu}}>Other</Text>
                 </View>
               )  }}
-            >
-            {() => <RaceScreen raceId="5" setTabName={handleSelectedTab} raceName={"Other"}/>}
-            </Tab.Screen>
-
+          />
         </Tab.Navigator>
       </View>
       {/* title */}
@@ -121,6 +114,14 @@ export const HomeScreen = () => {
     </View>
   )
 }
+
+
+
+const CatTab = () => { return (<RaceScreen raceId={1} raceName='Cats' />) }
+const DogTab = () => { return (<RaceScreen raceId={2} raceName='Dogs' />) }
+const BirdTab = () => { return (<RaceScreen raceId={3} raceName='Birds' />) }
+const HorseTab = () => { return (<RaceScreen raceId={4} raceName='Horses' />) }
+const OtherTab = () => { return (<RaceScreen raceId={5} raceName='Others' />) }
 
 const styles = StyleSheet.create({
   filterButton: {

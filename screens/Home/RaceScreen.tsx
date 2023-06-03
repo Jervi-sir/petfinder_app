@@ -12,7 +12,7 @@ import { FilterSearch } from "./FilterSearch"
 import { useFocusEffect } from "@react-navigation/native"
 
 
-export const RaceScreen = ({ raceId, setTabName, raceName }) => {
+export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
 
   useEffect(() => {
     setFirstLoading(true);
@@ -33,7 +33,7 @@ export const RaceScreen = ({ raceId, setTabName, raceName }) => {
 
   useFocusEffect(
     useCallback(() => {
-      setTabName(raceName);
+      //setTabName(raceName);
       return () => {
       };
     }, [])

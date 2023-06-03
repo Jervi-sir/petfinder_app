@@ -1,6 +1,7 @@
-import {View, Image} from 'react-native'
+import {View} from 'react-native'
 import DashedLine from 'react-native-dashed-line';
 import { colors } from '@constants/colors';
+import { Image } from 'expo-image';
 
 export const HeaderHamburger = ({onPress = null}) => {
   return (

@@ -1,7 +1,8 @@
-import {View, Image, ScrollView, TextInput, TouchableOpacity} from 'react-native'
+import {View, ScrollView, TextInput, TouchableOpacity} from 'react-native'
 import DashedLine from 'react-native-dashed-line';
 import { colors } from '@constants/colors';
 import { useState } from 'react';
+import { Image } from 'expo-image';
 
 export const HeaderSearch = ({ onPress }) => {
   const [keywords, setKeywords] = useState('');

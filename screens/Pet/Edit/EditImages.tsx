@@ -1,10 +1,11 @@
 import { useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
-import { View, Image, TouchableOpacity, Text, StyleSheet, Animated  } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet, Animated  } from "react-native";
 import Dialog from "react-native-dialog";
 import {manipulateAsync} from 'expo-image-manipulator';
 import RNAnimatedScrollIndicators from 'react-native-animated-scroll-indicators';
 import { colors } from "@constants/colors";
+import { Image } from 'expo-image';
 
 export const EditImages = () => {
   const [image1, setImage1] = useState(null);

@@ -1,5 +1,5 @@
 import { Dimensions, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
-import { View, Image, Text } from "react-native"
+import { View, Text } from "react-native"
 import { icons } from "@constants/icons";
 import { useNavigation } from '@react-navigation/native';
 import { routes } from "@constants/routes";
@@ -10,6 +10,7 @@ import axios from "axios";
 import { api } from "@constants/api";
 import { useEffect, useState } from "react";
 import { getToken } from "@functions/authToken";
+import { Image } from 'expo-image';
 
 export const CardPet = ({ pet, viewPetRoute }) => {
   const navigation = useNavigation();

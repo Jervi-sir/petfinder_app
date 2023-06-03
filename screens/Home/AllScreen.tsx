@@ -11,7 +11,7 @@ import { View, FlatList, ActivityIndicator } from "react-native"
 import { FilterSearch } from "./FilterSearch"
 import { useFocusEffect } from "@react-navigation/native"
 
-export const AllScreen = ({ setTabName, raceName }) => {
+export const AllScreen = ({ raceName = "Pets" }) => {
   const [data, setData] = useState([]);
   const [firstLoading, setFirstLoading] = useState(true);
   const flatListRef = useRef(null);
@@ -31,7 +31,7 @@ export const AllScreen = ({ setTabName, raceName }) => {
 
   useFocusEffect(
     useCallback(() => {
-      setTabName(raceName);
+      //setTabName(raceName);
       return () => {
       };
     }, [])
@@ -54,7 +54,18 @@ export const AllScreen = ({ setTabName, raceName }) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    fetchPosts();
+    setData([]);
+    setLoading(true);
+    axios.get(api.Server + (getToken() ? api.getLatestPetsAuth : api.getLatestPets) + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+    .then(response => {
+      setData([...data, ...response.data.pets]);
+      setFirstLoading(false);
+      setLoading(false);
+      setCurrentPage(currentPage + 1);
+      if (currentPage >= response.data.last_page) {
+        setHasMore(false);
+      }
+    })
     setRefreshing(false);
   };
 

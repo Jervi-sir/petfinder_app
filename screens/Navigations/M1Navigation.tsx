@@ -14,7 +14,7 @@ export default function M1Navigation() {
           screenOptions={() => ({
             headerShown: false,
             headerLeft: null,
-            animationEnabled: true
+            animationEnabled: false
           })}
         >
           <Stack.Screen name='main screen m1' component={MainScreen} />
@@ -40,6 +40,7 @@ const MainScreen = () => {
           screenOptions={() => ({
             headerShown: false,
             headerLeft: null,
+            animationEnabled: true
           })}
         >
           <Stack.Screen name={routes.HOME} component={HomeScreen} />

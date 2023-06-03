@@ -1,8 +1,9 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native"
+import { View, Text, TouchableOpacity, ScrollView } from "react-native"
 import { PetCard } from "./petCard"
 import { Dimensions } from 'react-native';
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
+import { Image } from 'expo-image';
 
 const screenHeight = Dimensions.get('screen').height;
 

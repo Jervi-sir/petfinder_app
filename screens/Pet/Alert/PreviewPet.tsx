@@ -3,7 +3,9 @@ import { FlatListSlider } from 'react-native-flatlist-slider';
 import { ScrollView } from "react-native-gesture-handler";
 import { icons } from "@constants/icons";
 import { colors } from "@constants/colors";
-import { WINDOW_WIDTH } from "@gorhom/bottom-sheet";
+import {Dimensions} from 'react-native';
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
 
 export const PreviewPet = ({ route, navigation }) => {
   const {

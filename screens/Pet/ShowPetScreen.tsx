@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, Animated } from "react-native"
+import { View, Text, TouchableOpacity, Animated } from "react-native"
 import { FlatListSlider } from 'react-native-flatlist-slider';
 import { ScrollView } from "react-native-gesture-handler";
 import { colors } from "@constants/colors";
@@ -8,9 +8,12 @@ import { api } from "@constants/api";
 import { useEffect, useState } from "react";
 import { calculateAge, makePhoneCall } from "@functions/helpers";
 import { GlobalVariable } from '@constants/GlobalVariable';
-import { WINDOW_WIDTH } from '@gorhom/bottom-sheet';
 import { routes } from "@constants/routes";
 import { useNavigation } from '@react-navigation/native';
+import {Dimensions} from 'react-native';
+import { Image } from 'expo-image';
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
 
 
 /* input

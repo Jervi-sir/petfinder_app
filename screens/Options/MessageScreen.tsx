@@ -1,7 +1,8 @@
-import { View, Text, Image, TouchableOpacity } from "react-native"
+import { View, Text, TouchableOpacity } from "react-native"
  
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
+import { Image } from 'expo-image';
 
 export const MessageScreen = ({navigation}) => {
   return (

@@ -8,12 +8,15 @@ import { icons } from "@constants/icons";
 import { api } from "@constants/api";
 import { routes } from "@constants/routes";
 import { saveAuthToken } from "@functions/cookies";
-import { SCREEN_HEIGHT } from "@gorhom/bottom-sheet";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { createStackNavigator } from '@react-navigation/stack';
 import { getToken } from "@functions/authToken";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
+import {Dimensions} from 'react-native';
+
+
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const Stack = createStackNavigator();
 

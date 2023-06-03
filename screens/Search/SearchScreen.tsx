@@ -1,4 +1,4 @@
-import { View, Image, TextInput, FlatList, Animated, StyleSheet } from 'react-native'
+import { View, TextInput, FlatList, Animated, StyleSheet } from 'react-native'
 import DashedLine from 'react-native-dashed-line';
 import { FilterSearch } from './FilterSearch';
 import { colors } from '@constants/colors';
@@ -11,6 +11,7 @@ import { getToken } from '@functions/authToken';
 import { routes } from '@constants/routes';
 import {TouchableOpacity} from 'react-native'
 import { LogoHeader } from '@components/LogoHeader';
+import { Image } from 'expo-image';
 
 export const SearchScreen = () => {
   const [data, setData] = useState([]);

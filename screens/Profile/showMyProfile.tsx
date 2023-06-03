@@ -1,4 +1,4 @@
-import { View, Image, TouchableOpacity, FlatList, RefreshControl } from "react-native"
+import { View, TouchableOpacity, FlatList, RefreshControl } from "react-native"
 import { PetCard } from "./petCard"
 
 import { colors } from "@constants/colors";
@@ -11,6 +11,7 @@ import { CardHorizentalSkeleton } from "@components/Skeletons/CardHorizentalSkel
 import { ProfileCardSkeleton } from "@components/Skeletons/ProfileCardSkeleton";
 import { getToken } from "@functions/authToken";
 import { Text } from '@components/Text';
+import { Image } from 'expo-image';
 
 export const ShowMyProfile = () => {
   const navigation = useNavigation();

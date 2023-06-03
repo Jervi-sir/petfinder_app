@@ -8,22 +8,9 @@ import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 
 export default function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      'Poppins-Black': require('@assets/fonts/Poppins-Black.ttf'),
-      'Poppins-Bold': require('@assets/fonts/Poppins-Bold.ttf'),
-      'Poppins-Light': require('@assets/fonts/Poppins-Light.ttf'),
-      'Poppins-Medium': require('@assets/fonts/Poppins-Medium.ttf'),
-      'Poppins-Regular': require('@assets/fonts/Poppins-Regular.ttf'),
-      'Poppins-Thin': require('@assets/fonts/Poppins-Thin.ttf'),
-    });
-    setFontsLoaded(true);
-  };
-
+  //const [fontsLoaded, setFontsLoaded] = useState(false);
   useEffect(() => {
-    loadFonts();
+    //loadFonts();
     getAuthToken()
       .then(e =>  { 
         checkToken(e);
@@ -34,15 +21,11 @@ export default function App() {
   const checkToken = async (token) => {
     try {
       const response = await axios.get(api.Server + api.User, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-
       console.log('Token is valid');
     } catch (error) {
-      if (error.response.status === 401) {
-        removeAuthToken();
+      if (error.response.status === 401) { removeAuthToken();
       } else {
         //console.error(error);
       }
@@ -57,3 +40,15 @@ export default function App() {
   );
 }
 
+
+const loadFonts = async () => {
+  await Font.loadAsync({
+    'Poppins-Black': require('@assets/fonts/Poppins-Black.ttf'),
+    'Poppins-Bold': require('@assets/fonts/Poppins-Bold.ttf'),
+    'Poppins-Light': require('@assets/fonts/Poppins-Light.ttf'),
+    'Poppins-Medium': require('@assets/fonts/Poppins-Medium.ttf'),
+    'Poppins-Regular': require('@assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-Thin': require('@assets/fonts/Poppins-Thin.ttf'),
+  });
+  //setFontsLoaded(true);
+};

@@ -11,8 +11,8 @@ export const getAuthToken = async () => {
 
 //saveAuthToken('bruhVerj');
 export const saveAuthToken = async (value) => {
-  //await AsyncStorage.setItem('authToken', value);
-  //setToken(value);
+  await AsyncStorage.setItem('authToken', value);
+  setToken(value);
   return true;
 };
 

@@ -10,16 +10,18 @@ import { ShowMyProfile } from '@screens/Profile/showMyProfile';
 import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
 import { useState, useEffect, useCallback } from 'react';
 import { colors } from '@constants/colors';
-import { Image, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Platform } from 'react-native';
 import { View } from 'react-native';
 import DashedLine from 'react-native-dashed-line';
 import { getToken } from '@functions/authToken';
 import { removeAuthToken } from '@functions/cookies';
 import { LogoHeader } from '@components/LogoHeader';
 import { Text } from '@components/Text';
+import { Image } from 'expo-image';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+const currentPlatform = Platform.OS;
 
 export default function M5Navigation() {
 
@@ -35,11 +37,11 @@ export default function M5Navigation() {
           <Stack.Screen name='main screen m5' component={MainDrawer} />
           <Stack.Screen name={routes.AUTH} options={{
             cardStyle: {
-              backgroundColor: 'transparent',
-              height: '70%'
+              backgroundColor: currentPlatform == 'android' ? 'rgba(0,0,0,0.5)' : 'transparent',
+              height: '10%'
             },
-            presentation: 'modal',
-            gestureEnabled: true,
+            presentation: currentPlatform == 'android' ? 'transparentModal' : 'modal',
+            gestureEnabled: false,
           }}>
           {() => <AuthScreen redirectAfterAuth={routes.SHOWMYPROFILE + 'm5'} />}
           </Stack.Screen>

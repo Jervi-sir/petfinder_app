@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from "react-native"
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native"
 import { TextInput } from 'react-native-paper';
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
@@ -20,6 +20,7 @@ import loading4 from '@assets/animations/loading4.json';
 import loading5 from '@assets/animations/loading5.json';
 
 import { routes } from "@constants/routes";
+import { Image } from 'expo-image';
 
 export const EditProfile = () => {
   const [image1, setImage1] = useState(null);

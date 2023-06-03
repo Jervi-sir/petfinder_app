@@ -13,7 +13,7 @@ export const CalendarTry = () => {
     <>
      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
         <View style={{flex: 0.5}}>
-          <TouchableOpacity onPress={toggleCollapsibleView} style={styles.inputDate}>
+          <TouchableOpacity onPress={toggleCollapsibleView} >
             <Text>{selectedDate == '' ? 'Birthday' : selectedDate}</Text>
           </TouchableOpacity>
         </View>

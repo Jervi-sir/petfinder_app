@@ -1,10 +1,11 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import { displayAge } from "@functions/helpers";
 import { useNavigation } from '@react-navigation/native';
 import { routes } from '@constants/routes';
 import { GlobalVariable } from '@constants/GlobalVariable';
+import { Image } from 'expo-image';
 
 export const PetCard = ({ pet }) => {
   const navigation = useNavigation();
