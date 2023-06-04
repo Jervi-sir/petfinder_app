@@ -12,7 +12,6 @@ import { FilterSearch } from "./FilterSearch"
 import { useFocusEffect } from "@react-navigation/native"
 import { AuthContext } from '@functions/AuthState';
 
-
 export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
   const [data, setData] = useState([]);
   const [firstLoading, setFirstLoading] = useState(true);
@@ -44,8 +43,16 @@ export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
   const fetchPosts = async () => {
     if (loading || !hasMore) return;
     setLoading(true);
-    
-    axios.get(api.Server + (BearerToken ? api.getRaceAuth : api.getRace) + raceId + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+    axios.get(api.Server + (
+      BearerToken 
+      ? 
+        ( raceId == 0 ? api.getLatestPetsAuth : api.getRaceAuth ) 
+      : 
+        (raceId == 0 ? api.getLatestPets : api.getRace)
+    ) 
+    + (raceId == 0 ? '' : raceId) 
+    + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+
     .then(response => {
       setData([...data, ...response.data.pets]);
       setFirstLoading(false);
@@ -58,23 +65,28 @@ export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
   };
 
   const onRefresh = () => {
+    console.log('refreshing')
     setRefreshing(true);
     setData([]);
     setLoading(true);
     setFirstLoading(true);
-    axios.get(api.Server + (BearerToken ? api.getRaceAuth : api.getRace) + raceId + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+    axios.get(api.Server + (
+      BearerToken 
+      ? 
+        ( raceId == 0 ? api.getLatestPetsAuth : api.getRaceAuth ) 
+      : 
+        (raceId == 0 ? api.getLatestPets : api.getRace)
+    ) 
+    + (raceId == 0 ? '' : raceId) 
+    + '?page=' + 1, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+
     .then(response => {
-      setData([...data, ...response.data.pets]);
+      setData(response.data.pets);
       setLoading(false);
-      setCurrentPage(currentPage + 1);
-      if (currentPage >= response.data.last_page) {
-        setHasMore(false);
-      }
+      setCurrentPage(2);
       flatListRef.current.scrollToOffset({ offset: 0, animated: true });
-      setRefreshing(false);
-      
     }).then(() => setFirstLoading(false))
-    
+    setRefreshing(false);
   };
 
   return (
@@ -99,7 +111,7 @@ export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
               renderItem={({ item }) => <CardPet pet={item} viewPetRoute={routes.VIEWPET}/>}
               numColumns={2}
               keyExtractor={(item, index) => index.toString()}
-              onEndReached={fetchPosts}
+              onEndReached={() => {if(!refreshing) fetchPosts() }}
               onEndReachedThreshold={0.01}
               //ItemSeparatorComponent={() => <View style={{height: 20}} />}
               columnWrapperStyle={{ justifyContent: 'space-between', paddingTop: 10, }}

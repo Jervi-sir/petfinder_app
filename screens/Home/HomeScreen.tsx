@@ -34,7 +34,7 @@ export const HomeScreen = () => {
         >
           <Tab.Screen 
             name="Pets" 
-            component={AllScreen}
+            component={AllTab}
             options={{
               tabBarLabel: () => {return null},
               tabBarIcon: ({focused}) => (
@@ -116,7 +116,7 @@ export const HomeScreen = () => {
 }
 
 
-
+const AllTab = () => { return (<RaceScreen raceId={0} raceName='Pets' />) }
 const CatTab = () => { return (<RaceScreen raceId={1} raceName='Cats' />) }
 const DogTab = () => { return (<RaceScreen raceId={2} raceName='Dogs' />) }
 const BirdTab = () => { return (<RaceScreen raceId={3} raceName='Birds' />) }
