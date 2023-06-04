@@ -5,16 +5,18 @@ import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
 import axios from 'axios';
 import { api } from "@constants/api";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { calculateAge, makePhoneCall } from "@functions/helpers";
 import { GlobalVariable } from '@constants/GlobalVariable';
 import { routes } from "@constants/routes";
 import { useNavigation } from '@react-navigation/native';
 import {Dimensions} from 'react-native';
 import { Image } from 'expo-image';
+import { AuthContext } from "@functions/AuthState";
+import { useContext } from "react";
+import _ from "lodash";
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
-
 
 /* input
   id, name, user_id, location, wilaya_name or wilaya_id, gender, date, offer_type_id, price, race_name, sub_race
@@ -26,6 +28,13 @@ export const ShowPetScreen = ({ route }) => {
   const [pet, setPet] = useState([]);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { BearerToken } = useContext(AuthContext);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isButtonLocked, setButtonLocked] = useState(false);
+  const [nbTries, setNbTries ] = useState(2)
+  const [freezeTime, setFreezeTime] = useState(0);
+
+  const borderRadius = new Animated.Value(100);
 
   const sampleImages = [
     {
@@ -57,13 +66,13 @@ export const ShowPetScreen = ({ route }) => {
   const imageAnimation = { width: fullWidthSkeletonAniamtion, height: '100%', backgroundColor: loadingColor, borderRadius: 10, };
 
   useEffect(() => {
-    if (GlobalVariable.authToken) {
-      axios.get(api.Server + api.getPet + petId, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    if(BearerToken != null) {
+      axios.get(api.Server + api.getPetAuth + petId, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
         .then(response => {
           const result = response.data.pet;
-          console.log(result);
           setIsLoading(false);
           setPet(result);
+          setIsLiked(result.is_liked);
           //setImages(result.images)
         })
     } else {
@@ -77,7 +86,55 @@ export const ShowPetScreen = ({ route }) => {
     }
   }, []);
 
+  const LikeThisPet = (state) => {
+    setNbTries(nbTries - 1);
+    
+    if(nbTries < 0) {
+      setButtonLocked(true);
+      let counter = 5;
+      setFreezeTime(counter);
+      let timerId = setInterval(function() {
+        counter--;
+        setFreezeTime(counter);
+        if (counter < 0) {
+          clearInterval(timerId);
+        }
+      }, 1000);
+  
+      return setTimeout(() => {
+        setButtonLocked(false);
+        setNbTries(2)
+      }, 4000);
+    }
 
+    if(BearerToken != null) {
+      if(state) {
+        setIsLiked(true);
+        axios.post(api.Server + api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+          .then(response => { console.log(response.data); })
+          .catch(err => {
+            setIsLiked(false);
+            console.log(err)
+          });
+      } 
+      else { 
+        setIsLiked(false);
+        axios.post(api.Server + api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(err => {
+            setIsLiked(true);
+            console.log(err)
+          });
+      }
+    } else {
+      setIsLiked(false);
+      console.log('you are not logged in')
+      navigation.navigate(routes.AUTH)
+    }
+  }
+ 
   return (
     <>
       <ScrollView >
@@ -190,14 +247,20 @@ export const ShowPetScreen = ({ route }) => {
               </View>
             )}
 
-
             {/**Action */}
             {isLoading ? (
               <Animated.View style={[textAnimation, { height: 20 }]}></Animated.View>
             ) : (
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <TouchableOpacity>
-                  <Image source={icons.LIKE1} style={{ width: 50, height: 50 }} />
+                <TouchableOpacity onPress={() => { if(!isButtonLocked) LikeThisPet(!isLiked) }} >
+                  <Animated.View style={{backgroundColor: isLiked == true ? colors.likedPet : colors.lightGrey, width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: borderRadius}}>
+                    <Image source={icons.LIKEWHITE} style={{ width: 22, height: 20 }} />
+                  </Animated.View>
+                  {
+                    freezeTime > 0
+                    && 
+                    <Text style={{textAlign: 'center', position: 'absolute', bottom: '25%', right: -20}}>{freezeTime}s</Text>
+                  }
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TouchableOpacity onPress={() => { makePhoneCall(pet.phoneNumber) }}>
@@ -223,3 +286,4 @@ export const ShowPetScreen = ({ route }) => {
     </>
   )
 }
+

@@ -12,6 +12,7 @@ export const icons = {
   CATIMG: require('@assets/icons/pets/cat.png'),
   LIKE1: require('@assets/icons/like1.png'),
   LIKE2: require('@assets/icons/like2.png'),
+  LIKEWHITE: require('@assets/icons/like_white.png'),
   SEARCH: require('@assets/icons/search.png'),
   FILTER: require('@assets/icons/filter.png'),
   FILTER1: require('@assets/icons/filter1.png'),
