@@ -12,6 +12,7 @@ import { routes } from '@constants/routes';
 import {TouchableOpacity} from 'react-native'
 import { LogoHeader } from '@components/LogoHeader';
 import { Image } from 'expo-image';
+import { getAuthToken } from '@functions/cookies';
 
 export const SearchScreen = () => {
   const [data, setData] = useState([]);
@@ -40,21 +41,24 @@ export const SearchScreen = () => {
   };
   /*---------------------------------*/
   function fetchSearch(keywords) {
-    if (getToken()) {
-      axios.get(api.Server + api.getLatestPetsAuth, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+    getAuthToken().then((rsp) => {
+      if(rsp) {
+        console.log('authenticated')
+        axios.get(api.Server + api.getLatestPetsAuth, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + rsp } })
         .then(response => {
           setIsLoading(false);
           setData(response.data.pets);
           console.log(response.data)
         })
-    } else {
-      axios.get(api.Server + api.getLatestPets)
-        .then(response => {
-          setIsLoading(false);
-          setData(response.data.pets);
-          //console.log(response.data)
-      })
-    }
+      } else {
+        console.log('not authenticated')
+        axios.get(api.Server + api.getLatestPets)
+          .then(response => {
+            setIsLoading(false);
+            setData(response.data.pets);
+        })
+      }
+    })
   }
 
   return (

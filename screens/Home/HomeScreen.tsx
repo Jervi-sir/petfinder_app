@@ -1,5 +1,5 @@
 import {View, Text, TextInput, ScrollView, Animated, StyleSheet} from 'react-native'
-import { useState,useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Image } from 'expo-image';
 

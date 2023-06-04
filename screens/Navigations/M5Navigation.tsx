@@ -13,12 +13,11 @@ import { colors } from '@constants/colors';
 import { TouchableOpacity, Platform } from 'react-native';
 import { View } from 'react-native';
 import DashedLine from 'react-native-dashed-line';
-import { getToken } from '@functions/authToken';
-import { removeAuthToken } from '@functions/cookies';
+import { getToken, setToken } from '@functions/authToken';
+import { getAuthToken, removeAuthToken } from '@functions/cookies';
 import { LogoHeader } from '@components/LogoHeader';
 import { Text } from '@components/Text';
 import { Image } from 'expo-image';
-import { getDrawerStatusFromState } from '@react-navigation/drawer';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -54,7 +53,6 @@ const MainDrawer = ({navigation}) => {
   const currentState = navigation.getParent().getState();
   const { index, routeNames} = currentState;
   const currentTab = routeNames[index];
-  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const [open, setOpen] = useState(null);
   const handlePressFromChild = () => {
@@ -63,17 +61,24 @@ const MainDrawer = ({navigation}) => {
   };
 
   useEffect(() => {
-    if(getToken() == null) {
-      navigation.navigate(routes.AUTH)
-    }
-  }, [getToken()]);
+    getAuthToken().then((rsp) => {
+      if(rsp == null) {
+        navigation.navigate(routes.AUTH)
+      } else {
+      }
+    })
+    
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
-      if(getToken() == null) {
-        navigation.navigate(routes.AUTH)
-      } 
-    }, [getToken()])
+      getAuthToken().then((rsp) => {
+        if(rsp == null) {
+          navigation.navigate(routes.AUTH)
+        } else {
+        }
+      })
+    }, [])
   );
 
   return (

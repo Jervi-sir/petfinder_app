@@ -11,12 +11,16 @@ import { api } from "@constants/api";
 import { useEffect, useState } from "react";
 import { getToken } from "@functions/authToken";
 import { Image } from 'expo-image';
+import { AuthContext } from "@functions/AuthState";
+import { useContext } from "react";
 
 export const CardPet = ({ pet, viewPetRoute }) => {
   const navigation = useNavigation();
   const Dimension = Dimensions.get('window').width - 40;
   const CardWidth = Dimension / 2;
   const [isLiked, setIsLiked] = useState(false);
+
+  const { BearerToken } = useContext(AuthContext);
 
   useEffect(() => {
     setIsLiked(pet.is_liked);
@@ -26,42 +30,32 @@ export const CardPet = ({ pet, viewPetRoute }) => {
     navigation.navigate(viewPetRoute, { petId: itemId, mine: false });
   };
 
-  const LikeThisPet = () => {
-    if(getToken()) {
-      if (isLiked != null) {
+  const LikeThisPet = (state) => {
+    if(BearerToken != null) {
+      if(state) {
         setIsLiked(true);
-        axios.post(api.Server + api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
-          .then(response => {
-
-            console.log(response.data);
-          })
+        axios.post(api.Server + api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+          .then(response => { console.log(response.data); })
           .catch(err => {
             setIsLiked(false);
             console.log(err)
           });
-      } else {
-        console.log('redicrect to null')
+      } 
+      else { 
+        setIsLiked(false);
+        axios.post(api.Server + api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(err => {
+            setIsLiked(true);
+            console.log(err)
+          });
       }
     } else {
       setIsLiked(false);
       console.log('you are not logged in')
       navigation.navigate(routes.AUTH)
-    }
-  }
-
-  const unLikeThisPet = () => {
-    if (isLiked != null) {
-      setIsLiked(false);
-      axios.post(api.Server + api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(err => {
-          setIsLiked(true);
-          console.log(err)
-        });
-    } else {
-      console.log('redicrect to null')
     }
   }
 
@@ -76,7 +70,7 @@ export const CardPet = ({ pet, viewPetRoute }) => {
             <View style={{ width: CardWidth, height: CardWidth, borderRadius: 10, backgroundColor: colors.emptyImg1 }}></View>
           )}
         </TouchableWithoutFeedback>
-        <TouchableOpacity onPress={() => { return isLiked ? unLikeThisPet() : LikeThisPet() }} style={{ position: 'absolute', top: 7, right: 7, width: 40, height: 40, alignItems: 'flex-end' }}>
+        <TouchableOpacity onPress={() => { LikeThisPet(!isLiked) }} style={{ position: 'absolute', top: 7, right: 7, width: 40, height: 40, alignItems: 'flex-end' }}>
           <Image style={{ width: 25, height: 25, tintColor: isLiked ? colors.likedPet : undefined }} source={icons.LIKE2} />
         </TouchableOpacity>
         <View style={{ position: 'absolute', width: '100%', bottom: 0 }}>

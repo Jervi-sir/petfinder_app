@@ -5,20 +5,15 @@ import { colors } from "@constants/colors"
 import { routes } from "@constants/routes"
 import { getToken } from "@functions/authToken"
 import axios from "axios"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState, useContext } from "react"
 import { RefreshControl } from "react-native"
 import { View, FlatList, ActivityIndicator } from "react-native"
 import { FilterSearch } from "./FilterSearch"
 import { useFocusEffect } from "@react-navigation/native"
+import { AuthContext } from '@functions/AuthState';
 
 
 export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
-
-  useEffect(() => {
-    setFirstLoading(true);
-    fetchPosts();
-  }, []);
-
   const [data, setData] = useState([]);
   const [firstLoading, setFirstLoading] = useState(true);
   const flatListRef = useRef(null);
@@ -27,9 +22,16 @@ export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
+  const { BearerToken } = useContext(AuthContext);
+
   const scrollToTop = () => {
     flatListRef.current.scrollToOffset({ offset: 0, animated: true });
   };
+
+  useEffect(() => {
+    setFirstLoading(true);
+    fetchPosts();
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -43,7 +45,7 @@ export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
     if (loading || !hasMore) return;
     setLoading(true);
     
-    axios.get(api.Server + (getToken() ? api.getRaceAuth : api.getRace) + raceId + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+    axios.get(api.Server + (BearerToken ? api.getRaceAuth : api.getRace) + raceId + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
     .then(response => {
       setData([...data, ...response.data.pets]);
       setFirstLoading(false);
@@ -60,7 +62,7 @@ export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
     setData([]);
     setLoading(true);
     setFirstLoading(true);
-    axios.get(api.Server + (getToken() ? api.getRaceAuth : api.getRace) + raceId + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+    axios.get(api.Server + (BearerToken ? api.getRaceAuth : api.getRace) + raceId + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
     .then(response => {
       setData([...data, ...response.data.pets]);
       setLoading(false);

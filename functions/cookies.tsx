@@ -1,23 +1,22 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 import { removeToken, setToken } from './authToken';
+import * as SecureStore from 'expo-secure-store';
 
-//getAuthToken().then(e => console.log(e))
+
 export const getAuthToken = async () => {
-  const token = await AsyncStorage.getItem('authToken');
+  const token = await SecureStore.getItemAsync('authToken');
   if(token) return token
   else return null
-  //return 'jervi'
 };
 
-//saveAuthToken('bruhVerj');
 export const saveAuthToken = async (value) => {
-  await AsyncStorage.setItem('authToken', value);
+  await SecureStore.setItemAsync('authToken', value);
   setToken(value);
   return true;
 };
 
 export const removeAuthToken = async () => {
-  await AsyncStorage.removeItem('authToken');
+  await SecureStore.deleteItemAsync('authToken');
   removeToken();
   return true;
 };

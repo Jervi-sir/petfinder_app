@@ -12,6 +12,7 @@ import { ProfileCardSkeleton } from "@components/Skeletons/ProfileCardSkeleton";
 import { getToken } from "@functions/authToken";
 import { Text } from '@components/Text';
 import { Image } from 'expo-image';
+import { icons } from "@constants/icons";
 
 export const ShowMyProfile = () => {
   const navigation = useNavigation();
@@ -59,8 +60,6 @@ export const ShowMyProfile = () => {
     setRefreshing(false);
   };
   const handleNavigate = () => {
-    console.log(124)
-    
     navigation.dispatch(
       CommonActions.navigate({
         name: routes.SHOWMYPROFILE + 'm5',
@@ -105,6 +104,14 @@ export const ShowMyProfile = () => {
                         {nbPets} pet{nbPets > 0 ? 's' : ''}
                       </Text>
                     </View>
+                    <View style={{justifyContent: 'center',alignItems: 'center', marginTop: 50}}>
+                      <Text style={{marginBottom: 7}}>You Haven't posted any pet</Text>
+                      <TouchableOpacity 
+                        onPress={() => { navigation.navigate(routes.m4) }}
+                        style={{backgroundColor: colors.maleBackground, paddingHorizontal: 10, paddingVertical:7, borderRadius: 7, width: '70%', marginHorizontal: 'auto'}}>
+                        <Text style={{color: colors.button, fontSize: 18, textAlign: 'center'}}>Post a pet </Text>
+                      </TouchableOpacity>
+                    </View>
                   </>
                 )
               }}
@@ -122,9 +129,12 @@ export const ShowMyProfile = () => {
   )
 }
 
-const ProfileText = ({ data, placeholder }) => {
+const ProfileText = ({ data, placeholder, icon = null }) => {
   return (
-    <Text style={{ textDecorationLine: data == null ? 'line-through' : 'none', opacity: data == null ? 0.5 : 1 }} >{data == null ? placeholder : data}</Text>
+    <>
+      <Image source={ icons.LOCATION } />
+      <Text style={{ textDecorationLine: data == null ? 'line-through' : 'none', opacity: data == null ? 0.5 : 1 }} >{data == null ? placeholder : data}</Text>
+    </>
   )
 }
 
@@ -137,7 +147,7 @@ const ProfileCard = ({ user, navigation }) => {
             <View>
               <ProfileText data={user.name} placeholder={'name'} />
               <Text weight="600">{user.email}</Text>
-              <ProfileText data={user.location} placeholder={'location'} />
+              <ProfileText data={user.location} placeholder={'location'} icon={icons.LOCATION}/>
               <ProfileText data={user.phone_number} placeholder={'phone number'} />
             </View>
             <View>
@@ -150,7 +160,14 @@ const ProfileCard = ({ user, navigation }) => {
           </View>
           <View>
             <TouchableOpacity onPress={() => navigation.navigate(routes.EDITPROFILE)} style={{ backgroundColor: colors.menu, padding: 7 }}>
-              <Text style={{ color: colors.white, textAlign: 'center' }}>Edit</Text>
+              {!user.location || !user.phone_number || !user.name 
+              ? (
+                <Text style={{ color: colors.white, textAlign: 'center' }}>Complete my Profile</Text>
+              )
+              : (
+                <Text style={{ color: colors.white, textAlign: 'center' }}>Edit</Text>
+              )
+              }
             </TouchableOpacity>
           </View>
         </View>

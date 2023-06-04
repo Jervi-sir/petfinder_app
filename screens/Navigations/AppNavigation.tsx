@@ -1,10 +1,13 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { routes } from '@constants/routes';
 import MenuNavigation from './MenuNavigation';
-
+import { AuthContext } from '@functions/AuthState';
+import { useContext } from 'react';
 const Stack = createStackNavigator();
 
 export default function AppNavigation() {
+  const { BearerToken } = useContext(AuthContext);
+  //console.log('token' +  token)
   const config = {
     animation: 'spring',
     config: {
