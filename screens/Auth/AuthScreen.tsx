@@ -14,8 +14,7 @@ import { getToken } from "@functions/authToken";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 import { Dimensions } from 'react-native';
-import PasswordStrengthMeterBar from 'react-native-password-strength-meter-bar';
-
+import PasswordMeter from "@components/PasswordMeter";
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const Stack = createStackNavigator();
@@ -171,7 +170,7 @@ const LoginScreen = ({ navigation, routeName, menuId }) => {
                   />}
               />
               <View style={{marginBottom: 20, }}>
-                <PasswordStrengthMeterBar password={password} />
+                <PasswordMeter password={password} />
               </View>              
               {errorGlobal ?
                 <Text style={{textAlign: 'center', paddingBottom: 15, color: colors.error}}>{errorMessage}</Text>
@@ -357,7 +356,7 @@ const RegisterScreen = ({ navigation, routeName, menuId }) => {
                     />}
                 />
                 <View style={{marginBottom: 20, }}>
-                  <PasswordStrengthMeterBar password={password} />
+                  <PasswordMeter password={password} />
                 </View>
                 <View style={{marginBottom: 20}}>
                   <BouncyCheckbox
