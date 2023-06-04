@@ -10,7 +10,6 @@ import { routes } from "@constants/routes";
 import { saveAuthToken } from "@functions/cookies";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { createStackNavigator } from '@react-navigation/stack';
-import { getToken } from "@functions/authToken";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 import { Dimensions } from 'react-native';
@@ -169,9 +168,6 @@ const LoginScreen = ({ navigation, routeName, menuId }) => {
           
                   />}
               />
-              <View style={{marginBottom: 20, }}>
-                <PasswordMeter password={password} />
-              </View>              
               {errorGlobal ?
                 <Text style={{textAlign: 'center', paddingBottom: 15, color: colors.error}}>{errorMessage}</Text>
               :

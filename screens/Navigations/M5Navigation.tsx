@@ -18,6 +18,7 @@ import { removeAuthToken } from '@functions/cookies';
 import { LogoHeader } from '@components/LogoHeader';
 import { Text } from '@components/Text';
 import { Image } from 'expo-image';
+import { getDrawerStatusFromState } from '@react-navigation/drawer';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -53,14 +54,14 @@ const MainDrawer = ({navigation}) => {
   const currentState = navigation.getParent().getState();
   const { index, routeNames} = currentState;
   const currentTab = routeNames[index];
-  console.log(navigation.getState())
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const [open, setOpen] = useState(null);
   const handlePressFromChild = () => {
     navigation.getParent().dispatch(DrawerActions.toggleDrawer())
     setOpen(!open);
   };
-    
+
   useEffect(() => {
     if(getToken() == null) {
       navigation.navigate(routes.AUTH)
@@ -77,7 +78,21 @@ const MainDrawer = ({navigation}) => {
 
   return (
     <>
-      <HeaderHamburger onPress={handlePressFromChild} open={open} />
+      <>
+        <View style={{  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 7}}>
+          <LogoHeader />
+          <TouchableOpacity onPress={handlePressFromChild}>
+            {!open 
+            ? 
+            <Image style={{width: 69 - 30, height: 69 - 30, marginRight: 17}} source={require('@assets/icons/hamburger.png')} />
+            :
+            <Image style={{width: 69 - 30, height: 69 - 30, marginRight: 17}} source={require('@assets/icons/hamburger_close.png')} />
+            }
+          </TouchableOpacity>
+        </View>
+        <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
+      </>
+
       <Drawer.Navigator 
         initialRouteName="My Profile m5" 
         screenOptions={{
@@ -87,12 +102,19 @@ const MainDrawer = ({navigation}) => {
               backgroundColor: colors.background,
               width: 240,
             },
-            //drawerActiveBackgroundColor: 'rgba(91, 94, 151, 0.43)'
+            drawerActiveBackgroundColor: 'rgba(91, 94, 151, 0.43)',
             drawerActiveTintColor: colors.menu,
             gestureHandlerProps: {
               maxPointers: 0
             }
         }}
+        screenListeners={{
+          state: (e) => {
+            let isOpened = e.data.state.history.length == 1 ? false : true;
+            setOpen(isOpened);
+          },
+        }}
+  
         drawerContent={(props) => <CustomDrawerContent {...props}/>}
         >
         <Drawer.Screen name="My Profile m5" component={MainScreen} />
@@ -116,25 +138,6 @@ const MainScreen = () => {
         <Stack.Screen name={routes.EDITPET + 'm5'} component={EditPetScreen} />
         <Stack.Screen name={routes.PREVIEWPET + 'm5'} component={PreviewPet} />
       </Stack.Navigator>
-    </>
-  )
-}
-
-const HeaderHamburger = ({onPress, open}) => {
-  return (
-    <>
-      <View style={{  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 7}}>
-        <LogoHeader />
-        <TouchableOpacity onPress={onPress}>
-          {!open 
-          ? 
-          <Image style={{width: 69 - 30, height: 69 - 30, marginRight: 17}} source={require('@assets/icons/hamburger.png')} />
-          :
-          <Image style={{width: 69 - 30, height: 69 - 30, marginRight: 17}} source={require('@assets/icons/hamburger_close.png')} />
-          }
-        </TouchableOpacity>
-      </View>
-      <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
     </>
   )
 }
