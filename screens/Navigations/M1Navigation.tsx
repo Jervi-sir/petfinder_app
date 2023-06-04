@@ -5,8 +5,11 @@ import { HomeScreen } from '@screens/Home/HomeScreen';
 import { MessageScreen } from '@screens/Message/messageScreen';
 import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
 import { ShowProfile } from '@screens/Profile/ShowProfile';
+import { Platform } from 'react-native';
 
+const currentPlatform = Platform.OS;
 const Stack = createStackNavigator();
+
 export default function M1Navigation() {
   return (
     <>
@@ -14,19 +17,19 @@ export default function M1Navigation() {
           screenOptions={() => ({
             headerShown: false,
             headerLeft: null,
-            animationEnabled: false
+            animationEnabled: true
           })}
         >
           <Stack.Screen name='main screen m1' component={MainScreen} />
           <Stack.Screen name={routes.AUTH} options={{
             cardStyle: {
-              backgroundColor: 'transparent',
-              height: '70%'
+              backgroundColor: currentPlatform == 'android' ? 'rgba(0,0,0,0.5)' : 'transparent',
+              height: '10%'
             },
-            presentation: 'modal',
-            gestureEnabled: false,
+            presentation: currentPlatform == 'android' ? 'transparentModal' : 'modal',
+            gestureEnabled: true,
           }}>
-            {() => <AuthScreen />}
+            {() => <AuthScreen menuId={1}/>}
           </Stack.Screen>
       </Stack.Navigator>
     </>

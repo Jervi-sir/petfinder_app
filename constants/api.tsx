@@ -1,6 +1,6 @@
 export const api = {
   //Server: 'http://20.115.82.62:8000/api/v1/',
-  Server: 'http://129.213.44.39:8000/api/v1/',
+  Server: 'http://150.136.39.174:8000/api/v1/',
   //Auth
   Login: 'login',
   Register: 'register',

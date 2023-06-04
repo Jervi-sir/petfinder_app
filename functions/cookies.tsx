@@ -3,10 +3,10 @@ import { removeToken, setToken } from './authToken';
 
 //getAuthToken().then(e => console.log(e))
 export const getAuthToken = async () => {
-  //const token = await AsyncStorage.getItem('authToken');
-  //if(token) return token
-  //else return null
-  return 'jervi'
+  const token = await AsyncStorage.getItem('authToken');
+  if(token) return token
+  else return null
+  //return 'jervi'
 };
 
 //saveAuthToken('bruhVerj');
@@ -17,8 +17,8 @@ export const saveAuthToken = async (value) => {
 };
 
 export const removeAuthToken = async () => {
-  //await AsyncStorage.removeItem('authToken');
-  //removeToken();
+  await AsyncStorage.removeItem('authToken');
+  removeToken();
   return true;
 };
 

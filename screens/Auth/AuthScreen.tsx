@@ -13,29 +13,29 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { getToken } from "@functions/authToken";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
+import PasswordStrengthMeterBar from 'react-native-password-strength-meter-bar';
 
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-
 const Stack = createStackNavigator();
 
-export const AuthScreen = ({redirectAfterAuth = null}) => {
+export const AuthScreen = ({redirectAfterAuth = null, menuId = 4}) => {
   const navigation = useNavigation();
   return (
     <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, top: SCREEN_HEIGHT * 0.11, borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden'}}>
       <Stack.Navigator 
-      initialRouteName={routes.LOGIN}
+      initialRouteName={routes.REGISTER  +  menuId}
       screenOptions={() => ({
         headerShown: false,
           headerLeft: null,
         })}
       >
-        <Stack.Screen name={routes.LOGIN}>
-        {() => <LoginScreen navigation={navigation} routeName={redirectAfterAuth} />}
+        <Stack.Screen name={routes.LOGIN + menuId}>
+        {() => <LoginScreen navigation={navigation} routeName={redirectAfterAuth} menuId={menuId} />}
         </Stack.Screen>
-        <Stack.Screen name={routes.REGISTER}>
-        {() => <RegisterScreen navigation={navigation} routeName={redirectAfterAuth} />}
+        <Stack.Screen name={routes.REGISTER + menuId}>
+        {() => <RegisterScreen navigation={navigation} routeName={redirectAfterAuth} menuId={menuId} />}
         </Stack.Screen>
       </Stack.Navigator>
     </View>
@@ -52,7 +52,7 @@ const isValidPassword = (password) => {
   return passwordRegex.test(password);
 };
 
-const LoginScreen = ({ navigation, routeName }) => {
+const LoginScreen = ({ navigation, routeName, menuId }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -60,6 +60,8 @@ const LoginScreen = ({ navigation, routeName }) => {
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorGlobal, setErrorGlobal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const isFocused = useIsFocused();
   const translateYValue = useRef(new Animated.Value(100)).current;
@@ -95,7 +97,6 @@ const LoginScreen = ({ navigation, routeName }) => {
         var token = response.data.token;
         saveAuthToken(token);
         setTimeout(() => {
-          console.log(getToken())
           navigation.popToTop();
           if(routeName) {
             navigation.reset({
@@ -116,7 +117,7 @@ const LoginScreen = ({ navigation, routeName }) => {
       });
   }
   return (
-    <KeyboardAwareScrollView extraScrollHeight={69}>
+    <KeyboardAwareScrollView extraScrollHeight={69} scrollEnabled={false} >
       <View style={{backgroundColor: colors.background, minHeight: '100%'}}>
           <View style={{
             alignItems: 'center',
@@ -154,11 +155,24 @@ const LoginScreen = ({ navigation, routeName }) => {
               <TextInput
                 label="Password"
                 value={password}
-                secureTextEntry={true}
+                secureTextEntry={secureTextEntry}
                 onChangeText={text => {setPassword(text); setErrorPassword(false); setErrorGlobal(false)}}
                 style={{marginBottom: 20, backgroundColor: colors.white}}
                 error={errorPassword}
+                right={
+                  <TextInput.Icon 
+                    icon={secureTextEntry ? "eye" : "eye-off"}  
+                    size={21} color={colors.menu} 
+                    onPress={() => {
+                      setSecureTextEntry(!secureTextEntry);
+                      return false;
+                    }}
+          
+                  />}
               />
+              <View style={{marginBottom: 20, }}>
+                <PasswordStrengthMeterBar password={password} />
+              </View>              
               {errorGlobal ?
                 <Text style={{textAlign: 'center', paddingBottom: 15, color: colors.error}}>{errorMessage}</Text>
               :
@@ -189,12 +203,11 @@ const LoginScreen = ({ navigation, routeName }) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate(routes.REGISTER)} style={{ marginTop: 10}}>
+              <TouchableOpacity onPress={() => navigation.navigate(routes.REGISTER + menuId)} style={{ marginTop: 10}}>
                 <Text style={{color: colors.button, textAlign: 'center'}}>
                 I don't have an Account
                 </Text>
               </TouchableOpacity>
-              
               {
                 routeName ? 
                   <>
@@ -212,13 +225,11 @@ const LoginScreen = ({ navigation, routeName }) => {
             </View>
           </View>
       </View>
-      
     </KeyboardAwareScrollView>
   );
 }
 
-
-const RegisterScreen = ({ navigation, routeName }) => {
+const RegisterScreen = ({ navigation, routeName, menuId }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -232,6 +243,8 @@ const RegisterScreen = ({ navigation, routeName }) => {
 
   const isFocused = useIsFocused();
   const translateYValue = useRef(new Animated.Value(100)).current;
+
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   useEffect(() => {
     if (isFocused) {
@@ -257,13 +270,12 @@ const RegisterScreen = ({ navigation, routeName }) => {
     if(!isValidPassword(email)) return setErrorPassword(true);
     else setErrorPassword(false);
 
+    setIsProcessing(true);
     axios.post(api.Server + api.Register, {name, email, password}, {headers: {'Accept': 'application/json','Content-Type': 'application/json','Language': 'fr'}})
     .then(response => {
-      console.log('response')
       var token = response.data.token;
       saveAuthToken(token);
       setTimeout(() => {
-        console.log(getToken())
         navigation.popToTop();
         if(routeName) {
           navigation.reset({
@@ -285,7 +297,7 @@ const RegisterScreen = ({ navigation, routeName }) => {
   }
 
   return (
-    <KeyboardAwareScrollView extraScrollHeight={69}>
+    <KeyboardAwareScrollView extraScrollHeight={100} scrollEnabled={false} >
       <View style={{backgroundColor: colors.background, minHeight: '100%'}}>
             <View style={{
               alignItems: 'center',
@@ -329,11 +341,24 @@ const RegisterScreen = ({ navigation, routeName }) => {
                 <TextInput
                   label="Password"
                   value={password}
-                  secureTextEntry={true}
+                  secureTextEntry={secureTextEntry}
                   onChangeText={text => {setPassword(text); setErrorPassword(false); setErrorGlobal(false)}}
-                  style={{marginBottom: 20, backgroundColor: 'white'}}
+                  style={{backgroundColor: 'white'}}
                   error={errorPassword}
+                  right={
+                    <TextInput.Icon 
+                      icon={secureTextEntry ? "eye" : "eye-off"}  
+                      size={21} color={colors.menu} 
+                      onPress={() => {
+                        setSecureTextEntry(!secureTextEntry);
+                        return false;
+                      }}
+            
+                    />}
                 />
+                <View style={{marginBottom: 20, }}>
+                  <PasswordStrengthMeterBar password={password} />
+                </View>
                 <View style={{marginBottom: 20}}>
                   <BouncyCheckbox
                     size={18}
@@ -341,13 +366,12 @@ const RegisterScreen = ({ navigation, routeName }) => {
                     unfillColor={colors.white}
                     text="I want to join"
                     textStyle={{fontSize:15, fontWeight: '300', textDecorationLine: "none"}}
-                    innerIconStyle={{ borderWidth: 2 }}
                     onPress={() => {setChecked(!checked)}}
                   />
                   </View>
-                  {errorGlobal ?
+                  { errorGlobal ?
                     <Text style={{textAlign: 'center', paddingBottom: 15, color: colors.error}}>{errorMessage}</Text>
-                  :
+                    :
                     <></>
                   }
                   {!checked
@@ -363,7 +387,7 @@ const RegisterScreen = ({ navigation, routeName }) => {
                     }}
                     onPress={registerAuth}
                   >
-                    {isProcessing ? 
+                    { isProcessing ? 
                       <ActivityIndicator size="small" color={colors.background} />
                       :
                       <View style={{marginVertical: 3}}>
@@ -389,7 +413,7 @@ const RegisterScreen = ({ navigation, routeName }) => {
                   
               </View>
               <View>
-                <TouchableOpacity onPress={() => navigation.navigate(routes.LOGIN)} style={{ marginTop: 10}}>
+                <TouchableOpacity onPress={() => navigation.navigate(routes.LOGIN + menuId)} style={{ marginTop: 10}}>
                   <Text style={{color: colors.button, textAlign: 'center'}}>
                   Already have an account?
                   </Text>

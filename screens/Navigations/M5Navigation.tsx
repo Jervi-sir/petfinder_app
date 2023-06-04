@@ -43,7 +43,7 @@ export default function M5Navigation() {
             presentation: currentPlatform == 'android' ? 'transparentModal' : 'modal',
             gestureEnabled: false,
           }}>
-          {() => <AuthScreen redirectAfterAuth={routes.SHOWMYPROFILE + 'm5'} />}
+          {() => <AuthScreen redirectAfterAuth={routes.SHOWMYPROFILE + 'm5'} menuId={5} />}
           </Stack.Screen>
       </Stack.Navigator>
     </>
@@ -145,6 +145,7 @@ function CustomDrawerContent(props) {
   const handleLogout = () => {
     removeAuthToken();
     navigation.navigate(routes.m1);
+
     navigation.closeDrawer(); 
   };
 

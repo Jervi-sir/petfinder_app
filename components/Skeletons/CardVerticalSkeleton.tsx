@@ -11,7 +11,7 @@ export const CardVerticalSkeleton = () => {
   Animated.loop(
     Animated.timing(skeletonWidth, {
       toValue: 1,
-      duration: 2000,
+      duration: 1234,
       useNativeDriver: false,
     })
   ).start();

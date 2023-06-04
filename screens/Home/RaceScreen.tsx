@@ -57,8 +57,22 @@ export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    fetchPosts();
-    setRefreshing(false);
+    setData([]);
+    setLoading(true);
+    setFirstLoading(true);
+    axios.get(api.Server + (getToken() ? api.getRaceAuth : api.getRace) + raceId + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+    .then(response => {
+      setData([...data, ...response.data.pets]);
+      setLoading(false);
+      setCurrentPage(currentPage + 1);
+      if (currentPage >= response.data.last_page) {
+        setHasMore(false);
+      }
+      flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+      setRefreshing(false);
+      
+    }).then(() => setFirstLoading(false))
+    
   };
 
   return (

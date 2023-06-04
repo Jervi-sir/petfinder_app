@@ -24,7 +24,6 @@ export const AllScreen = ({ raceName = "Pets" }) => {
     flatListRef.current.scrollToOffset({ offset: 0, animated: true });
   };
 
-
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -56,17 +55,19 @@ export const AllScreen = ({ raceName = "Pets" }) => {
     setRefreshing(true);
     setData([]);
     setLoading(true);
+    setFirstLoading(true);
     axios.get(api.Server + (getToken() ? api.getLatestPetsAuth : api.getLatestPets) + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
     .then(response => {
       setData([...data, ...response.data.pets]);
-      setFirstLoading(false);
       setLoading(false);
       setCurrentPage(currentPage + 1);
       if (currentPage >= response.data.last_page) {
         setHasMore(false);
       }
+      flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+      setFirstLoading(false);
+      setRefreshing(false);
     })
-    setRefreshing(false);
   };
 
   return (

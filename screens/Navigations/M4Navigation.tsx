@@ -37,7 +37,7 @@ export default function M4Navigation() {
             presentation: currentPlatform == 'android' ? 'transparentModal' : 'modal',
             gestureEnabled: false,
           }}>
-            {() => <AuthScreen redirectAfterAuth='Add new Pet m4' />}
+            {() => <AuthScreen redirectAfterAuth='Add new Pet m4' menuId={4} />}
           </Stack.Screen>
       </Stack.Navigator>
     </>
