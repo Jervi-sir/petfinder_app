@@ -178,7 +178,7 @@ export const EditProfile = () => {
             />
           </View>
         </View>
-      ) : (<></>)
+      ) : null
       }
       {success ? (
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
@@ -193,7 +193,7 @@ export const EditProfile = () => {
             />
           </View>
         </View>
-      ) : (<></>)}
+      ) : null}
       {isLoading ? (
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
           <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69, width: 100, height: 100 }}>
@@ -206,7 +206,7 @@ export const EditProfile = () => {
             />
           </View>
         </View>
-      ) : (<></>)}
+      ) : null}
       <ScrollView>
         <View style={{ margin: 20, }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>

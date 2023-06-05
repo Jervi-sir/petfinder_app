@@ -52,7 +52,7 @@ export const ShowMyProfile = () => {
         setNbPets(data.pets.length)
       }).catch(error => {
         setIsLoading(true);
-        console.log(error);
+        console.error(error);
       });
   }
 
@@ -107,14 +107,16 @@ export const ShowMyProfile = () => {
                         {nbPets} pet{nbPets > 0 ? 's' : ''}
                       </Text>
                     </View>
-                    <View style={{justifyContent: 'center',alignItems: 'center', marginTop: 50}}>
-                      <Text style={{marginBottom: 7}}>You Haven't posted any pet</Text>
-                      <TouchableOpacity 
-                        onPress={() => { navigation.navigate(routes.m4) }}
-                        style={{backgroundColor: colors.maleBackground, paddingHorizontal: 10, paddingVertical:7, borderRadius: 7, width: '70%', marginHorizontal: 'auto'}}>
-                        <Text style={{color: colors.button, fontSize: 18, textAlign: 'center'}}>Post a pet </Text>
-                      </TouchableOpacity>
-                    </View>
+                    {pets.length == 0 ? (
+                      <View style={{justifyContent: 'center',alignItems: 'center', marginTop: 50}}>
+                        <Text style={{marginBottom: 7}}>You Haven't posted any pet</Text>
+                        <TouchableOpacity 
+                          onPress={() => { navigation.navigate(routes.m4) }}
+                          style={{backgroundColor: colors.maleBackground, paddingHorizontal: 10, paddingVertical:7, borderRadius: 7, width: '70%', marginHorizontal: 'auto'}}>
+                          <Text style={{color: colors.button, fontSize: 18, textAlign: 'center'}}>Post a pet </Text>
+                        </TouchableOpacity>
+                      </View>
+                    ) : null}
                   </>
                 )
               }}

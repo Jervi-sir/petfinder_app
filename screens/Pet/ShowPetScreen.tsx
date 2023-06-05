@@ -199,7 +199,7 @@ export const ShowPetScreen = ({ route }) => {
                   <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
                     <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{calculateAge(pet.birthday)}</Text>
                   </View>
-                ) : (<></>)}
+                ) : null}
 
                 {/**Gender */}
                 <View style={{
@@ -215,13 +215,13 @@ export const ShowPetScreen = ({ route }) => {
                   <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
                     <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{pet.weight != '' ? pet.weight : 'weight'}</Text>
                   </View>
-                ) : (<></>)}
+                ) : null}
                 {/**Color */}
                 {pet.color ? (
                   <View style={{ backgroundColor: colors.black, paddingHorizontal: 15, paddingVertical: 7, borderRadius: 5, marginRight: 20, marginBottom: 10, }}>
                     <Text style={{ fontSize: 12, fontWeight: "400", color: colors.white }}>{pet.color != '' ? pet.color : 'color'}</Text>
                   </View>
-                ) : (<></>)}
+                ) : null}
               </View>
             )}
 

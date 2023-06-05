@@ -22,6 +22,6 @@ export default function AuthNavigation() {
 
 const LoginScreen = () => {
   return(
-    <></>
+    null
   )
 }

@@ -13,7 +13,7 @@ export const FloatingDropdown = ({ select = 'title', required = false, data, onI
       return (
         <Text style={[styles.label, isFocus && { color: '#4a148c' }]}>
           {select}
-          {required ? (<Text style={{ color: colors.red }}> *</Text>) : (<></>)}
+          {required ? (<Text style={{ color: colors.red }}> *</Text>) : null}
         </Text>
       );
     }

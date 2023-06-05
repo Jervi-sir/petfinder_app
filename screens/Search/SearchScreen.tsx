@@ -118,7 +118,7 @@ export const SearchScreen = () => {
         </View>
       </Animated.View>
       :
-      <></>
+      null
       }
       
     </>

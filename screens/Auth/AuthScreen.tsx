@@ -171,7 +171,7 @@ const LoginScreen = ({ navigation, routeName, menuId }) => {
               {errorGlobal ?
                 <Text style={{textAlign: 'center', paddingBottom: 15, color: colors.error}}>{errorMessage}</Text>
               :
-                <></>
+                null
               }
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity onPress={loginAuth} style={{
@@ -367,7 +367,7 @@ const RegisterScreen = ({ navigation, routeName, menuId }) => {
                   { errorGlobal ?
                     <Text style={{textAlign: 'center', paddingBottom: 15, color: colors.error}}>{errorMessage}</Text>
                     :
-                    <></>
+                    null
                   }
                   {!checked
                   ?

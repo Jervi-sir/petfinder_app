@@ -243,7 +243,7 @@ export const EditPetScreen = ({ route }) => {
             />
           </View>
         </View>
-      ) : (<></>)}
+      ) : null}
       {isLoading ? (
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
           <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69, width: 100, height: 100 }}>
@@ -256,7 +256,7 @@ export const EditPetScreen = ({ route }) => {
             />
           </View>
         </View>
-      ) : (<></>)}
+      ) : null}
 
       <KeyboardAwareScrollView ref={(ref) => { scrollViewRef = ref }} extraScrollHeight={69} contentContainerStyle={{ paddingBottom: 123 }} >
         <ScrollView >
@@ -268,8 +268,8 @@ export const EditPetScreen = ({ route }) => {
             {/** Image Selector */}
             {images.length > 0 ? (
               <AddImages imagesFromServer={images} onImageSelected={e => setImages(e)} onImagesUri={e => setImagesUri(e)} />
-            ) : (<></>)}
-            {imagesError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Images 👆</Text></View>) : (<></>)}
+            ) : null}
+            {imagesError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Images 👆</Text></View>) : null}
             <Space top={5} bottom={5} />
 
             {/** Gender Selector */}
@@ -293,14 +293,12 @@ export const EditPetScreen = ({ route }) => {
               <>
                 {race_id ? (
                   <DropDownComponent defaultValue={race_id} select='Race' required={true} data={RaceList} onItemSelected={e => setRace(e)} />
-                ) : (<></>)}
-                {race_idError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Race 👆</Text></View>) : (<></>)}
+                ) : null}
+                {race_idError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Race 👆</Text></View>) : null}
                 {/** subRace Selector */}
                 {race_id ? (
                   <TextInput label="Sub Race" value={subRace} onChangeText={text => setSubRace(text)} style={styles.inputField} />
-                ) : (
-                  <></>
-                )}
+                ) : null}
               </>
             )}
 
@@ -325,9 +323,7 @@ export const EditPetScreen = ({ route }) => {
                   <Animated.View>
                     <TextInput label="Price" value={price} onChangeText={text => setPrice(text)} keyboardType="numeric" style={styles.inputField} />
                   </Animated.View>
-                ) : (
-                  <></>
-                )}
+                ) : null}
               </>
             )}
 
@@ -360,14 +356,12 @@ export const EditPetScreen = ({ route }) => {
                       setWilayaName(itemWithId2.label);
                     }}
                   />
-                ) : (<></>)}
-                {wilayaError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Wialaya 👆</Text></View>) : (<></>)}
+                ) : null}
+                {wilayaError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Wialaya 👆</Text></View>) : null}
                 {/** Location Input */}
                 {wilaya_id ? (
                   <TextInput label="Location" value={location} onChangeText={text => setLocation(text)} style={styles.inputField} />
-                ) : (
-                  <></>
-                )}
+                ) : null}
               </>
             )}
 
@@ -384,7 +378,7 @@ export const EditPetScreen = ({ route }) => {
               <>
                 {birthday ? (
                   <CalendarAge defaultDate={birthday} onSelectDate={e => setBirthday(e)} />
-                ) : (<></>)}
+                ) : null}
                 {/** Name Input */}
                 <TextInput label="Name" value={name} onChangeText={text => setName(text)} style={styles.inputField} />
                 {/** Color Input */}
@@ -393,7 +387,7 @@ export const EditPetScreen = ({ route }) => {
                 <TextInput label="Weight" value={weight} onChangeText={text => setWeight(text)} style={styles.inputField} />
                 {/** Phone number Input */}
                 <TextInput value={phoneNumber} label="Phone number *" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props} mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
-                {phoneNumberError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Phone Number 👆</Text></View>) : (<></>)}
+                {phoneNumberError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Phone Number 👆</Text></View>) : null}
               </>
             )}
 
@@ -491,7 +485,7 @@ const DropDownComponent = ({ defaultValue, select = 'title', required = false, d
     <View style={styles.container}>
       <Text style={[styles.label, isFocus && { color: '#4a148c' }]}>
         {select}
-        {required ? (<Text style={{ color: colors.red }}> *</Text>) : (<></>)}
+        {required ? (<Text style={{ color: colors.red }}> *</Text>) : null}
       </Text>
       <Dropdown
         style={[styles.dropdown, isFocus && { borderBottomColor: '#4a148c', borderBottomWidth: 2 }]}

@@ -34,8 +34,11 @@ export const PetCard = ({ pet }) => {
           </View>
           <View style={{ flex: 1, paddingLeft: 20, justifyContent: 'space-around' }}>
             <Text style={{ fontSize: 20, fontWeight: '500', color: colors.menu }}>{pet.name ? pet.name : 'unknown'}</Text>
-            <Text style={{ fontSize: 12, fontWeight: '500', color: colors.menu }}>{displayAge(pet.birthday)}</Text>
-            <Text style={{ fontSize: 14, fontWeight: '400', color: colors.lightGrey }}>{pet.sub_race ? pet.sub_race : 'unknown'}</Text>
+            {pet.birthday ? (
+            <Text style={{ fontSize: 12, fontWeight: '500', color: colors.menu }}>{ displayAge(pet.birthday) }</Text>
+            ) : null
+            }
+            <Text style={{ fontSize: 14, fontWeight: '400', color: colors.lightGrey }}>{pet.race_name ? pet.race_name : 'unknown'}</Text>
             <Text style={{ fontSize: 13, fontWeight: '500', color: colors.menu }}>{offerType[pet.offer_type_id - 1]}</Text>
           </View>
           <View >
@@ -46,7 +49,7 @@ export const PetCard = ({ pet }) => {
               <View style={{ backgroundColor: colors.lightWhite, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3 }}>
                 <Text style={{ color: colors.menu, textAlign: 'center', fontSize: 13 }}>{pet.race_name}</Text>
               </View>
-            ) : (<></>)}
+            ) : null}
           </View>
         </View>
       </View>

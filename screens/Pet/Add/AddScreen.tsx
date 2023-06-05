@@ -137,7 +137,7 @@ export const AddScreen = () => {
             />
           </View>
         </View>
-      ) : (<></>)}
+      ) : null}
       {isLoading ? (
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
           <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69, width: 100, height: 100 }}>
@@ -150,7 +150,7 @@ export const AddScreen = () => {
             />
           </View>
         </View>
-      ) : (<></>)}
+      ) : null}
 
       <KeyboardAwareScrollView ref={(ref) => { scrollViewRef = ref }} extraScrollHeight={69} contentContainerStyle={{ paddingBottom: 123 }} >
         <ScrollView >
@@ -159,7 +159,7 @@ export const AddScreen = () => {
           <View style={{ margin: 20, marginTop: 10, backgroundColor: colors.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50 }}>
             {/** Image Selector */}
             <AddImages onImageSelected={e => setImages(e)} onImagesUri={e => setImagesUri(e)} />
-            {imagesError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Images 👆</Text></View>) : (<></>)}
+            {imagesError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Images 👆</Text></View>) : null}
             <Space top={5} bottom={5} />
             {/** Gender Selector */}
             <BouncyCheckboxGroup
@@ -173,12 +173,12 @@ export const AddScreen = () => {
             <Space top={5} bottom={5} />
             {/** Race Selector */}
             <FloatingDropdown select='Race' required={true} data={RaceList} onItemSelected={e => setRace(e)} />
-            {race_idError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Race 👆</Text></View>) : (<></>)}
+            {race_idError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Race 👆</Text></View>) : null}
             {/** subRace Selector */}
             {race_id ? (
               <TextInput label="Sub Race" onChangeText={text => setSubRace(text)} style={styles.inputField} />
             ) : (
-              <></>
+              null
             )}
 
             <Separator title='Details' />
@@ -197,7 +197,7 @@ export const AddScreen = () => {
                 <TextInput label="Price" onChangeText={text => setPrice(text)} keyboardType="numeric" style={styles.inputField} />
               </Animated.View>
             ) : (
-              <></>
+              null
             )}
             <Space top={5} bottom={5} />
             {/** description Selector */}
@@ -213,12 +213,12 @@ export const AddScreen = () => {
                 setWilayaName(itemWithId2.label);
               }}
             />
-            {wilayaError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Wialaya 👆</Text></View>) : (<></>)}
+            {wilayaError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Wialaya 👆</Text></View>) : null}
             {/** Location Input */}
             {wilaya_number ? (
               <TextInput label="Location" onChangeText={text => setLocation(text)} style={styles.inputField} />
             ) : (
-              <></>
+              null
             )}
 
             <Separator title='Optional' />
@@ -232,7 +232,7 @@ export const AddScreen = () => {
             <TextInput label="Weight" onChangeText={text => setWeight(text)} style={styles.inputField} />
             {/** Phone number Input */}
             <TextInput value={phoneNumber} label="Phone number *" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props} mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
-            {phoneNumberError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Phone Number 👆</Text></View>) : (<></>)}
+            {phoneNumberError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Phone Number 👆</Text></View>) : null}
 
 
             <Space top={10} bottom={10} />
