@@ -26,12 +26,13 @@ export const api = {
   //pet auth
   getPetAuth: 'auth/pets/id/',
   getLatestPetsAuth: 'auth/pets/latest',
-  getRaceAuth: 'auth/pets/race/',
+  getByRaceAuth: 'auth/pets/race/',
+  getLatestPetsByRaceAuth: 'auth/pets/latest/race=',
   //pet
   getPet: 'pets/id/',
-  getRace: 'pets/race/',
+  getByRace: 'pets/race/',
   getLatestPets: 'pets/latest',
-  getLatestPetsByFilter: 'pets/latest/race=',
+  getLatestPetsByRace: 'pets/latest/race=',
   //search
   Search: 'search/keyword=',
 }

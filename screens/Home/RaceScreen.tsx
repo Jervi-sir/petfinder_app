@@ -46,9 +46,9 @@ export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
     axios.get(api.Server + (
       BearerToken 
       ? 
-        ( raceId == 0 ? api.getLatestPetsAuth : api.getRaceAuth ) 
+        (raceId == 0 ? api.getLatestPetsAuth : api.getLatestPetsByRaceAuth ) 
       : 
-        (raceId == 0 ? api.getLatestPets : api.getRace)
+        (raceId == 0 ? api.getLatestPets : api.getLatestPetsByRace)
     ) 
     + (raceId == 0 ? '' : raceId) 
     + '?page=' + currentPage, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
@@ -73,9 +73,9 @@ export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
     axios.get(api.Server + (
       BearerToken 
       ? 
-        ( raceId == 0 ? api.getLatestPetsAuth : api.getRaceAuth ) 
+        ( raceId == 0 ? api.getLatestPetsAuth : api.getLatestPetsByRaceAuth ) 
       : 
-        (raceId == 0 ? api.getLatestPets : api.getRace)
+        (raceId == 0 ? api.getLatestPets : api.getLatestPetsByRace)
     ) 
     + (raceId == 0 ? '' : raceId) 
     + '?page=' + 1, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })

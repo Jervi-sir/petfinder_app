@@ -3,7 +3,7 @@ import { AddScreen } from '@screens/Pet/Add/AddScreen';
 import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
 import { routes } from '@constants/routes';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { View } from "react-native";
 import { colors } from '@constants/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -14,6 +14,7 @@ import { LogoHeader } from '@components/LogoHeader';
 import { Text } from '@components/Text';
 import { AlertPet } from '@screens/Pet/Alert/AlertPet';
 import { StyleSheet, Platform } from 'react-native';
+import { AuthContext } from '@functions/AuthState';
 
 const Stack = createStackNavigator();
 const currentPlatform = Platform.OS;
@@ -37,7 +38,7 @@ export default function M4Navigation() {
             presentation: currentPlatform == 'android' ? 'transparentModal' : 'modal',
             gestureEnabled: false,
           }}>
-            {() => <AuthScreen redirectAfterAuth='Add new Pet m4' menuId={4} />}
+            {() => <AuthScreen redirectAfterAuth='Add new Pet m4' />}
           </Stack.Screen>
       </Stack.Navigator>
     </>
@@ -69,19 +70,20 @@ const HeaderHamburger = ({onPress}) => {
 }
 
 export const MainScreen = ({ navigation }) => {
-  
+  const { BearerToken } = useContext(AuthContext);
+
   useEffect(() => {
-    if(getToken() == null) {
+    if(BearerToken == null) {
       navigation.navigate(routes.AUTH)
     }
-  }, [getToken()]);
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
-      if(getToken() == null) {
+      if(BearerToken == null) {
         navigation.navigate(routes.AUTH)
       } 
-    }, [getToken()])
+    }, [])
   );
 
   const handlePressFromChild = () => {

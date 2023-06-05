@@ -8,7 +8,7 @@ import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
 import { EditProfile } from '@screens/Profile/EditProfile';
 import { ShowMyProfile } from '@screens/Profile/showMyProfile';
 import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { colors } from '@constants/colors';
 import { TouchableOpacity, Platform } from 'react-native';
 import { View } from 'react-native';
@@ -18,6 +18,7 @@ import { getAuthToken, removeAuthToken } from '@functions/cookies';
 import { LogoHeader } from '@components/LogoHeader';
 import { Text } from '@components/Text';
 import { Image } from 'expo-image';
+import { AuthContext } from '@functions/AuthState';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -54,6 +55,8 @@ const MainDrawer = ({navigation}) => {
   const { index, routeNames} = currentState;
   const currentTab = routeNames[index];
 
+  const { BearerToken } = useContext(AuthContext);
+
   const [open, setOpen] = useState(null);
   const handlePressFromChild = () => {
     navigation.getParent().dispatch(DrawerActions.toggleDrawer())
@@ -61,23 +64,16 @@ const MainDrawer = ({navigation}) => {
   };
 
   useEffect(() => {
-    getAuthToken().then((rsp) => {
-      if(rsp == null) {
+      if(BearerToken == null) {
         navigation.navigate(routes.AUTH)
-      } else {
       }
-    })
-    
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      getAuthToken().then((rsp) => {
-        if(rsp == null) {
-          navigation.navigate(routes.AUTH)
-        } else {
-        }
-      })
+      if(BearerToken == null) {
+        navigation.navigate(routes.AUTH)
+      }
     }, [])
   );
 
@@ -137,11 +133,11 @@ const MainScreen = () => {
           headerLeft: null,
         })}
       >
-        <Stack.Screen name={routes.SHOWMYPROFILE + 'm5'} component={ShowMyProfile} />
-        <Stack.Screen name={routes.EDITPROFILE + 'm5'} component={EditProfile} />
-        <Stack.Screen name={routes.SHOWPET + 'm5'} component={ShowPetScreen} />
-        <Stack.Screen name={routes.EDITPET + 'm5'} component={EditPetScreen} />
-        <Stack.Screen name={routes.PREVIEWPET + 'm5'} component={PreviewPet} />
+        <Stack.Screen name={routes.SHOWMYPROFILE} component={ShowMyProfile} />
+        <Stack.Screen name={routes.EDITPROFILE} component={EditProfile} />
+        <Stack.Screen name={routes.SHOWPET} component={ShowPetScreen} />
+        <Stack.Screen name={routes.EDITPET} component={EditPetScreen} />
+        <Stack.Screen name={routes.PREVIEWPET} component={PreviewPet} />
       </Stack.Navigator>
     </>
   )

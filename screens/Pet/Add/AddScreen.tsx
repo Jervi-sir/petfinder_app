@@ -1,5 +1,5 @@
 import { TextInput } from 'react-native-paper';
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Animated, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -27,6 +27,9 @@ import loading3 from '@assets/animations/loading3.json';
 import loading4 from '@assets/animations/loading4.json';
 import loading5 from '@assets/animations/loading5.json';
 import { getToken } from '@functions/authToken';
+import { AuthContext } from '@functions/AuthState';
+
+
 
 export const AddScreen = () => {
   const animationRef = useRef(null);
@@ -46,7 +49,7 @@ export const AddScreen = () => {
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
 
-  const [wilaya_id, setWilaya] = useState('');
+  const [wilaya_number, setWilaya] = useState('');
   const [wilayaName, setWilayaName] = useState('');
   const [location, setLocation] = useState('');
 
@@ -62,29 +65,17 @@ export const AddScreen = () => {
 
   const [age, setAge] = useState('');
 
-  useEffect(() => {
-    if(getToken() == null) {
-      //navigation.navigate(routes.AUTH)
-    } else {
-      navigation.navigate(routes.ADDPET)
-      axios.get(api.Server + api.AddPet, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
-      .then(response => {
-        const data = response.data;
-        setPhoneNumber(data.phone_number)
-        setRaceList(data.races)
-        setWilayaList(data.wilaya)
-      })
-    }
-  }, [getToken()]);
+  const { BearerToken } = useContext(AuthContext);
 
-  useFocusEffect(
-    useCallback(() => {
-      if(getToken() == null) {
-        //navigation.navigate(routes.AUTH)
-      }
-    }, [getToken()])
-  );
-  
+  useEffect(() => {
+    axios.get(api.Server + api.AddPet, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+    .then(response => {
+      const data = response.data;
+      setPhoneNumber(data.phone_number)
+      setRaceList(data.races)
+      setWilayaList(data.wilaya)
+    })
+  }, []);
 
   const handleRefresh = () => {
     setImagesUri([]);
@@ -103,29 +94,31 @@ export const AddScreen = () => {
   function AddPet() {
     if (images.length < 1) { scrollViewRef.scrollToPosition(0, 20); return setImagesError(true); }
     if (!race_id) { scrollViewRef.scrollToPosition(0, 200); return setRaceError(true); }
-    if (!wilaya_id) { scrollViewRef.scrollToPosition(0, 300); return setWilayaError(true); }
+    if (!wilaya_number) { scrollViewRef.scrollToPosition(0, 300); return setWilayaError(true); }
     if (!phoneNumber) { return setPhoneNumberError(true); }
 
     const data = {
-      name, typeOffer, wilaya_id, location, gender, race_id,
+      name, typeOffer, wilaya_number, location, gender, race_id,
       description, phoneNumber, weight, color, birthday, price, subRace, images
     };
     setIsLoading(true);
-    axios.post(api.Server + api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    axios.post(api.Server + api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
-        //console.log(response.data)
+        console.log(response.data)
         setIsLoading(false);
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
           setTimeout(() => {
-            handleRefresh();
+            //handleRefresh();
           }, 100)
         }, 2345);
 
       })
       .catch(error => {
-        console.error(error);
+        setIsLoading(false);
+        setSuccess(false);
+        console.error(error.response.data);
       });
   }
 
@@ -222,7 +215,7 @@ export const AddScreen = () => {
             />
             {wilayaError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Wialaya 👆</Text></View>) : (<></>)}
             {/** Location Input */}
-            {wilaya_id ? (
+            {wilaya_number ? (
               <TextInput label="Location" onChangeText={text => setLocation(text)} style={styles.inputField} />
             ) : (
               <></>

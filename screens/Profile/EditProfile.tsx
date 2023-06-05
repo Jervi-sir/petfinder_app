@@ -5,7 +5,7 @@ import { icons } from "@constants/icons";
 import Dialog from "react-native-dialog";
 import * as ImagePicker from 'expo-image-picker';
 import { manipulateAsync } from 'expo-image-manipulator';
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { api } from "@constants/api";
@@ -18,9 +18,24 @@ import loading2 from '@assets/animations/loading2.json';
 import loading3 from '@assets/animations/loading3.json';
 import loading4 from '@assets/animations/loading4.json';
 import loading5 from '@assets/animations/loading5.json';
+import error1 from '@assets/animations/error1.json';
+
+import { AuthContext } from "@functions/AuthState";
 
 import { routes } from "@constants/routes";
 import { Image } from 'expo-image';
+import { FilterDropdown } from "@screens/Home/FilterDropdown";
+
+const wilayaList = [
+  { label: '1- Adrar', value: '1' },
+  { label: '13- Tlemcen', value: '13' },
+  { label: '15- Tizi Ouzou', value: '15' },
+  { label: '16- Alger', value: '16' },
+  { label: '17- Djelfa', value: '17' },
+  { label: '31- Oran', value: '31' },
+  { label: '46- Ain Temouchent', value: '46' },
+  { label: '47- Ghardaia', value: '47' },
+];
 
 export const EditProfile = () => {
   const [image1, setImage1] = useState(null);
@@ -30,19 +45,25 @@ export const EditProfile = () => {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [wilayaNumber, setWilayaNumber] = useState('');
 
   const [success, setSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const navigation = useNavigation();
   const animationRef = useRef(null);
+
   const [imageUpload, setImageUpload] = useState('');
 
+  const { BearerToken } = useContext(AuthContext);
+
   useEffect(() => {
-    axios.get(api.Server + api.getProfileForEdit, { headers: { Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    animationRef.current?.reset();
+        
+    axios.get(api.Server + api.getProfileForEdit, { headers: { Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         const user = response.data.user;
-        console.log(user)
         setName(user.name);
         setLocation(user.location);
         setPhoneNumber(user.phone_number);
@@ -103,22 +124,30 @@ export const EditProfile = () => {
   };
 
   function updateProfile() {
-    const data = { name, location, phoneNumber, imageUpload };
+    const data = { name, location, phoneNumber, imageUpload, wilayaNumber };
     setIsLoading(true);
-    axios.post(api.Server + api.updateMyProfile, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    axios.post(api.Server + api.updateMyProfile, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         console.log(response.data)
         setIsLoading(false);
         setSuccess(true);
+
         setTimeout(() => {
           setSuccess(false);
           setTimeout(() => {
             //handleRefresh();
           }, 100)
         }, 2345);
-
       })
       .catch(error => {
+        setIsLoading(false);
+        setIsError(true);
+        animationRef.current?.play();
+
+        setTimeout(() => {
+          setIsError(false);
+          animationRef.current?.reset(); 
+        }, 1000);
         console.error(error);
       });
   }
@@ -128,19 +157,38 @@ export const EditProfile = () => {
       index: 0,
       routes: [{ name: routes.SHOWMYPROFILE }],
     });
-
   };
+
+  const setWilaya = (data) => {
+    setWilayaNumber(data);
+  };
+  
   return (
     <>
+      {isError ? (
+         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69 }}>
+            <LottieView
+              autoPlay
+              ref={animationRef}
+              style={{ width: 100, height: 100 }}
+              source={error1}
+              duration={3000}
+              loop={true}
+            />
+          </View>
+        </View>
+      ) : (<></>)
+      }
       {success ? (
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
           <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69 }}>
             <LottieView
+              autoPlay
               ref={animationRef}
               style={{ width: 100, height: 100 }}
               source={checkmark1}
-              autoPlay
-              duration={3000}
+              duration={1000}
               loop={false}
             />
           </View>
@@ -150,10 +198,10 @@ export const EditProfile = () => {
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
           <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: -69, width: 100, height: 100 }}>
             <LottieView
+              autoPlay
               ref={animationRef}
               style={{ width: 100, height: 100 }}
               source={loading1}
-              autoPlay
               loop={true}
             />
           </View>
@@ -184,7 +232,8 @@ export const EditProfile = () => {
                 <View style={{ marginTop: 20 }}>
                   <TextInput value={name} onChangeText={text => setName(text)} style={styles.inputField} label="Name" />
                   <TextInput value={location} onChangeText={text => setLocation(text)} style={styles.inputField} label="Location" />
-                  <TextInput value={phoneNumber} label="Phone number" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props} mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
+                  <TextInput value={phoneNumber} label="Phone number" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props} mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/]} />} />
+                  <FilterDropdown placeholder={'Wilaya'} data={wilayaList} setOption={setWilaya} />
 
                 </View>
               </View>

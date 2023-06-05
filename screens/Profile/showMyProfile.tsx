@@ -4,7 +4,7 @@ import { PetCard } from "./petCard"
 import { colors } from "@constants/colors";
 import { CommonActions, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { routes } from "@constants/routes";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { api } from '@constants/api';
 import { CardHorizentalSkeleton } from "@components/Skeletons/CardHorizentalSkeleton";
@@ -13,6 +13,7 @@ import { getToken } from "@functions/authToken";
 import { Text } from '@components/Text';
 import { Image } from 'expo-image';
 import { icons } from "@constants/icons";
+import { AuthContext } from '@functions/AuthState';
 
 export const ShowMyProfile = () => {
   const navigation = useNavigation();
@@ -24,21 +25,23 @@ export const ShowMyProfile = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [count, setCount] = useState(0);
 
+  const { BearerToken } = useContext(AuthContext);
+
   useEffect(() => {
     fetchData();
-  }, [getToken()]);
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
-      if(getToken() == null) {
+      if(BearerToken == null) {
         fetchData();
       } 
-    }, [getToken()])
+    }, [])
   );
 
   const fetchData = () => {
     console.log("Fetching data...");
-    axios.get(api.Server + api.ShowMyProfileData, { headers: { Authorization: 'Bearer ' + getToken() } })
+    axios.get(api.Server + api.ShowMyProfileData, { headers: { Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         setIsLoading(false);
         console.log(response.data.user)

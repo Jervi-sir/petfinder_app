@@ -3,7 +3,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {View, Text, StyleSheet} from 'react-native'
 
-export const FilterDropdown = ({placeholder, data}) => {
+export const FilterDropdown = ({placeholder, data, setOption}) => {
   const [value, setValue] = useState(null);
 
   const renderItem = item => {
@@ -40,6 +40,7 @@ export const FilterDropdown = ({placeholder, data}) => {
         value={value}
         onChange={item => {
           setValue(item.value);
+          setOption(item.value);
         }}
         renderLeftIcon={() => (
           <AntDesign style={styles.icon} color="black" name="Safety" size={20} />

@@ -1,7 +1,6 @@
 import { StatusBar } from '@components/StatusBar';
 import { api } from '@constants/api';
 import { AuthContext } from '@functions/AuthState';
-import { setToken } from '@functions/authToken';
 import { getAuthToken, removeAuthToken } from '@functions/cookies';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigation from '@screens/Navigations/AppNavigation';
