@@ -40,13 +40,10 @@ export const ShowMyProfile = () => {
   );
 
   const fetchData = () => {
-    console.log("Fetching data...");
     axios.get(api.Server + api.ShowMyProfileData, { headers: { Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         setIsLoading(false);
-        console.log(response.data.user)
         const data = response.data;
-        console.log(data.pets)
         setUser(data.user)  //email, location, name, phone_number, pic, social_list, wolaya_name
         setPets(data.pets)  //id, birthday, description, gender_id, gender_name, images_preview, is_active, location, name, offer_type_id, offer_type_name, price, race_name, sub_race, wilaya_name, wilaya_number,
         setNbPets(data.pets.length)

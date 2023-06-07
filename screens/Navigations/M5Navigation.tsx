@@ -19,10 +19,13 @@ import { LogoHeader } from '@components/LogoHeader';
 import { Text } from '@components/Text';
 import { Image } from 'expo-image';
 import { AuthContext } from '@functions/AuthState';
+import axios from 'axios';
+import { api } from '@constants/api';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const currentPlatform = Platform.OS;
+
 
 export default function M5Navigation() {
 
@@ -144,13 +147,18 @@ const MainScreen = () => {
 }
 
 function CustomDrawerContent(props) {
+  const { BearerToken } = useContext(AuthContext);
   const { navigation } = props;
 
   const handleLogout = () => {
-    removeAuthToken();
-    navigation.navigate(routes.m1);
-
-    navigation.closeDrawer(); 
+    axios.post(api.Server + api.Logout, {}, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+      .then(response => {
+        removeAuthToken();
+        navigation.closeDrawer(); 
+        navigation.navigate(routes.m1);
+      }).catch(error => {
+        console.error('Bearer ' + BearerToken);
+      });
   };
 
   return (

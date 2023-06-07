@@ -70,9 +70,13 @@ export const CardPet = ({ pet, viewPetRoute }) => {
             <View style={{ width: CardWidth, height: CardWidth, borderRadius: 10, backgroundColor: colors.emptyImg1 }}></View>
           )}
         </TouchableWithoutFeedback>
-        <TouchableOpacity onPress={() => { LikeThisPet(!isLiked) }} style={{ position: 'absolute', top: 7, right: 7, width: 40, height: 40, alignItems: 'flex-end' }}>
-          <Image style={{ width: 25, height: 25, tintColor: isLiked ? colors.likedPet : undefined }} source={icons.LIKE2} />
-        </TouchableOpacity>
+        
+        {/**
+          <TouchableOpacity onPress={() => { LikeThisPet(!isLiked) }} style={{ position: 'absolute', top: 7, right: 7, width: 40, height: 40, alignItems: 'flex-end' }}>
+            <Image style={{ width: 25, height: 25, tintColor: isLiked ? colors.likedPet : undefined }} source={icons.LIKE2} />
+          </TouchableOpacity>
+        */}
+        
         <View style={{ position: 'absolute', width: '100%', bottom: 0 }}>
           <Text style={{ color: 'white', backgroundColor: 'rgba(51, 58, 90, 0.5)', textAlign: 'center' }}>{pet.name}</Text>
         </View>

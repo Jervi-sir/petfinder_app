@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { Text, View, TouchableOpacity, Animated } from "react-native"
 import { ActivityIndicator, TextInput } from "react-native-paper"
 import { Link, useIsFocused, useNavigation } from '@react-navigation/native';
@@ -14,6 +14,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import axios from "axios";
 import { Dimensions } from 'react-native';
 import PasswordMeter from "@components/PasswordMeter";
+import { AuthContext } from "@functions/AuthState";
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const Stack = createStackNavigator();
@@ -64,6 +65,8 @@ const LoginScreen = ({ navigation, routeName, menuId }) => {
   const isFocused = useIsFocused();
   const translateYValue = useRef(new Animated.Value(100)).current;
 
+  const { BearerToken } = useContext(AuthContext);
+
   useEffect(() => {
     if (isFocused) {
       Animated.timing(translateYValue, {
@@ -94,6 +97,7 @@ const LoginScreen = ({ navigation, routeName, menuId }) => {
       .then(response => {
         var token = response.data.token;
         saveAuthToken(token);
+        BearerToken = token
         setTimeout(() => {
           navigation.popToTop();
           if(routeName) {

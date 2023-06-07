@@ -18,7 +18,7 @@ export default function MenuNavigation({ navigation }) {
   return (
     <>
       <Tab.Navigator 
-        initialRouteName={routes.m2}
+        initialRouteName={routes.m1}
         screenOptions={{
           tabBarStyle: styles.menu2,
           //tabBarStyle: {backgroundColor: colors.menu, height: '12%', paddingTop: 20, position: 'absolute', bottom:-10, left: 0, zIndex: -1},

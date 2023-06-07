@@ -28,9 +28,18 @@ export default function App() {
         else {/** */}
       })
   };
-  
+
+  const handleLogout = () => {
+    axios.post(api.Server + api.Logout, {}, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+      .then(response => {
+        removeAuthToken();
+      }).catch(error => {
+        console.error('Bearer ' + sessionToken);
+      });
+  };
+
   return (
-    <AuthContext.Provider value={sessionToken}>
+    <AuthContext.Provider value={{sessionToken, handleLogout}}>
       <NavigationContainer>
         <StatusBar />
         <AppNavigation />

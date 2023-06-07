@@ -7,7 +7,7 @@ import { getToken } from "@functions/authToken"
 import axios from "axios"
 import { useCallback, useEffect, useRef, useState, useContext } from "react"
 import { RefreshControl } from "react-native"
-import { View, FlatList, ActivityIndicator } from "react-native"
+import { View, FlatList, ActivityIndicator, TouchableOpacity, Text } from "react-native"
 import { FilterSearch } from "./FilterSearch"
 import { useFocusEffect } from "@react-navigation/native"
 import { AuthContext } from '@functions/AuthState';
@@ -91,6 +91,12 @@ export const RaceScreen = ({ raceId = 1, raceName = "Cat" }) => {
 
   return (
     <View style={{minHeight: '100%', backgroundColor: colors.background}}>
+          <TouchableOpacity style={{backgroundColor: colors.lightGrey, height: 40}}
+      onPress={() =>{
+        console.log(BearerToken)
+      }}>
+      <Text>test</Text>
+    </TouchableOpacity>
       <FilterSearch onPressToTop={scrollToTop} title={'Recent ' + raceName} />
       <View style={{}}>
         {/* card */}
