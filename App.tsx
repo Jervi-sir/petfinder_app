@@ -1,54 +1,53 @@
+/* Components */
 import { StatusBar } from '@components/StatusBar';
-import { api } from '@constants/api';
-import { AuthContext } from '@functions/AuthState';
-import { getAuthToken, removeAuthToken } from '@functions/cookies';
-import { NavigationContainer } from '@react-navigation/native';
-import AppNavigation from '@screens/Navigations/AppNavigation';
-import axios from 'axios';
+/* Screens */
+import MenuNavigation from '@screens/MenuNavigation';
+/* packages */
 import * as Font from 'expo-font';
-import { useEffect, useState } from 'react';
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+/* constants */
+import Routes from '@utils/Routes';
+/* useContexts */
+import { AuthProvider } from '@context/AuthContext';
+import { TestScreen } from '@screens/TestScreen';
+/*--------------*/
 
 export default function App() {
-  const [sessionToken, setSessionToken] = useState({BearerToken: null}); //[fontsLoaded, setFontsLoaded
-  //const [fontsLoaded, setFontsLoaded] = useState(false);
-  useEffect(() => {
-    //loadFonts();
-    getAuthToken().then(e =>  { checkToken(e); })
-      .catch(e => console.log(e));
-  }, []);
-
-  const checkToken = async (token) => {
-      axios.get(api.Server + api.User, { headers: { Authorization: `Bearer ${token}` }})
-      .then(response => {
-        setSessionToken({BearerToken: token});
-      })
-      .catch( (error) => {
-        if (error.response.status === 401) { removeAuthToken(); } 
-        else {/** */}
-      })
-  };
-
-  const handleLogout = () => {
-    axios.post(api.Server + api.Logout, {}, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
-      .then(response => {
-        removeAuthToken();
-      }).catch(error => {
-        console.error('Bearer ' + sessionToken);
-      });
-  };
 
   return (
-    <AuthContext.Provider value={{sessionToken, handleLogout}}>
+    <AuthProvider>
       <NavigationContainer>
         <StatusBar />
         <AppNavigation />
       </NavigationContainer>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
+const Stack = createStackNavigator();
+const AppNavigation = () => {
 
+  return(
+    <>
+      <Stack.Navigator 
+        screenOptions={() => ({
+          headerShown: false,
+          headerLeft: null,
+          animationEnabled: true,
+          animationTypeForReplace: 'push',
+        })}
+      >
+        <Stack.Screen name={ Routes.MENU } component={MenuNavigation} />
+      </Stack.Navigator>
+    </>
+      
+  )
+}
+
+const config = {
+  animation: 'spring', config: { stiffness: 1000, damping: 500, mass: 3, overshootClamping: true, restDisplacementThreshold: 0.01, restSpeedThreshold: 0.01,},
+};
 const loadFonts = async () => {
   await Font.loadAsync({
     'Poppins-Black': require('@assets/fonts/Poppins-Black.ttf'),

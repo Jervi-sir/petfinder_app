@@ -1,10 +1,16 @@
+/* Components */
+/* Screens */
+/* packages */
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native"
 import { FlatListSlider } from 'react-native-flatlist-slider';
 import { ScrollView } from "react-native-gesture-handler";
-import { icons } from "@constants/icons";
-import { colors } from "@constants/colors";
 import {Dimensions} from 'react-native';
 import { Image } from 'expo-image';
+/* constants */
+import { icons } from "@constants/icons";
+import { colors } from "@constants/colors";
+/* useContexts */
+/*--------------*/
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 

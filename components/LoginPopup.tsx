@@ -11,6 +11,7 @@ import { saveAuthToken } from "@functions/cookies";
 import { TextInput } from "react-native-paper"
 
 import { GlobalVariable } from '@constants/GlobalVariable';
+import Api from '@utils/Api';
 
 
 export const LoginPopup = ({ isVisible }) => {
@@ -27,7 +28,7 @@ export const LoginPopup = ({ isVisible }) => {
 
   function loginAuth() {
     const data = {email, password};
-    fetch( api.Server + api.Login, {
+    fetch( Api.Server + Api.Login, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

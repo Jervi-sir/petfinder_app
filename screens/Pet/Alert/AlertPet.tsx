@@ -1,33 +1,37 @@
+/* Components */
+import { AddImages } from './AddImages';
+import { CalendarAge } from './CalendarAge';
+/* Screens */
+/* packages */
+import axios from 'axios';
 import { TextInput } from 'react-native-paper';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Animated, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
-import { AddImages } from './AddImages';
 import { useNavigation } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
 import { useFocusEffect } from '@react-navigation/native';
-
-import { colors } from '@constants/colors';
-import { routes } from '@constants/routes';
-import { FloatingDropdown } from '@components/FloatingDropdown';
-import { CalendarAge } from './CalendarAge';
-
-import { api } from '@constants/api';
+import { useIsFocused } from '@react-navigation/native';
 import DashedLine from 'react-native-dashed-line';
 import BouncyCheckboxGroup, { ICheckboxButton } from "react-native-bouncy-checkbox-group";
-import axios from 'axios';
+/* constants */
+import { colors } from '@constants/colors';
+import Api from '@utils/Api';
+import { routes } from '@constants/routes';
+import { FloatingDropdown } from '@components/FloatingDropdown';
 import { GlobalVariable } from '@constants/GlobalVariable';
-import { useIsFocused } from '@react-navigation/native';
+/* useContexts */
+import { getToken } from '@functions/authToken';
+/*--------------*/
 
-import LottieView from 'lottie-react-native';
 import checkmark1 from '@assets/animations/checkmark1.json';
 import loading1 from '@assets/animations/loading1.json';
 import loading2 from '@assets/animations/loading2.json';
 import loading3 from '@assets/animations/loading3.json';
 import loading4 from '@assets/animations/loading4.json';
 import loading5 from '@assets/animations/loading5.json';
-import { getToken } from '@functions/authToken';
 
 export const AlertPet = () => {
   const animationRef = useRef(null);
@@ -68,7 +72,7 @@ export const AlertPet = () => {
       //navigation.navigate(routes.AUTH)
     } else {
       navigation.navigate(routes.ADDPET)
-      axios.get(api.Server + api.AddPet, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
+      axios.get(Api.Server + Api.AddPet, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() } })
       .then(response => {
         const data = response.data;
         setPhoneNumber(data.phone_number)
@@ -112,7 +116,7 @@ export const AlertPet = () => {
       description, phoneNumber, weight, color, birthday, price, subRace, images
     };
     setIsLoading(true);
-    axios.post(api.Server + api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    axios.post(Api.Server + Api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
         //console.log(response.data)
         setIsLoading(false);

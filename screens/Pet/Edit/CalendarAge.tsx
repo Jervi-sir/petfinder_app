@@ -1,10 +1,17 @@
+/* Components */
+/* Screens */
+/* packages */
 import { useState } from "react";
 import { Animated, View, Text, TouchableOpacity, LayoutAnimation, StyleSheet } from "react-native";
 import DatePicker from 'react-native-modern-datepicker';
 import { getToday } from 'react-native-modern-datepicker';
 import moment from 'moment';
+/* constants */
 import { colors } from "@constants/colors";
+/* useContexts */
+/* helpers */
 import { calculateAge } from "@functions/helpers";
+/*--------------*/
 
 export const CalendarAge = ({ defaultDate = '', defaultAge = '', onSelectDate }) => {
   const [age, setAge] = useState(defaultAge);

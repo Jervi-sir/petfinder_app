@@ -13,6 +13,7 @@ import { getToken } from "@functions/authToken";
 import { Image } from 'expo-image';
 import { AuthContext } from "@functions/AuthState";
 import { useContext } from "react";
+import Api from "@utils/Api";
 
 export const CardPet = ({ pet, viewPetRoute }) => {
   const navigation = useNavigation();
@@ -34,7 +35,7 @@ export const CardPet = ({ pet, viewPetRoute }) => {
     if(BearerToken != null) {
       if(state) {
         setIsLiked(true);
-        axios.post(api.Server + api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+        axios.post(Api.Server + Api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
           .then(response => { console.log(response.data); })
           .catch(err => {
             setIsLiked(false);
@@ -43,7 +44,7 @@ export const CardPet = ({ pet, viewPetRoute }) => {
       } 
       else { 
         setIsLiked(false);
-        axios.post(api.Server + api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+        axios.post(Api.Server + Api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
           .then(response => {
             console.log(response.data);
           })

@@ -1,11 +1,17 @@
+/* Components */
+/* Screens */
+/* packages */
 import { useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import { View, TouchableOpacity, Text, StyleSheet, Animated } from "react-native";
 import Dialog from "react-native-dialog";
+import { Image } from 'expo-image';
 import { manipulateAsync } from 'expo-image-manipulator';
 import RNAnimatedScrollIndicators from 'react-native-animated-scroll-indicators';
+/* constants */
 import { colors } from "@constants/colors";
-import { Image } from 'expo-image';
+/* useContexts */
+/*--------------*/
 
 let images = ['', '', '', ''];
 let imagesUri = ['', '', '', ''];

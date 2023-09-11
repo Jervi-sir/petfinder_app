@@ -1,9 +1,15 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native"
+/* Components */
 import { PetCard } from "./petCard"
+/* Screens */
+/* packages */
+import { Image } from 'expo-image';
 import { Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from "react-native"
+/* constants */
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
-import { Image } from 'expo-image';
+/* useContexts */
+/*--------------*/
 
 const screenHeight = Dimensions.get('screen').height;
 

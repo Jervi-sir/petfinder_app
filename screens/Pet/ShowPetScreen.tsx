@@ -1,20 +1,28 @@
-import { View, Text, TouchableOpacity, Animated } from "react-native"
+/* Components */
+/* Screens */
+/* packages */
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+import { useContext } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {Dimensions} from 'react-native';
 import { FlatListSlider } from 'react-native-flatlist-slider';
+import { Image } from 'expo-image';
 import { ScrollView } from "react-native-gesture-handler";
+import { View, Text, TouchableOpacity, Animated } from "react-native"
+/* constants */
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
-import axios from 'axios';
-import { api } from "@constants/api";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { calculateAge, makePhoneCall } from "@functions/helpers";
 import { GlobalVariable } from '@constants/GlobalVariable';
+import { api } from "@constants/api";
 import { routes } from "@constants/routes";
-import { useNavigation } from '@react-navigation/native';
-import {Dimensions} from 'react-native';
-import { Image } from 'expo-image';
+/* useContexts */
 import { AuthContext } from "@functions/AuthState";
-import { useContext } from "react";
+/* helpers */
+import { calculateAge, makePhoneCall } from "@functions/helpers";
+/*--------------*/
 import _ from "lodash";
+import Api from '@utils/Api';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -67,7 +75,7 @@ export const ShowPetScreen = ({ route }) => {
 
   useEffect(() => {
     if(BearerToken != null) {
-      axios.get(api.Server + api.getPetAuth + petId, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+      axios.get(Api.Server + Api.getPetAuth + petId, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
         .then(response => {
           const result = response.data.pet;
           setIsLoading(false);
@@ -76,7 +84,7 @@ export const ShowPetScreen = ({ route }) => {
           //setImages(result.images)
         })
     } else {
-      axios.get(api.Server + api.getPet + petId)
+      axios.get(Api.Server + Api.getPet + petId)
         .then(response => {
           const result = response.data.pet;
           setIsLoading(false);
@@ -110,7 +118,7 @@ export const ShowPetScreen = ({ route }) => {
     if(BearerToken != null) {
       if(state) {
         setIsLiked(true);
-        axios.post(api.Server + api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+        axios.post(Api.Server + Api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
           .then(response => { console.log(response.data); })
           .catch(err => {
             setIsLiked(false);
@@ -119,7 +127,7 @@ export const ShowPetScreen = ({ route }) => {
       } 
       else { 
         setIsLiked(false);
-        axios.post(api.Server + api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+        axios.post(Api.Server + Api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
           .then(response => {
             console.log(response.data);
           })

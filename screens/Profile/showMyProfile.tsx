@@ -1,19 +1,25 @@
-import { View, TouchableOpacity, FlatList, RefreshControl } from "react-native"
+/* Components */
 import { PetCard } from "./petCard"
-
-import { colors } from "@constants/colors";
-import { CommonActions, useFocusEffect, useNavigation } from "@react-navigation/native";
-import { routes } from "@constants/routes";
-import { useCallback, useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { api } from '@constants/api';
-import { CardHorizentalSkeleton } from "@components/Skeletons/CardHorizentalSkeleton";
 import { ProfileCardSkeleton } from "@components/Skeletons/ProfileCardSkeleton";
-import { getToken } from "@functions/authToken";
+import { CardHorizentalSkeleton } from "@components/Skeletons/CardHorizentalSkeleton";
 import { Text } from '@components/Text';
+/* Screens */
+/* packages */
+import axios from "axios";
 import { Image } from 'expo-image';
+import { View, TouchableOpacity, FlatList, RefreshControl } from "react-native"
+import { useCallback, useContext, useEffect, useState } from "react";
+import { CommonActions, useFocusEffect, useNavigation } from "@react-navigation/native";
+/* constants */
+import { colors } from "@constants/colors";
+import Api from '@utils/Api';
+import { routes } from "@constants/routes";
 import { icons } from "@constants/icons";
+/* useContexts */
+import { getToken } from "@functions/authToken";
 import { AuthContext } from '@functions/AuthState';
+/*--------------*/
+
 
 export const ShowMyProfile = () => {
   const navigation = useNavigation();
@@ -40,7 +46,7 @@ export const ShowMyProfile = () => {
   );
 
   const fetchData = () => {
-    axios.get(api.Server + api.ShowMyProfileData, { headers: { Authorization: 'Bearer ' + BearerToken } })
+    axios.get(Api.Server + Api.ShowMyProfileData, { headers: { Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         setIsLoading(false);
         const data = response.data;

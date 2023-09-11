@@ -1,5 +1,11 @@
+/* Components */
+/* Screens */
+/* packages */
 import { useState } from "react";
 import { Animated, View, Text, TouchableOpacity } from "react-native";
+/* constants */
+/* useContexts */
+/*--------------*/
 
 export const CalendarTry = () => {
   const [age, setAge] = useState('');

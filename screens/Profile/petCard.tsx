@@ -1,11 +1,17 @@
+/* Components */
+/* Screens */
+/* packages */
 import { View, Text, TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+/* constants */
+import { Image } from 'expo-image';
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
+/* useContexts */
 import { displayAge } from "@functions/helpers";
-import { useNavigation } from '@react-navigation/native';
 import { routes } from '@constants/routes';
 import { GlobalVariable } from '@constants/GlobalVariable';
-import { Image } from 'expo-image';
+/*--------------*/
 
 export const PetCard = ({ pet }) => {
   const navigation = useNavigation();

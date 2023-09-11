@@ -1,17 +1,28 @@
+/* Components */
+/* Screens */
+import { FilterDropdown } from "@screens/M1/components/FilterDropdown";
+/* packages */
+import { Image } from 'expo-image';
+import MaskInput from 'react-native-mask-input';
+import LottieView from 'lottie-react-native';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native"
 import { TextInput } from 'react-native-paper';
-import { colors } from "@constants/colors";
-import { icons } from "@constants/icons";
 import Dialog from "react-native-dialog";
 import * as ImagePicker from 'expo-image-picker';
 import { manipulateAsync } from 'expo-image-manipulator';
 import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+/* constants */
+import { colors } from "@constants/colors";
+import { routes } from "@constants/routes";
+import { icons } from "@constants/icons";
 import { api } from "@constants/api";
 import { GlobalVariable } from "@constants/GlobalVariable";
-import MaskInput from 'react-native-mask-input';
-import LottieView from 'lottie-react-native';
+/* useContexts */
+import { AuthContext } from "@functions/AuthState";
+/*--------------*/
+
 import checkmark1 from '@assets/animations/checkmark1.json';
 import loading1 from '@assets/animations/loading1.json';
 import loading2 from '@assets/animations/loading2.json';
@@ -20,11 +31,7 @@ import loading4 from '@assets/animations/loading4.json';
 import loading5 from '@assets/animations/loading5.json';
 import error1 from '@assets/animations/error1.json';
 
-import { AuthContext } from "@functions/AuthState";
 
-import { routes } from "@constants/routes";
-import { Image } from 'expo-image';
-import { FilterDropdown } from "@screens/Home/FilterDropdown";
 
 const wilayaList = [
   { label: '1- Adrar', value: '1' },
@@ -61,7 +68,7 @@ export const EditProfile = () => {
   useEffect(() => {
     animationRef.current?.reset();
         
-    axios.get(api.Server + api.getProfileForEdit, { headers: { Authorization: 'Bearer ' + BearerToken } })
+    axios.get(Api.Server + Api.getProfileForEdit, { headers: { Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         const user = response.data.user;
         setName(user.name);
@@ -126,7 +133,7 @@ export const EditProfile = () => {
   function updateProfile() {
     const data = { name, location, phoneNumber, imageUpload, wilayaNumber };
     setIsLoading(true);
-    axios.post(api.Server + api.updateMyProfile, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+    axios.post(Api.Server + Api.updateMyProfile, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         console.log(response.data)
         setIsLoading(false);

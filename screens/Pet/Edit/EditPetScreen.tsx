@@ -1,24 +1,29 @@
+/* Components */
+import { AddImages } from './AddImages';
+import { CalendarAge } from './CalendarAge';
+/* Screens */
+/* packages */
+import Dialog from "react-native-dialog";
 import { TextInput } from 'react-native-paper';
+import axios from 'axios';
+import DashedLine from 'react-native-dashed-line';
+import { useNavigation } from '@react-navigation/native';
+import BouncyCheckboxGroup, { ICheckboxButton } from "react-native-bouncy-checkbox-group";
 import { useEffect, useState, useRef } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Animated } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useIsFocused } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
 import MaskInput from 'react-native-mask-input';
-import { AddImages } from './AddImages';
-import { useNavigation } from '@react-navigation/native';
-import Dialog from "react-native-dialog";
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+/* constants */
+import Api from '@utils/Api';
 import { colors } from '@constants/colors';
 import { routes } from '@constants/routes';
-import { CalendarAge } from './CalendarAge';
-import { api } from '@constants/api';
-import DashedLine from 'react-native-dashed-line';
-import BouncyCheckboxGroup, { ICheckboxButton } from "react-native-bouncy-checkbox-group";
-import axios from 'axios';
 import { GlobalVariable } from '@constants/GlobalVariable';
-import { useIsFocused } from '@react-navigation/native';
+/* useContexts */
+/*--------------*/
 
-import LottieView from 'lottie-react-native';
 import checkmark1 from '@assets/animations/checkmark1.json';
 import loading1 from '@assets/animations/loading1.json';
 import loading2 from '@assets/animations/loading2.json';
@@ -95,7 +100,7 @@ export const EditPetScreen = ({ route }) => {
 
 
   useEffect(() => {
-    axios.get(api.Server + api.EditPet + petId, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    axios.get(Api.Server + Api.EditPet + petId, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
         const data = response.data;
         setSelectedPet(data.pet);
@@ -147,7 +152,7 @@ export const EditPetScreen = ({ route }) => {
       description, phoneNumber, weight, color, birthday, price, subRace, images
     };
     setIsLoading(true);
-    axios.post(api.Server + api.updatePet + petId, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    axios.post(Api.Server + Api.updatePet + petId, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
         console.log(response.data)
         setIsLoading(false);
@@ -173,7 +178,7 @@ export const EditPetScreen = ({ route }) => {
   };
 
   function archiveThisPet() {
-    axios.post(api.Server + api.ArchivePet + petId, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    axios.post(Api.Server + Api.ArchivePet + petId, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
         setArchiveVisible(false);
         setIsLoading(false);
@@ -191,7 +196,7 @@ export const EditPetScreen = ({ route }) => {
   }
 
   function unArchiveThisPet() {
-    axios.post(api.Server + api.unArchivePet + petId, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    axios.post(Api.Server + Api.unArchivePet + petId, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
         setUnArchiveVisible(false);
         setIsLoading(false);
@@ -209,7 +214,7 @@ export const EditPetScreen = ({ route }) => {
   }
 
   function deletePet() {
-    axios.post(api.Server + api.deletePet + petId, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
+    axios.post(Api.Server + Api.deletePet + petId, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + GlobalVariable.authToken } })
       .then(response => {
         console.log(response.data);
         setDeleteVisible(false);

@@ -1,33 +1,39 @@
+/* Components */
+import { AddImages } from './AddImages';
+import { FloatingDropdown } from '@components/FloatingDropdown';
+import { CalendarAge } from './CalendarAge';
+/* Screens */
+/* packages */
+import axios from 'axios';
 import { TextInput } from 'react-native-paper';
 import { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Animated, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MaskInput from 'react-native-mask-input';
-import { AddImages } from './AddImages';
 import { useNavigation, useNavigationState } from '@react-navigation/native';
+import DashedLine from 'react-native-dashed-line';
 import { useFocusEffect } from '@react-navigation/native';
-
+import BouncyCheckboxGroup, { ICheckboxButton } from "react-native-bouncy-checkbox-group";
+import { useIsFocused } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
+/* constants */
 import { colors } from '@constants/colors';
 import { routes } from '@constants/routes';
-import { FloatingDropdown } from '@components/FloatingDropdown';
-import { CalendarAge } from './CalendarAge';
-import { api } from '@constants/api';
-import DashedLine from 'react-native-dashed-line';
-import BouncyCheckboxGroup, { ICheckboxButton } from "react-native-bouncy-checkbox-group";
-import axios from 'axios';
+import Api from '@utils/Api';
 import { GlobalVariable } from '@constants/GlobalVariable';
-import { useIsFocused } from '@react-navigation/native';
+/* useContexts */
+import { getToken } from '@functions/authToken';
+import { AuthContext } from '@functions/AuthState';
+/*--------------*/
 
-import LottieView from 'lottie-react-native';
+
 import checkmark1 from '@assets/animations/checkmark1.json';
 import loading1 from '@assets/animations/loading1.json';
 import loading2 from '@assets/animations/loading2.json';
 import loading3 from '@assets/animations/loading3.json';
 import loading4 from '@assets/animations/loading4.json';
 import loading5 from '@assets/animations/loading5.json';
-import { getToken } from '@functions/authToken';
-import { AuthContext } from '@functions/AuthState';
 
 
 
@@ -68,7 +74,7 @@ export const AddScreen = () => {
   const { BearerToken } = useContext(AuthContext);
 
   useEffect(() => {
-    axios.get(api.Server + api.AddPet, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+    axios.get(Api.Server + Api.AddPet, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
     .then(response => {
       const data = response.data;
       setPhoneNumber(data.phone_number)
@@ -102,7 +108,7 @@ export const AddScreen = () => {
       description, phoneNumber, weight, color, birthday, price, subRace, images
     };
     setIsLoading(true);
-    axios.post(api.Server + api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+    axios.post(Api.Server + Api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         console.log(response.data)
         setIsLoading(false);

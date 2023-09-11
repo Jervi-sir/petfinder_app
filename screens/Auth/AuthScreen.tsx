@@ -93,7 +93,7 @@ const LoginScreen = ({ navigation, routeName, menuId }) => {
     else setErrorPassword(false);
 
     setIsProcessing(true);
-    axios.post(api.Server + api.Login, {email, password}, {headers: {'Accept': 'application/json','Content-Type': 'application/json','Language': 'fr'}})
+    axios.post(Api.Server + Api.Login, {email, password}, {headers: {'Accept': 'application/json','Content-Type': 'application/json','Language': 'fr'}})
       .then(response => {
         var token = response.data.token;
         saveAuthToken(token);
@@ -270,7 +270,7 @@ const RegisterScreen = ({ navigation, routeName, menuId }) => {
     else setErrorPassword(false);
 
     setIsProcessing(true);
-    axios.post(api.Server + api.Register, {name, email, password}, {headers: {'Accept': 'application/json','Content-Type': 'application/json','Language': 'fr'}})
+    axios.post(Api.Server + Api.Register, {name, email, password}, {headers: {'Accept': 'application/json','Content-Type': 'application/json','Language': 'fr'}})
     .then(response => {
       var token = response.data.token;
       saveAuthToken(token);

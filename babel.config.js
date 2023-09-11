@@ -12,6 +12,8 @@ module.exports = function(api) {
             '@screens': "./screens",
             '@constants': "./constants",
             '@assets': "./assets",
+            '@context': "./context",
+            '@utils': "./utils",
           },
         },
       ],
