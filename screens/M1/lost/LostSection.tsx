@@ -1,6 +1,6 @@
 /* Components */
 /* Screens */
-import { RaceScreen } from './RaceScreen';
+
 /* packages */
 import { Image } from 'expo-image';
 import { View, Text, StyleSheet } from 'react-native'
@@ -8,12 +8,13 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 /* constants */
 import { icons } from '@constants/icons';
 import { colors } from '@constants/colors';
+import { RaceLostScreen } from './RaceLostScreen';
 /* useContexts */
 
 /*--------------*/
 const Tab = createMaterialTopTabNavigator();
 
-export function AdoptionSection() {
+export function LostSection() {
   return (
     <View style={{ backgroundColor: colors.background }}>
       <View style={{ height: 800 }}>
@@ -31,7 +32,7 @@ export function AdoptionSection() {
         >
           <Tab.Screen
             name="Pets"
-            component={RaceScreen}
+            component={RaceLostScreen}
             initialParams={{ raceName: 'Pets', raceId: 0 }}
             options={{
               tabBarLabel: () => { return null },
@@ -57,7 +58,7 @@ const TabScreenFactory = (name, iconName, raceId, raceName) => {
   return (
     <Tab.Screen
       name={name}
-      component={RaceScreen}
+      component={RaceLostScreen}
       initialParams={{ raceName: raceName, raceId: raceId }}
       options={{
         tabBarLabel: () => null,

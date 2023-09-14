@@ -5,6 +5,7 @@ import { AdoptionSection } from './adoption/AdoptionSection';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 /* constants */
 import { colors } from "@constants/colors";
+import { LostSection } from './lost/LostSection';
 /* useContexts */
 /*--------------*/
 
@@ -25,7 +26,7 @@ export const HomeScreen = () => {
         }}
       >
         <Tab.Screen name="Adoption" component={AdoptionSection}/>
-        <Tab.Screen name="Lost" component={AdoptionSection}/>
+        <Tab.Screen name="Lost" component={LostSection}/>
       </Tab.Navigator>
     </>
   )

@@ -1,7 +1,7 @@
 /* Components */
 import { CardVerticalSkeleton } from "@components/Skeletons/CardVerticalSkeleton"
 import { CardPet } from "@components/CardPet"
-import { FilterSearch } from "./components/FilterSearch"
+import { FilterSearch } from "../components/FilterSearch"
 /* Screens */
 /* packages */
 import axios from "axios"
@@ -17,8 +17,7 @@ import Api from "@utils/Api"
 import { useAuth } from "@context/AuthContext"
 /*--------------*/
 
-
-export const RaceScreen = ({ route }) => {
+export const RaceLostScreen = ({ route }) => {
   const { raceId, raceName } = route.params;
   const [data, setData] = useState([]);
   const [firstLoading, setFirstLoading] = useState(true);
@@ -42,18 +41,18 @@ export const RaceScreen = ({ route }) => {
   const fetchPosts = async () => {
     if (loading || !hasMore) return;
     setLoading(true);
-    const apiEndpoint = raceId === 0
-      ? (BearerToken ? Api.getLatestPetsAuth : Api.getLatestPets)
-      : (BearerToken ? Api.getLatestPetsByRaceAuth : Api.getLatestPetsByRace);
-  
-    const queryParam = raceId === 0 ? '' : raceId;
-    const url = `${Api.Server}${apiEndpoint}${queryParam}?page=${currentPage}`;
+    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestLostPets + '?page=' + currentPage;
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${BearerToken}`
     };
+    let requestConfig = { headers };
+    if (raceId !== 0) {
+      requestConfig.params = { race_id: raceId };
+    }
+  
     try {
-      const response = await axios.get(url, { headers });
+      const response = await axios.get(url, requestConfig );
       const newPets = response.data.pets;
       const lastPage = response.data.last_page;
       setData(prevData => [...prevData, ...newPets]);
@@ -75,16 +74,16 @@ export const RaceScreen = ({ route }) => {
     setData([]);
     setLoading(true);
     setFirstLoading(true);
-    axios.get(Api.Server + (
-      BearerToken 
-      ? 
-        ( raceId == 0 ? Api.getLatestPetsAuth : Api.getLatestPetsByRaceAuth ) 
-      : 
-        (raceId == 0 ? Api.getLatestPets : Api.getLatestPetsByRace)
-    ) 
-    + (raceId == 0 ? '' : raceId) 
-    + '?page=' + 1, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
-
+    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestLostPets + '?page=' + currentPage;
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${BearerToken}`
+    };
+    let requestConfig = { headers };
+    if (raceId !== 0) {
+      requestConfig.params = { race_id: raceId };
+    }
+    axios.get(url, requestConfig )
     .then(response => {
       setData(response.data.pets);
       setLoading(false);
@@ -116,7 +115,7 @@ export const RaceScreen = ({ route }) => {
               renderItem={({ item }) => <CardPet pet={item} viewPetRoute={routes.VIEWPET}/>}
               numColumns={2}
               keyExtractor={(item, index) => index.toString()}
-              onEndReached={() => {if(!refreshing) fetchPosts() }}
+              onEndReached={() => {if(!refreshing) fetchPosts(currentPage) }}
               onEndReachedThreshold={0.01}
               //ItemSeparatorComponent={() => <View style={{height: 20}} />}
               columnWrapperStyle={{ justifyContent: 'space-between', paddingTop: 10, }}

@@ -6,6 +6,12 @@ export const api = {
   Register: 'register',
   Logout: 'logout',
   User: 'user',
+  //pet auth
+  getLatestPets: 'pets/latest',
+
+
+
+
   //Actions
   SavePet: 'auth/actions/save/',
   unSavePet: 'auth/actions/unsave/',
@@ -31,7 +37,6 @@ export const api = {
   //pet
   getPet: 'pets/id/',
   getByRace: 'pets/race/',
-  getLatestPets: 'pets/latest',
   getLatestPetsByRace: 'pets/latest/race=',
   //search
   Search: 'search/keyword=',

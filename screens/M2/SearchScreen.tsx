@@ -17,11 +17,14 @@ import { routes } from '@constants/routes';
 /* useContexts */
 /* helpers */
 import { getAuthToken } from '@functions/cookies';
+import { useAuth } from '@context/AuthContext';
 
 /*--------------*/
 
 export const SearchScreen = () => {
   const [data, setData] = useState([]);
+  const { BearerToken } = useAuth();
+
   const flatListRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const scrollToTop = () => {
@@ -30,11 +33,14 @@ export const SearchScreen = () => {
   /*--- Search inputed properties ---*/
   const [search, setSearch] = useState(false);
 
-  const onSearch = (keywords) => {
-    console.log(keywords);
-    fetchSearch(keywords);
+  const onSearch = async (keywords = '') => {
+    const response = await axios.get(Api.Server + (BearerToken == null ? '' : Api.Auth) + Api.getLatestPets,{
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken }
+    });
+    setData(response.data.pets);
     moveInputToTop();
     setSearch(true);
+    setIsLoading(false);
   }
 
   const translateY = useRef(new Animated.Value(250)).current;
@@ -46,26 +52,6 @@ export const SearchScreen = () => {
     }).start();
   };
   /*---------------------------------*/
-  function fetchSearch(keywords) {
-    getAuthToken().then((rsp) => {
-      if(rsp) {
-        console.log('authenticated')
-        axios.get(Api.Server + Api.getLatestPetsAuth, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + rsp } })
-        .then(response => {
-          setIsLoading(false);
-          setData(response.data.pets);
-          console.log(response.data)
-        })
-      } else {
-        console.log('not authenticated')
-        axios.get(Api.Server + Api.getLatestPets)
-          .then(response => {
-            setIsLoading(false);
-            setData(response.data.pets);
-        })
-      }
-    })
-  }
 
   return (
     <>

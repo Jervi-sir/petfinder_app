@@ -6,6 +6,14 @@ export default {
   Register: 'register',
   Logout: 'logout',
   User: 'user',
+  Auth: 'auth/',
+  //pet
+  getLatestPets: 'pets/latest',
+  getLatestLostPets: 'lostpets/latest',
+
+
+
+
   //Actions
   SavePet: 'auth/actions/save/',
   unSavePet: 'auth/actions/unsave/',
@@ -28,10 +36,8 @@ export default {
   getLatestPetsAuth: 'auth/pets/latest',
   getByRaceAuth: 'auth/pets/race/',
   getLatestPetsByRaceAuth: 'auth/pets/latest/race=',
-  //pet
   getPet: 'pets/id/',
   getByRace: 'pets/race/',
-  getLatestPets: 'pets/latest',
   getLatestPetsByRace: 'pets/latest/race=',
   //search
   Search: 'search/keyword=',

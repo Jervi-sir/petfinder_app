@@ -28,6 +28,7 @@ export const CardPet = ({ pet, viewPetRoute }) => {
   }, []);
 
   const showPet = (itemId) => {
+    console.log(itemId);
     navigation.navigate(viewPetRoute, { petId: itemId, mine: false });
   };
 
