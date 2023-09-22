@@ -16,7 +16,8 @@ export default {
 
   //addPet
   addPetHelpers: 'auth/pet/add-pet-helpers',
-
+  //editProfile
+  getProfileForEdit: 'auth/profile/edit-profile',
 
 
   //Actions
@@ -29,7 +30,6 @@ export default {
   getMyPets: 'auth/profile/my-pets',
   getSavedPets: 'auth/profile/saved-list',
   ShowMyProfileData: 'auth/profile/show-my-profile',
-  getProfileForEdit: 'auth/profile/edit-profile',
   updateMyProfile: 'auth/profile/edit-profile',
   //pet auth add edit
   AddPet: 'auth/pet/add-pet',

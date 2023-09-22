@@ -6,8 +6,8 @@ import { AuthScreen } from '@screens/Auth/AuthScreen';
 import { PreviewPet } from '@screens/Pet/Add/PreviewPet';
 import { EditPetScreen } from '@screens/Pet/Edit/EditPetScreen';
 import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
-import { EditProfile } from '@screens/Profile/EditProfile';
-import { ShowMyProfile } from '@screens/Profile/showMyProfile';
+import { EditProfile } from '@screens/M5/Profile/EditProfile';
+import { ShowMyProfile } from '@screens/M5/Profile/showMyProfile';
 /* packages */
 import DashedLine from 'react-native-dashed-line';
 import axios from 'axios';
@@ -25,7 +25,13 @@ import { colors } from '@constants/colors';
 import { getToken, setToken } from '@functions/authToken';
 import { getAuthToken, removeAuthToken } from '@functions/cookies';
 import { AuthContext } from '@functions/AuthState';
+import Routes from '@utils/Routes';
+import { LoginScreen } from '@screens/Auth/LoginScreen';
+import { RegisterScreen } from '@screens/Auth/RegisterScreen';
+import { useAuth } from '@context/AuthContext';
+import { useProfile } from '@context/ProfileContext';
 /*--------------*/
+import Dialog from "react-native-dialog";
 
 
 const Stack = createStackNavigator();
@@ -34,7 +40,18 @@ const currentPlatform = Platform.OS;
 
 
 export default function M5Navigation() {
+  const { BearerToken } = useAuth();
+  useEffect(() => {
 
+  }, [BearerToken])
+  const modal = {
+    cardStyle: {
+      backgroundColor: currentPlatform == 'android' ? 'rgba(0,0,0,0.5)' : 'transparent',
+      height: '10%'
+    },
+    presentation: currentPlatform == 'android' ? 'transparentModal' : 'modal',
+    gestureEnabled: false,
+  }
   return (
     <>
       <Stack.Navigator
@@ -45,26 +62,25 @@ export default function M5Navigation() {
           })}
         >
           <Stack.Screen name='main screen m5' component={MainDrawer} />
-          <Stack.Screen name={routes.AUTH} options={{
-            cardStyle: {
-              backgroundColor: currentPlatform == 'android' ? 'rgba(0,0,0,0.5)' : 'transparent',
-              height: '10%'
-            },
-            presentation: currentPlatform == 'android' ? 'transparentModal' : 'modal',
-            gestureEnabled: false,
-          }}>
-          {() => <AuthScreen redirectAfterAuth={routes.SHOWMYPROFILE + 'm5'} menuId={5} />}
-          </Stack.Screen>
+          {
+            BearerToken === null &&
+            <>
+              <Stack.Screen name={ Routes.LOGIN } component={LoginScreen} options={modal} />
+              <Stack.Screen name={ Routes.REGISTER } component={RegisterScreen} options={modal} />
+            </>
+          }
       </Stack.Navigator>
     </>
   )
 }
+
 const MainDrawer = ({navigation}) => {
   const currentState = navigation.getParent().getState();
   const { index, routeNames} = currentState;
   const currentTab = routeNames[index];
 
-  const { BearerToken } = useContext(AuthContext);
+  const { BearerToken } = useAuth();
+  const { profileState } = useProfile();
 
   const [open, setOpen] = useState(null);
   const handlePressFromChild = () => {
@@ -74,16 +90,16 @@ const MainDrawer = ({navigation}) => {
 
   useEffect(() => {
       if(BearerToken == null) {
-        navigation.navigate(routes.AUTH)
+        navigation.navigate(routes.LOGIN)
       }
-  }, []);
+  }, [BearerToken, profileState]);
 
   useFocusEffect(
     useCallback(() => {
       if(BearerToken == null) {
-        navigation.navigate(routes.AUTH)
+        navigation.navigate(routes.LOGIN)
       }
-    }, [])
+    }, [BearerToken, profileState])
   );
 
   return (
@@ -127,8 +143,8 @@ const MainDrawer = ({navigation}) => {
   
         drawerContent={(props) => <CustomDrawerContent {...props}/>}
         >
-        <Drawer.Screen name="My Profile m5" component={MainScreen} />
-        <Drawer.Screen name="Soon m5" component={SoonScreen} />
+        <Drawer.Screen name="My Profile" component={MainScreen} />
+        <Drawer.Screen name="Soon" component={SoonScreen} />
       </Drawer.Navigator>
     </>
   )
@@ -153,18 +169,26 @@ const MainScreen = () => {
 }
 
 function CustomDrawerContent(props) {
-  const { BearerToken } = useContext(AuthContext);
+  const { BearerToken, removeAuthToken } = useAuth();
   const { navigation } = props;
-
+  const [logoutIsShown, setLogoutIsShown] = useState(false);
+  const { updateProfile } = useProfile();
+  
   const handleLogout = () => {
+    handleCancel();
     axios.post(Api.Server + Api.Logout, {}, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         removeAuthToken();
+        updateProfile([]);
         navigation.closeDrawer(); 
-        navigation.navigate(routes.m1);
+        //navigation.navigate(routes.m1);
       }).catch(error => {
         console.error('Bearer ' + BearerToken);
       });
+  };
+
+  const handleCancel = () => {
+    setLogoutIsShown(false);
   };
 
   return (
@@ -180,9 +204,18 @@ function CustomDrawerContent(props) {
       {/* Add other drawer items here if necessary */}
 
       <View style={{paddingLeft: 18, marginTop: 31}}>
-        <TouchableOpacity onPress={handleLogout}>
+        <TouchableOpacity 
+          onPress={() => setLogoutIsShown(true)}
+        >
           <Text style={{ fontSize: 15, color: 'red' }}>Logout</Text>
         </TouchableOpacity>
+        <Dialog.Container visible={logoutIsShown} onBackdropPress={handleCancel}>
+        <Dialog.Title>Do You Want to Logout</Dialog.Title>
+        <View>
+          <Dialog.Button style={{color: 'red'}} label="Yes" onPress={handleLogout} />
+          <Dialog.Button label="Cancel" onPress={handleCancel} />
+        </View>
+      </Dialog.Container>
       </View>
     </DrawerContentScrollView>
   );

@@ -18,12 +18,13 @@ import { formatPhoneNumber, isValidEmail, isValidPassword } from "@functions/hel
 import Api from "@utils/Api";
 import { useAuth } from "@context/AuthContext";
 import ShakeAnimation from "@components/ShakeAnimation";
+import { useProfile } from "@context/ProfileContext";
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export const RegisterScreen = ({ navigation, routeName, menuId }) => {
   const { BearerToken, saveAuthToken } = useAuth();
-
+  const { updateProfile } = useProfile();
   //Values
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -87,8 +88,10 @@ export const RegisterScreen = ({ navigation, routeName, menuId }) => {
       }, 
       {headers: {'Accept': 'application/json','Content-Type': 'application/json','Language': 'fr'}})
     .then(response => {
-      var token = response.data.token;
-      saveAuthToken(token);
+      var data = response.data.token;
+      saveAuthToken(data.token);
+      updateProfile(data.user_auth_info);
+
       setTimeout(() => {
         //navigation.popToTop();
         if(routeName) {

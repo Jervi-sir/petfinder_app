@@ -37,6 +37,7 @@ import loading5 from '@assets/animations/loading5.json';
 import { useAuth } from '@context/AuthContext';
 import { useProfile } from '@context/ProfileContext';
 import { formatRacesJson, formatWilayasJson } from '@functions/helpers';
+import { useHelper } from '@context/HelperContext';
 
 
 
@@ -76,17 +77,25 @@ export const AddScreen = () => {
   const [age, setAge] = useState('');
 
   const { BearerToken } = useAuth();
+  const { wilayaHelper, racesHelper, updateWilaya, updateRaces } = useHelper();
 
   useEffect(() => {
-    axios.get(Api.Server + Api.addPetHelpers, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
-    .then(response => {
-      const data = response.data;
-      console.log(data.races[0])
-      setRaceList(formatRacesJson(data.races))
-      setWilayaList(formatWilayasJson(data.wilayas))
-    })
-    setPhoneNumber(profileState.phone_number);
-  }, []);
+    if(wilayaHelper == null || racesHelper == null) {
+      console.log('wilayaHelper is null')
+      axios.get(Api.Server + Api.addPetHelpers, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+      .then(response => {
+        const data = response.data;
+        updateWilaya(data.wilayas);
+        updateRaces(data.races);
+        setRaceList(formatRacesJson(data.races))
+        setWilayaList(formatWilayasJson(data.wilayas))
+      })
+      setPhoneNumber(profileState.phone_number);
+    } else {
+      setRaceList(racesHelper)
+      setWilayaList(wilayaHelper)
+    }
+  }, [wilayaHelper, racesHelper]);
 
   const handleRefresh = () => {
     setImagesUri([]);

@@ -34,9 +34,8 @@ export default function MenuNavigation({ navigation }) {
         <Tab.Screen name={routes.m2} component={M2Navigation} options={{ tabBarLabel: () => null, tabBarIcon: ({ focused }) => <Image style={{ width: 20, height: 20, tintColor: focused ? colors.gold : colors.white }} source={icons.SEARCHMENU} /> }} />
         <Tab.Screen name={routes.m3} component={M3Navigation} options={{ tabBarLabel: () => null, tabBarIcon: ({ focused }) => <Image style={{ width: 20, height: 20, tintColor: focused ? colors.gold : colors.white }} source={icons.FAVORITE} /> }} />
         <Tab.Screen name={routes.m4} component={M4Navigation} options={{ tabBarLabel: () => null, tabBarIcon: ({ focused }) => <Image style={{ width: 20, height: 20, tintColor: focused ? colors.gold : colors.white }} source={icons.ADDPET} /> }} />
-        {/*<Tab.Screen name={routes.m5} component={M5Navigation} options={{ tabBarLabel: () => null, tabBarIcon: ({ focused }) => <Image style={{ width: 20, height: 20, tintColor: focused ? colors.gold : colors.white }} source={icons.PROFILE} /> }} />
-       */}
-        </Tab.Navigator>
+        <Tab.Screen name={routes.m5} component={M5Navigation} options={{ tabBarLabel: () => null, tabBarIcon: ({ focused }) => <Image style={{ width: 20, height: 20, tintColor: focused ? colors.gold : colors.white }} source={icons.PROFILE} /> }} />
+      </Tab.Navigator>
     </>
   )
 }

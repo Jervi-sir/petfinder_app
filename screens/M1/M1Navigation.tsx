@@ -3,7 +3,7 @@
 import { HomeScreen } from '@screens/M1/HomeScreen';
 import { AuthScreen } from '@screens/Auth/AuthScreen';
 import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
-import { ShowProfile } from '@screens/Profile/ShowProfile';
+import { ShowProfile } from '@screens/M5/Profile/ShowProfile';
 /* packages */
 import { Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';

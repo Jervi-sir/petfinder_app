@@ -14,18 +14,21 @@ import { TestScreen } from '@screens/TestScreen';
 /*--------------*/
 import { TouchableOpacity,Text,View } from 'react-native';
 import { ProfileProvider } from '@context/ProfileContext';
+import { HelperProvider } from '@context/HelperContext';
 
 export default function App() {
 
   return (
+    <HelperProvider>
       <ProfileProvider>
-    <AuthProvider>
-        <NavigationContainer>
-          <StatusBar />
-          <AppNavigation />
-        </NavigationContainer>
-    </AuthProvider>
+        <AuthProvider>
+          <NavigationContainer>
+            <StatusBar />
+            <AppNavigation />
+          </NavigationContainer>
+        </AuthProvider>
       </ProfileProvider>
+    </HelperProvider>
   );
 }
 
