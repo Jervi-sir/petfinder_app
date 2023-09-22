@@ -6,6 +6,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 /* constants */
 import { colors } from "@constants/colors";
 import { LostSection } from './lost/LostSection';
+import Routes from '@utils/Routes';
 /* useContexts */
 /*--------------*/
 
@@ -25,8 +26,8 @@ export const HomeScreen = () => {
           swipeEnabled: false,
         }}
       >
-        <Tab.Screen name="Adoption" component={AdoptionSection}/>
-        <Tab.Screen name="Lost" component={LostSection}/>
+        <Tab.Screen name={Routes.AdoptionSection} component={AdoptionSection}/>
+        <Tab.Screen name={Routes.LostSection} component={LostSection}/>
       </Tab.Navigator>
     </>
   )

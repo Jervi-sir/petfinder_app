@@ -7,9 +7,9 @@ import { CardVerticalSkeleton } from '@components/Skeletons/CardVerticalSkeleton
 /* packages */
 import axios from 'axios';
 import { Image } from 'expo-image';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import DashedLine from 'react-native-dashed-line';
-import { View, TextInput, FlatList, Animated, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, TextInput, FlatList, Animated, StyleSheet, TouchableOpacity, Text } from 'react-native'
 /* constants */
 import Api from '@utils/Api';
 import { colors } from '@constants/colors';
@@ -18,12 +18,16 @@ import { routes } from '@constants/routes';
 /* helpers */
 import { getAuthToken } from '@functions/cookies';
 import { useAuth } from '@context/AuthContext';
+import Routes from '@utils/Routes';
+import { RefreshControl } from 'react-native-gesture-handler';
+import { ActivityIndicator } from 'react-native-paper';
 
 /*--------------*/
 
 export const SearchScreen = () => {
   const [data, setData] = useState([]);
   const { BearerToken } = useAuth();
+  const [keywords, setKeywords] = useState('');
 
   const flatListRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,15 +36,47 @@ export const SearchScreen = () => {
   };
   /*--- Search inputed properties ---*/
   const [search, setSearch] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const onSearch = async (keywords = '') => {
-    const response = await axios.get(Api.Server + (BearerToken == null ? '' : Api.Auth) + Api.getLatestPets,{
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken }
-    });
-    setData(response.data.pets);
+  const handleOnSearch = (e) => {
+    setCurrentPage(1);
+    setIsLoading(true);
+    setKeywords(e);
+  }
+  
+  useEffect(() => {
+    onSearch();
+  }, [keywords]);
+  
+  const onSearch = async () => {
+    if (loading || !hasMore) return;
+    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.Search + '?page=' + currentPage;
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${BearerToken}`
+    };
+    let requestConfig = { headers };
+    if (keywords !== '') {
+      requestConfig.params = { keywords: keywords };
+    }
+    const response = await axios.get(url, requestConfig);
     moveInputToTop();
+    const newPets = response.data.pets;
+    const lastPage = response.data.last_page;
+    if(currentPage === 1) {
+      setData(newPets);
+    } else {
+      setData(prevData => [...prevData, ...newPets]);
+    }
     setSearch(true);
     setIsLoading(false);
+    setCurrentPage(prevPage => prevPage + 1);
+    if (currentPage >= lastPage) {
+      setHasMore(false);
+    }
   }
 
   const translateY = useRef(new Animated.Value(250)).current;
@@ -53,6 +89,7 @@ export const SearchScreen = () => {
   };
   /*---------------------------------*/
 
+ 
   return (
     <>
       <Animated.View style={[
@@ -60,7 +97,7 @@ export const SearchScreen = () => {
             transform: [{ translateY: translateY }],
           },
         ]}>
-        <HeaderSearch onPress={onSearch}/>
+        <HeaderSearch onPress={handleOnSearch}/>
       </Animated.View>
       {search 
       ?
@@ -72,8 +109,14 @@ export const SearchScreen = () => {
         <View style={{ backgroundColor: colors.background }}>
           <View style={{ minHeight: '100%' }}>
             <FilterSearch onPressToTop={scrollToTop} />
+            
             <View >
               {/*loading */}
+              {data.length === 0 && (
+                <>
+                <Text style={{textAlign: 'center', fontSize: 20, marginTop: 69}}>No Pets Found</Text>
+                </>
+              )}
               {isLoading ? (
                 <FlatList
                   ref={flatListRef}
@@ -87,20 +130,18 @@ export const SearchScreen = () => {
                 <FlatList
                   ref={flatListRef}
                   data={data}
-                  renderItem={({ item }) => <CardPet pet={item} viewPetRoute={routes.VIEWPET}/>}
+                  renderItem={({ item }) => <CardPet pet={item} viewPetRoute={Routes.ShowPetScreen}/>}
                   numColumns={2}
                   keyExtractor={(item, index) => index.toString()}
                   onEndReachedThreshold={0.01}
-                  ListFooterComponent={() => <View style={{ height: 400, width: '100%' }}></View>}
-                  onEndReached={info => {
-                    //data.push(1) //data.push(1)
-                  }}
+                  onEndReached={onSearch}
                   //ItemSeparatorComponent={() => <View style={{height: 20}} />}
                   columnWrapperStyle={{ justifyContent: 'space-between', paddingTop: 10, }}
                   style={{ paddingHorizontal: 15, }}
-                  onScroll={Animated.event([
-                    //{ nativeEvent: { contentOffset: { y: scrollOffsetY }}}              
-                  ])
+                  ListFooterComponent={() => <>
+                    {hasMore && data.length != 0 ? <ActivityIndicator size={40} color={colors.menu} style={{ marginVertical: 31 }}/> : null}
+                    <View style={{ height: 269, width: '100%'}}></View>
+                  </>
                   }
                 />
               )}

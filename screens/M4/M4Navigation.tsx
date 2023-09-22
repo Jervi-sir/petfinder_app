@@ -17,12 +17,26 @@ import { routes } from '@constants/routes';
 import { colors } from '@constants/colors';
 /* useContexts */
 import { AuthContext } from '@functions/AuthState';
+import Routes from '@utils/Routes';
+import { useAuth } from '@context/AuthContext';
+import { LoginScreen } from '@screens/Auth/LoginScreen';
+import { RegisterScreen } from '@screens/Auth/RegisterScreen';
+import { TestScreen } from '@screens/TestScreen';
 /*--------------*/
 
 const Stack = createStackNavigator();
 const currentPlatform = Platform.OS;
 
 export default function M4Navigation() {
+  const { BearerToken } = useAuth();
+  const modal = {
+    cardStyle: {
+      backgroundColor: currentPlatform == 'android' ? 'rgba(0,0,0,0.5)' : 'transparent',
+      height: '10%'
+    },
+    presentation: currentPlatform == 'android' ? 'transparentModal' : 'modal',
+    gestureEnabled: false,
+  }
   return(
     <>
       <Stack.Navigator
@@ -32,8 +46,17 @@ export default function M4Navigation() {
             animationEnabled: true
           })}
         >
-          <Stack.Screen name='main screen m4' component={MainScreen} />
-          <Stack.Screen name={routes.AUTH} options={{
+          
+          <Stack.Screen name={Routes.MainScreen} component={MainScreen} />
+          {
+            BearerToken === null &&
+            <>
+              <Stack.Screen name={ Routes.LOGIN } component={LoginScreen} options={modal} />
+              <Stack.Screen name={ Routes.REGISTER } component={RegisterScreen} options={modal} />
+            </>
+          }
+          {/*
+          <Stack.Screen name={Routes.AUTH} options={{
             cardStyle: {
               backgroundColor: currentPlatform == 'android' ? 'rgba(0,0,0,0.5)' : 'transparent',
               height: '10%'
@@ -43,50 +66,27 @@ export default function M4Navigation() {
           }}>
             {() => <AuthScreen redirectAfterAuth='Add new Pet m4' />}
           </Stack.Screen>
+           */}
       </Stack.Navigator>
     </>
   )
 }
 
-
-const HeaderHamburger = ({onPress}) => {
-  const navigator = useNavigation();
-  return (
-    <>
-      <View style={{  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 7}}>
-        <LogoHeader />
-        <View style={{flexDirection:'row', alignItems: 'center', paddingRight: 20}}>
-          <TouchableOpacity onPress={() => navigator.navigate(routes.ADDPET)}>
-            <Text weight='700' size={18}>Add</Text>
-          </TouchableOpacity>
-          <View style={{ paddingHorizontal: 17 }}>
-            <Text size={17}>|</Text>
-          </View>
-          <TouchableOpacity onPress={() => navigator.navigate(routes.ALERTPET)}>
-            <Text weight='600' size={18}>Lost</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
-    </>
-  )
-}
-
 export const MainScreen = ({ navigation }) => {
-  const { BearerToken } = useContext(AuthContext);
+  const { BearerToken } = useAuth();
 
   useEffect(() => {
-    if(BearerToken == null) {
-      navigation.navigate(routes.AUTH)
+    if(BearerToken === null) {
+      navigation.navigate(Routes.LOGIN, {routeName: Routes.m4})
     }
-  }, []);
+  }, [BearerToken]);
 
   useFocusEffect(
     useCallback(() => {
-      if(BearerToken == null) {
-        navigation.navigate(routes.AUTH)
+      if(BearerToken === null) {
+        navigation.navigate(Routes.LOGIN, {routeName: Routes.m4})
       } 
-    }, [])
+    }, [BearerToken])
   );
 
   const handlePressFromChild = () => {
@@ -95,17 +95,17 @@ export const MainScreen = ({ navigation }) => {
     <>
       <HeaderHamburger onPress={handlePressFromChild} />
       <Stack.Navigator 
-        initialRouteName={routes.ADDPET}
+        initialRouteName={Routes.ADDPET}
         screenOptions={{
           headerShown: false,
           gestureEnabled: true,
           gestureDirection: 'horizontal',
       }}
       >
-        <Stack.Screen name={ routes.ADDPET } component={AddScreen} />
-        {/*<Stack.Screen name={ routes.PREVIEWPET } component={PreviewPet} />*/}
-        {/*<Stack.Screen name={ routes.ALERTPET } component={AlertPet} />*/}
-        {/*<Stack.Screen name={ routes.PREVIEWPET + 'lost' } component={PreviewPet} />*/}
+        <Stack.Screen name={ Routes.AddScreen } component={AddScreen} />
+        {/*<Stack.Screen name={ Routes.PREVIEWPET } component={PreviewPet} />*/}
+        {/*<Stack.Screen name={ Routes.ALERTPET } component={AlertPet} />*/}
+        {/*<Stack.Screen name={ Routes.PREVIEWPET + 'lost' } component={PreviewPet} />*/}
     </Stack.Navigator>
     </>
 
@@ -119,4 +119,28 @@ export function SoonScreen({ navigation }) {
       <Text>Mzl Nzidha later</Text>
     </View>
   );
+}
+
+
+const HeaderHamburger = ({onPress}) => {
+  const navigator = useNavigation();
+  return (
+    <>
+      <View style={{  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 7}}>
+        <LogoHeader />
+        <View style={{flexDirection:'row', alignItems: 'center', paddingRight: 20}}>
+          <TouchableOpacity onPress={() => navigator.navigate(Routes.AddScreen)}>
+            <Text weight='700' size={18}>Add</Text>
+          </TouchableOpacity>
+          <View style={{ paddingHorizontal: 17 }}>
+            <Text size={17}>|</Text>
+          </View>
+          <TouchableOpacity onPress={() => navigator.navigate(Routes.ALERTPET)}>
+            <Text weight='600' size={18}>Lost</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
+    </>
+  )
 }

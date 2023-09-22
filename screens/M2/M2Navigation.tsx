@@ -6,6 +6,7 @@ import { ShowPetScreen } from '@screens/Pet/ShowPetScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 /* constants */
 import { routes } from '@constants/routes';
+import Routes from '@utils/Routes';
 /* useContexts */
 /*--------------*/
 
@@ -22,8 +23,8 @@ export default function M2Navigation() {
           animationEnabled: true
         })}
       >
-        <Stack.Screen name={ routes.HOME } component={SearchScreen} />
-        <Stack.Screen name={ routes.VIEWPET } component={ShowPetScreen} />
+        <Stack.Screen name={ Routes.SearchScreen } component={SearchScreen} />
+        <Stack.Screen name={ Routes.ShowPetScreen } component={ShowPetScreen} />
       </Stack.Navigator>
     </>
   )

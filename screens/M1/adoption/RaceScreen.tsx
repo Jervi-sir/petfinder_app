@@ -15,6 +15,7 @@ import { routes } from "@constants/routes"
 import { AuthContext } from '@functions/AuthState';
 import Api from "@utils/Api"
 import { useAuth } from "@context/AuthContext"
+import Routes from "@utils/Routes"
 /*--------------*/
 
 export const RaceScreen = ({ route }) => {
@@ -112,7 +113,7 @@ export const RaceScreen = ({ route }) => {
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
               ref={flatListRef}
               data={data}
-              renderItem={({ item }) => <CardPet pet={item} viewPetRoute={routes.VIEWPET}/>}
+              renderItem={({ item }) => <CardPet pet={item} viewPetRoute={Routes.ShowPetScreen}/>}
               numColumns={2}
               keyExtractor={(item, index) => index.toString()}
               onEndReached={() => {if(!refreshing) fetchPosts() }}

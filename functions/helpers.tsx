@@ -64,3 +64,48 @@ export const displayAge = (date) => {
 
   return stringYears + stringMonths + (ageInYears > 0 ? '' : stringDays);
 };
+
+
+export const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+export const isValidPassword = (password) => {
+  const passwordRegex = /^.{8,}$/;
+  return passwordRegex.test(password);
+};
+
+export const formatPhoneNumber = (input) => {
+  input = input.replace(/[^\d]/g, '');
+  input = input.substring(0, 10);
+  let formatted = '';
+  for (let i = 0; i < input.length; i++) {
+    const digit = input[i];
+    if (i === 0) { formatted += '('; }
+    if (i === 4) { formatted += ') '; }
+    if (i === 6 || i === 8) { formatted += ' '; }
+    formatted += digit;
+  }
+  return formatted;
+};
+
+/* the json from server should be like so: [id, name, number] */
+export const formatWilayasJson = (data) => {
+  return data.map(item => ({
+    label: item.number + ' - '+ item.name,
+    value: item.number
+  }));
+}
+
+/* the json from server should be like so: [id, name, number] */
+export const formatRacesJson = (data) => {
+  return data.map(item => ({
+    label: item.name,
+    value: item.id,
+    subRaces: item.sub_races.map(sub => ({
+      label: sub.name,
+      value: sub.id
+    }))
+  }));
+}

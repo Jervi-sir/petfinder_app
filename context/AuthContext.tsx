@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import KeyNames from '../utils/KeyNames';
 import axios from 'axios';
 import Api from '../utils/Api';
+import { useProfile } from './ProfileContext';
 
 const AuthContext = createContext(null);
 
@@ -14,6 +15,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [BearerToken, setToken] = useState(null);
+  const { updateProfile } = useProfile();
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -21,12 +23,14 @@ export const AuthProvider = ({ children }) => {
       if (storedToken) {
         // Validate the token by making an API call
         try {
-          const response = await axios.get(Api.base + Api.validate_token, {
+          const response = await axios.get(Api.Server + Api.validate_token, {
             headers: { Authorization: `Bearer ${storedToken}` },
           });
           
           if (response.status === 200) {
             setToken(storedToken);
+            updateProfile(response.data.user_auth_info);
+
             console.log('token is valid: ' + storedToken)
           }
         } catch (error) {

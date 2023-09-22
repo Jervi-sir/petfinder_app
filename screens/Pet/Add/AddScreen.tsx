@@ -34,6 +34,9 @@ import loading2 from '@assets/animations/loading2.json';
 import loading3 from '@assets/animations/loading3.json';
 import loading4 from '@assets/animations/loading4.json';
 import loading5 from '@assets/animations/loading5.json';
+import { useAuth } from '@context/AuthContext';
+import { useProfile } from '@context/ProfileContext';
+import { formatRacesJson, formatWilayasJson } from '@functions/helpers';
 
 
 
@@ -43,7 +46,7 @@ export const AddScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-
+  const { profileState } = useProfile();
   /*Form data*/
   const [images, setImages] = useState([]);
   const [imagesUri, setImagesUri] = useState([]);
@@ -67,20 +70,22 @@ export const AddScreen = () => {
 
   /* from server */
   const [RaceList, setRaceList] = useState([]);
+  const [SubRaceList, setSubRaceList] = useState([]);
   const [WilayaList, setWilayaList] = useState([]);
 
   const [age, setAge] = useState('');
 
-  const { BearerToken } = useContext(AuthContext);
+  const { BearerToken } = useAuth();
 
   useEffect(() => {
-    axios.get(Api.Server + Api.AddPet, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+    axios.get(Api.Server + Api.addPetHelpers, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
     .then(response => {
       const data = response.data;
-      setPhoneNumber(data.phone_number)
-      setRaceList(data.races)
-      setWilayaList(data.wilaya)
+      console.log(data.races[0])
+      setRaceList(formatRacesJson(data.races))
+      setWilayaList(formatWilayasJson(data.wilayas))
     })
+    setPhoneNumber(profileState.phone_number);
   }, []);
 
   const handleRefresh = () => {
@@ -108,7 +113,7 @@ export const AddScreen = () => {
       description, phoneNumber, weight, color, birthday, price, subRace, images
     };
     setIsLoading(true);
-    axios.post(Api.Server + Api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+    axios.post(Api.Server + Api.addPetHelpers, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         console.log(response.data)
         setIsLoading(false);
@@ -178,11 +183,12 @@ export const AddScreen = () => {
             />
             <Space top={5} bottom={5} />
             {/** Race Selector */}
-            <FloatingDropdown select='Race' required={true} data={RaceList} onItemSelected={e => setRace(e)} />
+            <FloatingDropdown select='Race' required={true} data={RaceList} onItemSelected={(e) => {setRace(e);}} setItemSelected={e =>  setSubRaceList(e)} />
             {race_idError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Race 👆</Text></View>) : null}
             {/** subRace Selector */}
             {race_id ? (
-              <TextInput label="Sub Race" onChangeText={text => setSubRace(text)} style={styles.inputField} />
+              <FloatingDropdown select='Sub Race' required={true} data={SubRaceList} onItemSelected={(e) => {setSubRace(e)}} />
+              //<TextInput label="Sub Race" onChangeText={text => setSubRace(text)} style={styles.inputField} />
             ) : (
               null
             )}
@@ -260,7 +266,6 @@ export const AddScreen = () => {
                   weight: weight, color: color,
                   typeOffer: typeOffer, price: price,
                   images: imagesUri
-
                 })} >
                 <Text style={{ color: colors.menu, textAlign: 'center' }}>Preview</Text>
               </TouchableOpacity>

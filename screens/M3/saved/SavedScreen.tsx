@@ -12,6 +12,7 @@ import { colors } from "@constants/colors"
 import { routes } from "@constants/routes"
 /* useContexts */
 import { getToken } from "@functions/authToken"
+import Api from "@utils/Api"
 /*--------------*/
 
 export const SavedScreen = () => {

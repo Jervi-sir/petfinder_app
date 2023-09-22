@@ -9,27 +9,43 @@ import { createStackNavigator } from '@react-navigation/stack';
 /* constants */
 import Routes from '@utils/Routes';
 /* useContexts */
-import { AuthProvider } from '@context/AuthContext';
+import { AuthProvider, useAuth } from '@context/AuthContext';
 import { TestScreen } from '@screens/TestScreen';
 /*--------------*/
+import { TouchableOpacity,Text,View } from 'react-native';
+import { ProfileProvider } from '@context/ProfileContext';
 
 export default function App() {
 
   return (
+      <ProfileProvider>
     <AuthProvider>
-      <NavigationContainer>
-        <StatusBar />
-        <AppNavigation />
-      </NavigationContainer>
+        <NavigationContainer>
+          <StatusBar />
+          <AppNavigation />
+        </NavigationContainer>
     </AuthProvider>
+      </ProfileProvider>
   );
 }
 
 const Stack = createStackNavigator();
+
 const AppNavigation = () => {
+  const { BearerToken } = useAuth();
 
   return(
     <>
+    {/*
+      <View>
+            <TouchableOpacity 
+            style={{height: 50, backgroundColor: 'red'}}
+            onPress={() => console.log(BearerToken)}
+            >
+              <Text>test bearer token</Text>
+            </TouchableOpacity>
+          </View>
+           */}
       <Stack.Navigator 
         screenOptions={() => ({
           headerShown: false,

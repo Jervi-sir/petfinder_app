@@ -29,10 +29,10 @@ export default function M1Navigation() {
             animationEnabled: true
           })}
         >
-          <Stack.Screen name={routes.HOME} component={HomeScreen} />
-          <Stack.Screen name={routes.VIEWPET} component={ShowPetScreen} />
-          <Stack.Screen name={routes.SHOWPROFILE} component={ShowProfile} />
-          <Stack.Screen name={routes.MESSAGELIST} component={MessageScreen} />
+          <Stack.Screen name={Routes.HomeScreen} component={HomeScreen} />
+          <Stack.Screen name={Routes.ShowPetScreen} component={ShowPetScreen} />
+          <Stack.Screen name={Routes.ShowProfile} component={ShowProfile} />
+          <Stack.Screen name={Routes.MessageScreen} component={MessageScreen} />
           {/* 
           <Stack.Screen name={Routes.AUTH} options={{
             cardStyle: {

@@ -123,14 +123,7 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
           {image3 != null && <Image source={{ uri: image3.uri }} style={styles.imageSelectedPreview} />}
           {image4 != null && <Image source={{ uri: image4.uri }} style={styles.imageSelectedPreview} />}
         </Animated.ScrollView>
-        <View style={{
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 100,
-          marginBottom: 7,
-          position: 'absolute'
-        }}>
+        <View style={{ left: 0,right: 0,bottom: 0,zIndex: 100,marginBottom: 7,position: 'absolute'}}>
           <RNAnimatedScrollIndicators
             numberOfCards={(image1 != null && 1) + (image2 != null && 1) + (image3 != null && 1) + (image4 != null && 1)}
             scrollWidth={300}
@@ -142,62 +135,33 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
         {/* 1 */}
-        <View style={[styles.image, image1 == null && styles.dashed]}>
-          {image1 == null &&
-            <TouchableOpacity onPress={() => showDialog(1)} style={styles.addButton}>
-              <Text style={styles.addText}>+</Text>
-            </TouchableOpacity>
-          }
-          {image1 != null && <Image source={{ uri: image1.uri }} style={styles.imageSelected} />}
-          {image1 != null &&
-            <TouchableOpacity onPress={() => removeImage(1)} style={styles.removeButton}>
-              <Text style={styles.removeText}>X</Text>
-            </TouchableOpacity>
-          }
-        </View>
+        <TumbnailImageComponent 
+          imageIndex={1} 
+          removeImage={() => removeImage(1)} 
+          showDialog={() => showDialog(1)} 
+          image={image1} 
+        />
         {/* 2 */}
-        <View style={[styles.image, image2 == null && styles.dashed]}>
-          {image2 == null &&
-            <TouchableOpacity onPress={() => showDialog(2)} style={styles.addButton}>
-              <Text style={styles.addText}>+</Text>
-            </TouchableOpacity>
-          }
-          {image2 != null && <Image source={{ uri: image2.uri }} style={styles.imageSelected} />}
-          {image2 != null &&
-            <TouchableOpacity onPress={() => removeImage(2)} style={styles.removeButton}>
-              <Text style={styles.removeText}>X</Text>
-            </TouchableOpacity>
-          }
-        </View>
+        <TumbnailImageComponent 
+          imageIndex={2} 
+          removeImage={() => removeImage(2)} 
+          showDialog={() => showDialog(2)} 
+          image={image2} 
+        />
         {/* 3 */}
-        <View style={[styles.image, image3 == null && styles.dashed]}>
-          {image3 == null &&
-            <TouchableOpacity onPress={() => showDialog(3)} style={styles.addButton}>
-              <Text style={styles.addText}>+</Text>
-            </TouchableOpacity>
-          }
-          {image3 != null && <Image source={{ uri: image3.uri }} style={styles.imageSelected} />}
-          {image3 != null &&
-            <TouchableOpacity onPress={() => removeImage(3)} style={styles.removeButton}>
-              <Text style={styles.removeText}>X</Text>
-            </TouchableOpacity>
-          }
-        </View>
+        <TumbnailImageComponent 
+          imageIndex={3} 
+          removeImage={() => removeImage(3)} 
+          showDialog={() => showDialog(3)} 
+          image={image3} 
+        />
         {/* 4 */}
-        <View style={[styles.image, image4 == null && styles.dashed]}>
-          {image4 == null &&
-            <TouchableOpacity onPress={() => showDialog(4)} style={styles.addButton}>
-              <Text style={styles.addText}>+</Text>
-            </TouchableOpacity>
-          }
-          {image4 != null && <Image source={{ uri: image4.uri }} style={styles.imageSelected} />}
-          {image4 != null &&
-            <TouchableOpacity onPress={() => removeImage(4)} style={styles.removeButton}>
-              <Text style={styles.removeText}>X</Text>
-            </TouchableOpacity>
-          }
-        </View>
-
+        <TumbnailImageComponent 
+          imageIndex={4} 
+          removeImage={() => removeImage(4)} 
+          showDialog={() => showDialog(4)} 
+          image={image4} 
+        />
       </View>
       <Dialog.Container visible={visible} onBackdropPress={handleCancel}>
         <Dialog.Title>Add image</Dialog.Title>
@@ -209,6 +173,25 @@ export const AddImages = ({ onImageSelected, onImagesUri }) => {
     </View>
   )
 }
+
+const TumbnailImageComponent = ({ imageIndex, image = null, showDialog, removeImage }) => {
+  return (
+    <View style={[styles.image, image == null && styles.dashed]}>
+      {image == null &&
+        <TouchableOpacity onPress={() => showDialog(imageIndex)} style={styles.addButton}>
+          <Text style={styles.addText}>+</Text>
+        </TouchableOpacity>
+      }
+      {image != null && <Image source={{ uri: image.uri }} style={styles.imageSelected} />}
+      {image != null &&
+        <TouchableOpacity onPress={() => removeImage(imageIndex)} style={styles.removeButton}>
+          <Text style={styles.removeText}>X</Text>
+        </TouchableOpacity>
+      }
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   dashed: {
     backgroundColor: colors.background,

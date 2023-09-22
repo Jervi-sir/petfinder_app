@@ -10,11 +10,10 @@ import { useCallback, useEffect, useRef, useState, useContext } from "react"
 import { View, FlatList, ActivityIndicator, TouchableOpacity, Text, RefreshControl } from "react-native"
 /* constants */
 import { colors } from "@constants/colors"
-import { routes } from "@constants/routes"
 /* useContexts */
-import { AuthContext } from '@functions/AuthState';
 import Api from "@utils/Api"
 import { useAuth } from "@context/AuthContext"
+import Routes from "@utils/Routes"
 /*--------------*/
 
 export const RaceLostScreen = ({ route }) => {
@@ -112,7 +111,7 @@ export const RaceLostScreen = ({ route }) => {
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
               ref={flatListRef}
               data={data}
-              renderItem={({ item }) => <CardPet pet={item} viewPetRoute={routes.VIEWPET}/>}
+              renderItem={({ item }) => <CardPet pet={item} viewPetRoute={Routes.ShowPetScreen}/>}
               numColumns={2}
               keyExtractor={(item, index) => index.toString()}
               onEndReached={() => {if(!refreshing) fetchPosts(currentPage) }}
