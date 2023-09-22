@@ -23,6 +23,8 @@ import { calculateAge, makePhoneCall } from "@functions/helpers";
 /*--------------*/
 import _ from "lodash";
 import Api from '@utils/Api';
+import { useAuth } from '@context/AuthContext';
+import Routes from '@utils/Routes';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -36,7 +38,7 @@ export const ShowPetScreen = ({ route }) => {
   const [pet, setPet] = useState([]);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { BearerToken } = useContext(AuthContext);
+  const { BearerToken } = useAuth();
   const [isLiked, setIsLiked] = useState(false);
   const [isButtonLocked, setButtonLocked] = useState(false);
   const [nbTries, setNbTries ] = useState(2)
@@ -118,16 +120,20 @@ export const ShowPetScreen = ({ route }) => {
     if(BearerToken != null) {
       if(state) {
         setIsLiked(true);
-        axios.post(Api.Server + Api.SavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+        axios.post(Api.Server + Api.SavePet, {
+          pet_id: pet.id
+        }, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
           .then(response => { console.log(response.data); })
           .catch(err => {
             setIsLiked(false);
-            console.log(err)
+            console.log(err.response.data)
           });
       } 
       else { 
         setIsLiked(false);
-        axios.post(Api.Server + Api.unSavePet + pet.id, '', { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+        axios.post(Api.Server + Api.unSavePet, {
+          pet_id: pet.id,
+        }, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
           .then(response => {
             console.log(response.data);
           })
@@ -139,7 +145,7 @@ export const ShowPetScreen = ({ route }) => {
     } else {
       setIsLiked(false);
       console.log('you are not logged in')
-      navigation.navigate(routes.AUTH)
+      navigation.navigate(Routes.Login)
     }
   }
  
