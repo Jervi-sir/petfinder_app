@@ -1,9 +1,15 @@
+[] user filter search
+[] conversation
+[] filter
+
+[] M3 pet name generator
+
+
 [x] add a header with hamburger in M5
 [x] make auth protection
 
-[] use cache fetch if possible
-[] user search pet
-[] user filter search
+[x] use cache fetch if possible
+[x] user search pet
 
 [x] user register or login
 [x] user will visit add pet screen
@@ -46,11 +52,7 @@
 [x] view pet
 
 --Server
-[] logout
-[] conversation
-[] filter
-
-[] M3 pet name generator
+[x] logout
 
 [x] login
 [x] register

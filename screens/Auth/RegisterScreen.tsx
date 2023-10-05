@@ -127,7 +127,7 @@ export const RegisterScreen = ({ navigation, routeName, menuId }) => {
   return (
     <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, top: SCREEN_HEIGHT * 0.11, borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden'}}>
       <KeyboardAwareScrollView extraScrollHeight={100} scrollEnabled={false} >
-        <View style={{backgroundColor: colors.background, minHeight: '100%'}}>
+        <View style={{backgroundColor: colors.background, minHeight: SCREEN_HEIGHT}}>
               <View style={{
                 alignItems: 'center',
                 minHeight: '90%',

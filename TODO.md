@@ -6,17 +6,19 @@ Project Description
 
 ### Todo
 
-- [] M3 build save paticularity
+- name generator  
+- conversation  
+- filter  
+- [] M3 build save paticularity  
 
 ### In Progress
-
-- [ ] Login
-- [ ] M4
 
 
 ### Done ✓
 
-- [x] M1 done
-- [x] M2 done
-- [x] M3 done
+- [x] Login  
+- [x] M1 done  
+- [x] M2 done  
+- [x] M3 done  
+- [x] M4  
 

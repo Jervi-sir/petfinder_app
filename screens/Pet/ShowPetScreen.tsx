@@ -257,7 +257,7 @@ export const ShowPetScreen = ({ route }) => {
             ) : (
               <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 21 }}>
                 <Image source={icons.PHONE} style={{ width: 20, height: 20 }} />
-                <Text style={{ fontSize: 15, fontWeight: "400", color: colors.menu }}>{pet.phoneNumber}</Text>
+                <Text style={{ fontSize: 15, fontWeight: "400", color: colors.menu }}>{pet.phone_number}</Text>
               </View>
             )}
 
@@ -277,7 +277,7 @@ export const ShowPetScreen = ({ route }) => {
                   }
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <TouchableOpacity onPress={() => { makePhoneCall(pet.phoneNumber) }}>
+                  <TouchableOpacity onPress={() => { makePhoneCall(pet.phone_number) }}>
                     <Image source={icons.CALL} style={{ width: 50, height: 50, marginRight: 20 }} />
                   </TouchableOpacity>
                   {!mine ? (
