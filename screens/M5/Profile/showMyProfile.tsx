@@ -38,13 +38,15 @@ export const ShowMyProfile = () => {
   const { profileState } = useProfile();
 
   useEffect(() => {
-    fetchData();
-  }, [BearerToken, profileState]);
+    if(BearerToken !== null) {
+      fetchData();
+    }
+  }, [profileState]);
 
   useFocusEffect(
     useCallback(() => {
       
-    }, [BearerToken, profileState])
+    }, [profileState])
   );
 
   const fetchData = () => {

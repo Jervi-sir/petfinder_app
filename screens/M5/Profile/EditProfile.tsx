@@ -36,8 +36,6 @@ import { useProfile } from "@context/ProfileContext";
 import { FloatingDropdown } from "@components/FloatingDropdown";
 import { useHelper } from "@context/HelperContext";
 
-
-
 export const EditProfile = () => {
   const [image1, setImage1] = useState(null);
   const [visible, setVisible] = useState(false);

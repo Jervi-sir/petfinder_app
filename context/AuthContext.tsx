@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchToken = async () => {
       const storedToken = await AsyncStorage.getItem(AUTH_KEY);
+      
       if (storedToken) {
         // Validate the token by making an API call
         try {

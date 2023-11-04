@@ -26,7 +26,27 @@ export default function M1Navigation() {
           screenOptions={() => ({
             headerShown: false,
             headerLeft: null,
-            animationEnabled: true
+            animationEnabled: true,
+            transitionSpec: {
+              open: {
+                animation: 'timing',
+                stiffness: 1,
+                damping: 20,
+                mass: 3,
+                overshootClamping: false,
+                restDisplacementThreshold: 0.01,
+                restSpeedThreshold: 0.01
+              },
+              close: {
+                animation: 'timing',
+                stiffness: 1,
+                damping: 20,
+                mass: 3,
+                overshootClamping: false,
+                restDisplacementThreshold: 0.01,
+                restSpeedThreshold: 0.01
+              }
+            }
           })}
         >
           <Stack.Screen name={Routes.HomeScreen} component={HomeScreen} />

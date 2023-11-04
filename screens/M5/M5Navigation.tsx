@@ -32,6 +32,7 @@ import { useAuth } from '@context/AuthContext';
 import { useProfile } from '@context/ProfileContext';
 /*--------------*/
 import Dialog from "react-native-dialog";
+import AuthNavigation from '@screens/Auth/AuthNavigation';
 
 
 const Stack = createStackNavigator();
@@ -65,8 +66,7 @@ export default function M5Navigation() {
           {
             BearerToken === null &&
             <>
-              <Stack.Screen name={ Routes.LOGIN } component={LoginScreen} options={modal} />
-              <Stack.Screen name={ Routes.REGISTER } component={RegisterScreen} options={modal} />
+              <Stack.Screen name={ Routes.AUTH } component={AuthScreen} options={modal} />
             </>
           }
       </Stack.Navigator>
@@ -90,14 +90,14 @@ const MainDrawer = ({navigation}) => {
 
   useEffect(() => {
       if(BearerToken == null) {
-        navigation.navigate(routes.LOGIN)
+        navigation.navigate(Routes.AUTH)
       }
   }, [BearerToken, profileState]);
 
   useFocusEffect(
     useCallback(() => {
       if(BearerToken == null) {
-        navigation.navigate(routes.LOGIN)
+        navigation.navigate(Routes.AUTH)
       }
     }, [BearerToken, profileState])
   );
@@ -176,6 +176,7 @@ function CustomDrawerContent(props) {
   
   const handleLogout = () => {
     handleCancel();
+    console.log('logged out')
     axios.post(Api.Server + Api.Logout, {}, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         removeAuthToken();

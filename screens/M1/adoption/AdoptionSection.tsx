@@ -27,6 +27,7 @@ export function AdoptionSection() {
             tabBarItemStyle: { width: 69 },
             animationEnabled: true,
             swipeEnabled: false,
+            
           }}
         >
           <Tab.Screen

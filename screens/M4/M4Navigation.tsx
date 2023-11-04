@@ -51,8 +51,7 @@ export default function M4Navigation() {
           {
             BearerToken === null &&
             <>
-              <Stack.Screen name={ Routes.LOGIN } component={LoginScreen} options={modal} />
-              <Stack.Screen name={ Routes.REGISTER } component={RegisterScreen} options={modal} />
+              <Stack.Screen name={ Routes.AUTH } component={AuthScreen} options={modal} />
             </>
           }
           {/*
@@ -77,14 +76,14 @@ export const MainScreen = ({ navigation }) => {
 
   useEffect(() => {
     if(BearerToken === null) {
-      navigation.navigate(Routes.LOGIN, {routeName: Routes.m4})
+      navigation.navigate(Routes.AUTH, {routeName: Routes.m4})
     }
   }, [BearerToken]);
 
   useFocusEffect(
     useCallback(() => {
       if(BearerToken === null) {
-        navigation.navigate(Routes.LOGIN, {routeName: Routes.m4})
+        navigation.navigate(Routes.AUTH, {routeName: Routes.m4})
       } 
     }, [BearerToken])
   );

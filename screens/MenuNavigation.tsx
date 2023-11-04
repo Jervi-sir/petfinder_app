@@ -27,7 +27,6 @@ export default function MenuNavigation({ navigation }) {
           tabBarStyle: styles.menu2,
           //tabBarStyle: {backgroundColor: colors.menu, height: '12%', paddingTop: 20, position: 'absolute', bottom:-10, left: 0, zIndex: -1},
           headerShown: false,
-          
         }}
       >
         <Tab.Screen name={routes.m1} component={M1Navigation} options={{ tabBarLabel: () => null, tabBarIcon: ({ focused }) => <Image style={{ width: 20, height: 20, tintColor: focused ? colors.gold : colors.white }} source={icons.HOME} /> }} />
