@@ -15,6 +15,7 @@ import PasswordMeter from "@components/PasswordMeter";
 import { AuthContext } from "@functions/AuthState";
 import { LoginScreen } from "./LoginScreen";
 import { RegisterScreen } from "./RegisterScreen";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const Stack = createStackNavigator();

@@ -11,6 +11,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { routes } from '@constants/routes';
 import Routes from '@utils/Routes';
 import { MessageScreen } from '@screens/M3/messages/MessageScreen';
+import { useAuth } from '@context/AuthContext';
 /* useContexts */
 /*--------------*/
 
@@ -20,6 +21,15 @@ const currentPlatform = Platform.OS;
 const Stack = createStackNavigator();
 
 export default function M1Navigation() {
+  const { BearerToken } = useAuth();
+  const modal = {
+    cardStyle: {
+      backgroundColor: currentPlatform == 'android' ? 'rgba(0,0,0,0.5)' : 'transparent',
+      height: '10%'
+    },
+    presentation: currentPlatform == 'android' ? 'transparentModal' : 'modal',
+    gestureEnabled: true,
+  }
   return (
     <>
       <Stack.Navigator
@@ -53,6 +63,12 @@ export default function M1Navigation() {
           <Stack.Screen name={Routes.ShowPetScreen} component={ShowPetScreen} />
           <Stack.Screen name={Routes.ShowProfile} component={ShowProfile} />
           <Stack.Screen name={Routes.MessageScreen} component={MessageScreen} />
+          {
+            BearerToken === null &&
+            <>
+              <Stack.Screen name={ Routes.AUTH } component={AuthScreen} options={modal} />
+            </>
+          }
           {/* 
           <Stack.Screen name={Routes.AUTH} options={{
             cardStyle: {

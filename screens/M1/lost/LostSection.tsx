@@ -48,6 +48,22 @@ export function LostSection() {
           {TabScreenFactory('Bird', 'BIRDFILTER', 3, 'Birds')}
           {TabScreenFactory('Horse', 'HORSEFILTER', 4, 'Horses')}
           {TabScreenFactory('Other', 'FARMFILTER', 5, 'Others')}
+
+          <Tab.Screen
+            name="Spacer"
+            component={() => null}  // Render nothing
+            options={{
+              tabBarLabel: () => null,  // Hide label
+              tabBarIcon: () => null,  // Hide icon
+              tabBarStyle: { width: 1 },  // Set the desired width for your spacer
+            }}
+            listeners={({ navigation, route }) => ({
+              tabPress: (e) => {
+                e.preventDefault();
+              },
+            })}
+          />
+          
         </Tab.Navigator>
       </View>
     </View>

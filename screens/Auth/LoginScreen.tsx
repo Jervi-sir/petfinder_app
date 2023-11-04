@@ -19,6 +19,7 @@ import Api from "@utils/Api";
 import { useAuth } from "@context/AuthContext";
 import ShakeAnimation from "@components/ShakeAnimation";
 import { useProfile } from "@context/ProfileContext";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -117,8 +118,13 @@ export const LoginScreen = ({ navigation, routeName, menuId }) => {
 
   return (
     <View style={{ }}>
+
       <KeyboardAwareScrollView extraScrollHeight={69} scrollEnabled={false} >
         <View style={{ backgroundColor: colors.background, minHeight: SCREEN_HEIGHT }}>
+          <View style={{width: '100%', justifyContent: 'center', flexDirection: 'row'}}>
+            <View style={{ position: 'absolute', top: 10, backgroundColor: colors.menu, width: 100, height: 5, borderRadius: 100}}></View>
+          </View>
+
           <View style={{
             alignItems: 'center',
             minHeight: '90%',

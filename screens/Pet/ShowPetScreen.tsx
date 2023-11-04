@@ -145,7 +145,7 @@ export const ShowPetScreen = ({ route }) => {
     } else {
       setIsLiked(false);
       console.log('you are not logged in')
-      navigation.navigate(Routes.Login)
+      navigation.navigate(Routes.AUTH)
     }
   }
  

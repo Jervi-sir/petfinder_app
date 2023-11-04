@@ -27,7 +27,7 @@ export function AdoptionSection() {
             tabBarItemStyle: { width: 69 },
             animationEnabled: true,
             swipeEnabled: false,
-            
+
           }}
         >
           <Tab.Screen
@@ -48,6 +48,22 @@ export function AdoptionSection() {
           {TabScreenFactory('Bird', 'BIRDFILTER', 3, 'Birds')}
           {TabScreenFactory('Horse', 'HORSEFILTER', 4, 'Horses')}
           {TabScreenFactory('Other', 'FARMFILTER', 5, 'Others')}
+
+
+          <Tab.Screen
+            name="Spacer"
+            component={() => null}  // Render nothing
+            options={{
+              tabBarLabel: () => null,  // Hide label
+              tabBarIcon: () => null,  // Hide icon
+              tabBarStyle: { width: 1 },  // Set the desired width for your spacer
+            }}
+            listeners={({ navigation, route }) => ({
+              tabPress: (e) => {
+                e.preventDefault();
+              },
+            })}
+          />
         </Tab.Navigator>
       </View>
     </View>
@@ -74,28 +90,27 @@ const TabScreenFactory = (name, iconName, raceId, raceName) => {
 };
 
 const styles = StyleSheet.create({
-    filterButton: {
-      backgroundColor: 'white', 
-      borderRadius: 10, 
-      width: 69-10, 
-      height: 69-10, 
-      alignItems: 'center', 
-      justifyContent: 'center'
-    },
-    inputStyle1: {
-      flexDirection: 'column', 
-      paddingRight: 10, 
-      paddingLeft: 10
-    },
-    titleStyle1: {
-      fontSize: 20, 
-      fontWeight: 'bold'
-    },
-    inputStyle2: {
-      flexDirection: 'row', 
-      alignItems: 'center', 
-      paddingRight: 10, 
-      paddingLeft: 10
-    },
-  });
-  
+  filterButton: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    width: 69 - 10,
+    height: 69 - 10,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  inputStyle1: {
+    flexDirection: 'column',
+    paddingRight: 10,
+    paddingLeft: 10
+  },
+  titleStyle1: {
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  inputStyle2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 10,
+    paddingLeft: 10
+  },
+});
