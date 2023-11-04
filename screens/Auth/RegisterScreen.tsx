@@ -88,7 +88,7 @@ export const RegisterScreen = ({ navigation, routeName, menuId }) => {
       }, 
       {headers: {'Accept': 'application/json','Content-Type': 'application/json','Language': 'fr'}})
     .then(response => {
-      var data = response.data.token;
+      var data = response.data;
       saveAuthToken(data.token);
       updateProfile(data.user_auth_info);
 

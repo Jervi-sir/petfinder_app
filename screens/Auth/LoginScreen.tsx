@@ -5,7 +5,6 @@ import { Link, useIsFocused, useNavigation } from '@react-navigation/native';
 
 import { colors } from "@constants/colors";
 import { icons } from "@constants/icons";
-import { api } from "@constants/api";
 import { routes } from "@constants/routes";
 import { saveAuthToken } from "@functions/cookies";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
