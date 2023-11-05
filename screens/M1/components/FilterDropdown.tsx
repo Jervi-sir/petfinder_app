@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {View, Text, StyleSheet} from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-export const FilterDropdown = ({placeholder, data, setOption}) => {
+export const FilterDropdown = ({ placeholder, data, setOption }) => {
   const [value, setValue] = useState(null);
 
   const renderItem = item => {
@@ -23,7 +24,7 @@ export const FilterDropdown = ({placeholder, data, setOption}) => {
   };
 
   return (
-    <>
+    <View >
       <Dropdown
         style={styles.dropdown}
         placeholderStyle={styles.placeholderStyle}
@@ -46,8 +47,23 @@ export const FilterDropdown = ({placeholder, data, setOption}) => {
           <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
         )}
         renderItem={renderItem}
+        renderRightIcon={(item) => {
+            return <>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ }}>
+                <MaterialIcons style={styles.icon} color="black" name="keyboard-arrow-down" size={20} />
+              </Text>
+              {value && <Text onPress={item => {
+                setValue(null);
+                setOption(null);
+              }} style={{ marginLeft: 10 }}><MaterialIcons style={styles.icon} color="black" name="clear" size={20} /></Text>}
+            </View>
+          </>;
+        }}
+
       />
-    </>
+
+    </View>
   );
 }
 

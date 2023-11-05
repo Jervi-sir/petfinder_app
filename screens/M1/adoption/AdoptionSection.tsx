@@ -49,7 +49,6 @@ export function AdoptionSection() {
           {TabScreenFactory('Horse', 'HORSEFILTER', 4, 'Horses')}
           {TabScreenFactory('Other', 'FARMFILTER', 5, 'Others')}
 
-
           <Tab.Screen
             name="Spacer"
             component={() => null}  // Render nothing

@@ -30,7 +30,7 @@ const colorList = [
   { label: 'Orange', value: '5' }
 ]
 
-export const FilterSearch = ({ onPressToTop, title }) => {
+export const FilterSearch = ({ onPressToTop, title, onFilter, setWilaya, setOfferType, setColor }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
 
@@ -54,6 +54,10 @@ export const FilterSearch = ({ onPressToTop, title }) => {
   const SearchFilter = () => {
     toggleCollapsibleView()
   }
+  const handleFilterResults = () => {
+    onFilter();
+    toggleCollapsibleView();
+  };
 
   return (
     <>
@@ -81,11 +85,11 @@ export const FilterSearch = ({ onPressToTop, title }) => {
             <Text style={{ textAlign: 'center', fontSize: 21, fontWeight: '400', color: colors.menu }}>Filter</Text>
           </View>
           <View style={{ paddingHorizontal: 17 }}>
-            <FilterDropdown placeholder={'Wilaya'} data={wilayaList} />
-            <FilterDropdown placeholder={'Offer Type'} data={offerList} />
-            <FilterDropdown placeholder={'Color'} data={colorList} />
+            <FilterDropdown placeholder={'Wilaya'} data={wilayaList} setOption={(e) => {setWilaya(e)} } />
+            <FilterDropdown placeholder={'Offer Type'} data={offerList} setOption={(e) => {setOfferType(e)} }/>
+            <FilterDropdown placeholder={'Color'} data={colorList} setOption={(e) => {setColor(e)} }/>
           </View>
-          <TouchableOpacity onPress={SearchFilter} style={{ backgroundColor: colors.menu, paddingVertical: 10 }}>
+          <TouchableOpacity onPress={handleFilterResults} style={{ backgroundColor: colors.menu, paddingVertical: 10 }}>
             <Text style={{ textAlign: 'center', fontSize: 17, color: colors.white }}>Filter Results</Text>
           </TouchableOpacity>
         </View>

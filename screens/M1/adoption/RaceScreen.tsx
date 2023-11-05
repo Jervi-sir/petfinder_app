@@ -28,6 +28,10 @@ export const RaceScreen = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
+  const [wilaya, setWilaya] = useState(null);
+  const [offerType, setOfferType] = useState(null);
+  const [color, setColor] = useState(null);
+  
   const { BearerToken } = useAuth();
 
   const scrollToTop = () => {
@@ -39,28 +43,50 @@ export const RaceScreen = ({ route }) => {
     fetchPosts();
   }, []);
 
-  const fetchPosts = async () => {
+  const applyFilters = () => {
+    setData([]);
+    setCurrentPage(1);
+    setHasMore(true);
+    fetchPosts(1, true);
+    setHasMore(true);
+  };
+
+  const fetchPosts = async (page = currentPage, overwrite = false) => {
     if (loading || !hasMore) return;
     setLoading(true);
+    
     const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestPets + '?page=' + currentPage;
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${BearerToken}`
     };
     let requestConfig = { headers };
-    if (raceId !== 0) {
-      requestConfig.params = { race_id: raceId };
-    }
+
+    requestConfig.params = {
+      ...(raceId !== 0 && { race_id: raceId }),
+      ...(wilaya && { wilaya_id: wilaya }),
+      ...(offerType && { offer_type_id: offerType }),
+      ...(color && { color: color }),
+    };
+
+    console.log(requestConfig)
 
     try {
       const response = await axios.get(url, requestConfig);
       const newPets = response.data.pets;
       const lastPage = response.data.last_page;
-      setData(prevData => [...prevData, ...newPets]);
+      if (overwrite) {
+        setData(newPets);
+      } else {
+        setData(prevData => [...prevData, ...newPets]);
+      }
       setFirstLoading(false);
       setLoading(false);
       setCurrentPage(prevPage => prevPage + 1);
       if (currentPage >= lastPage) {
+        setHasMore(false);
+      }
+      if(newPets.length <= 0) {
         setHasMore(false);
       }
     } catch (error) {
@@ -96,7 +122,14 @@ export const RaceScreen = ({ route }) => {
 
   return (
     <View style={{minHeight: '100%', backgroundColor: colors.background}}>
-      <FilterSearch onPressToTop={scrollToTop} title={'Recent ' + raceName} />
+      <FilterSearch 
+        onPressToTop={scrollToTop} 
+        title={'Recent ' + raceName}  
+        onFilter={applyFilters}
+        setWilaya={setWilaya}
+        setOfferType={setOfferType}
+        setColor={setColor}
+      />
       <View style={{}}>
         {/* card */}
         {firstLoading ? (
