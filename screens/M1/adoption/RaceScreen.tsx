@@ -16,6 +16,7 @@ import { AuthContext } from '@functions/AuthState';
 import Api from "@utils/Api"
 import { useAuth } from "@context/AuthContext"
 import Routes from "@utils/Routes"
+import { useHelper } from "@context/HelperContext"
 /*--------------*/
 
 export const RaceScreen = ({ route }) => {
@@ -33,6 +34,7 @@ export const RaceScreen = ({ route }) => {
   const [color, setColor] = useState(null);
   
   const { BearerToken } = useAuth();
+  const { userWilaya } = useHelper();
 
   const scrollToTop = () => {
     flatListRef.current.scrollToOffset({ offset: 0, animated: true });
@@ -40,7 +42,7 @@ export const RaceScreen = ({ route }) => {
 
   useEffect(() => {
     setFirstLoading(true);
-    fetchPosts();
+    fetchPosts(1);
   }, []);
 
   const applyFilters = () => {
@@ -54,8 +56,10 @@ export const RaceScreen = ({ route }) => {
   const fetchPosts = async (page = currentPage, overwrite = false) => {
     if (loading || !hasMore) return;
     setLoading(true);
+    console.log('currentPage= ' + currentPage)
     
-    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestPets + '?page=' + currentPage;
+    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestPets + '?page=' + currentPage + (userWilaya ? ('&wilaya_id=' + userWilaya) : '');
+    console.log(url)
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${BearerToken}`
@@ -69,12 +73,12 @@ export const RaceScreen = ({ route }) => {
       ...(color && { color: color }),
     };
 
-    console.log(requestConfig)
-
     try {
       const response = await axios.get(url, requestConfig);
       const newPets = response.data.pets;
-      const lastPage = response.data.last_page;
+      const lastPage = response.data.paginationData.last_page;
+      const nextPage = response.data.paginationData.next_page;
+
       if (overwrite) {
         setData(newPets);
       } else {
@@ -82,7 +86,7 @@ export const RaceScreen = ({ route }) => {
       }
       setFirstLoading(false);
       setLoading(false);
-      setCurrentPage(prevPage => prevPage + 1);
+      setCurrentPage(nextPage);
       if (currentPage >= lastPage) {
         setHasMore(false);
       }
@@ -101,22 +105,8 @@ export const RaceScreen = ({ route }) => {
     setData([]);
     setLoading(true);
     setFirstLoading(true);
-    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestPets + '?page=' + currentPage;
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${BearerToken}`
-    };
-    let requestConfig = { headers };
-    if (raceId !== 0) {
-      requestConfig.params = { race_id: raceId };
-    }
-    axios.get(url, requestConfig )
-    .then(response => {
-      setData(response.data.pets);
-      setLoading(false);
-      setCurrentPage(2);
-      flatListRef.current.scrollToOffset({ offset: 0, animated: true });
-    }).then(() => setFirstLoading(false))
+    setCurrentPage(1); // Reset to page 1 instead of keeping the old page
+    fetchPosts(1, true); // Fetch the first page and overwrite existing data
     setRefreshing(false);
   };
 
@@ -149,7 +139,7 @@ export const RaceScreen = ({ route }) => {
               renderItem={({ item }) => <CardPet pet={item} viewPetRoute={Routes.ShowPetScreen}/>}
               numColumns={2}
               keyExtractor={(item, index) => index.toString()}
-              onEndReached={() => {if(!refreshing) fetchPosts() }}
+              onEndReached={() => { if(!refreshing) fetchPosts() }}
               onEndReachedThreshold={0.01}
               //ItemSeparatorComponent={() => <View style={{height: 20}} />}
               columnWrapperStyle={{ justifyContent: 'space-between', paddingTop: 10, }}

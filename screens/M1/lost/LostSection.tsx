@@ -49,6 +49,7 @@ export function LostSection() {
           {TabScreenFactory('Horse', 'HORSEFILTER', 4, 'Horses')}
           {TabScreenFactory('Other', 'FARMFILTER', 5, 'Others')}
 
+{/* 
           <Tab.Screen
             name="Spacer"
             component={() => null}  // Render nothing
@@ -63,7 +64,7 @@ export function LostSection() {
               },
             })}
           />
-          
+          */}
         </Tab.Navigator>
       </View>
     </View>

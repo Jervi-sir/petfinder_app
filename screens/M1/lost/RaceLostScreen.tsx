@@ -14,6 +14,7 @@ import { colors } from "@constants/colors"
 import Api from "@utils/Api"
 import { useAuth } from "@context/AuthContext"
 import Routes from "@utils/Routes"
+import { useHelper } from "@context/HelperContext"
 /*--------------*/
 
 export const RaceLostScreen = ({ route }) => {
@@ -27,6 +28,7 @@ export const RaceLostScreen = ({ route }) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const { BearerToken } = useAuth();
+  const { userWilaya } = useHelper();
 
   const scrollToTop = () => {
     flatListRef.current.scrollToOffset({ offset: 0, animated: true });
@@ -40,7 +42,7 @@ export const RaceLostScreen = ({ route }) => {
   const fetchPosts = async () => {
     if (loading || !hasMore) return;
     setLoading(true);
-    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestLostPets + '?page=' + currentPage;
+    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestLostPets + '?page=' + currentPage + (userWilaya ? ('&wilaya_id=' + userWilaya) : '');
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${BearerToken}`
@@ -73,7 +75,7 @@ export const RaceLostScreen = ({ route }) => {
     setData([]);
     setLoading(true);
     setFirstLoading(true);
-    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestLostPets + '?page=' + currentPage;
+    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestLostPets + '?page=' + currentPage + (userWilaya ? ('&wilaya_id=' + userWilaya) : '');
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${BearerToken}`

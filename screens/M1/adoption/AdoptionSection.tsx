@@ -8,12 +8,15 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 /* constants */
 import { icons } from '@constants/icons';
 import { colors } from '@constants/colors';
+import { TouchableOpacity } from 'react-native';
+import { useHelper } from '@context/HelperContext';
 /* useContexts */
 
 /*--------------*/
 const Tab = createMaterialTopTabNavigator();
 
 export function AdoptionSection() {
+  const {userWilaya} = useHelper();
   return (
     <View style={{ backgroundColor: colors.background }}>
       <View style={{ height: 800 }}>
@@ -43,12 +46,14 @@ export function AdoptionSection() {
               )
             }}
           />
+          
           {TabScreenFactory('Cat', 'CATFILTER', 1, 'Cats')}
           {TabScreenFactory('Dog', 'DOGFILTER', 2, 'Dogs')}
           {TabScreenFactory('Bird', 'BIRDFILTER', 3, 'Birds')}
           {TabScreenFactory('Horse', 'HORSEFILTER', 4, 'Horses')}
           {TabScreenFactory('Other', 'FARMFILTER', 5, 'Others')}
 
+{/* 
           <Tab.Screen
             name="Spacer"
             component={() => null}  // Render nothing
@@ -63,6 +68,7 @@ export function AdoptionSection() {
               },
             })}
           />
+          */}
         </Tab.Navigator>
       </View>
     </View>

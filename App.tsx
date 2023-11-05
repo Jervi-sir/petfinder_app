@@ -3,21 +3,20 @@ import { StatusBar } from '@components/StatusBar';
 /* Screens */
 import MenuNavigation from '@screens/MenuNavigation';
 /* packages */
-import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 /* constants */
 import Routes from '@utils/Routes';
 /* useContexts */
 import { AuthProvider, useAuth } from '@context/AuthContext';
-import { TestScreen } from '@screens/TestScreen';
 /*--------------*/
-import { TouchableOpacity,Text,View } from 'react-native';
 import { ProfileProvider } from '@context/ProfileContext';
-import { HelperProvider } from '@context/HelperContext';
+import { HelperProvider, useHelper } from '@context/HelperContext';
+import { useEffect } from 'react';
+import WilayaCoord from '@utils/WilayaCoord';
+import { findWilaya, getLocationPermission, getUserLocation } from '@functions/location';
 
 export default function App() {
-
   return (
     <HelperProvider>
       <ProfileProvider>
@@ -36,7 +35,7 @@ const Stack = createStackNavigator();
 
 const AppNavigation = () => {
   const { BearerToken } = useAuth();
-
+  
   return(
     <>
     {/*
@@ -66,15 +65,4 @@ const AppNavigation = () => {
 
 const config = {
   animation: 'spring', config: { stiffness: 1000, damping: 500, mass: 3, overshootClamping: true, restDisplacementThreshold: 0.01, restSpeedThreshold: 0.01,},
-};
-const loadFonts = async () => {
-  await Font.loadAsync({
-    'Poppins-Black': require('@assets/fonts/Poppins-Black.ttf'),
-    'Poppins-Bold': require('@assets/fonts/Poppins-Bold.ttf'),
-    'Poppins-Light': require('@assets/fonts/Poppins-Light.ttf'),
-    'Poppins-Medium': require('@assets/fonts/Poppins-Medium.ttf'),
-    'Poppins-Regular': require('@assets/fonts/Poppins-Regular.ttf'),
-    'Poppins-Thin': require('@assets/fonts/Poppins-Thin.ttf'),
-  });
-  //setFontsLoaded(true);
 };
