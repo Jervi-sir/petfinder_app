@@ -15,7 +15,7 @@ export default {
   Search: 'pets/search',
 
   //addPet
-  addPetHelpers: 'auth/pet/add-pet-helpers',
+  addPetHelpers: 'add-pet-helpers',
   //editProfile
   getProfileForEdit: 'auth/profile/edit-profile',
 
@@ -32,8 +32,8 @@ export default {
   ShowMyProfileData: 'auth/profile/show-my-profile',
   updateMyProfile: 'auth/profile/edit-profile',
   //pet auth add edit
-  AddPet: 'auth/pet/add-pet',
-  postPet: 'auth/pet/add-pet',
+  AddPet: 'auth/pet/add',
+  postPet: 'auth/pet/add',
   EditPet: 'auth/pet/edit-pet/',
   updatePet: 'auth/pet/edit-pet/',
   //pet auth
@@ -45,5 +45,7 @@ export default {
   getByRace: 'pets/race/',
   getLatestPetsByRace: 'pets/latest/race=',
 
+  //name generator
+  generatePetName: 'generate-name',
 }
 

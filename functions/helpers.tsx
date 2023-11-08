@@ -93,7 +93,7 @@ export const formatPhoneNumber = (input) => {
 /* the json from server should be like so: [id, name, number] */
 export const formatWilayasJson = (data) => {
   return data.map(item => ({
-    label: item.number + ' - '+ item.name,
+    label: item.number + ' - '+ item.label + ' - '+ item.arabic,
     value: item.number
   }));
 }
@@ -101,12 +101,22 @@ export const formatWilayasJson = (data) => {
 /* the json from server should be like so: [id, name, number] */
 export const formatRacesJson = (data) => {
   return data.map(item => ({
-    label: item.name,
+    label: item.french + ' - ' + item.arabic,
     value: item.id,
     subRaces: item.sub_races.map(sub => ({
-      label: sub.name,
+      label: sub.label + ' - ' + sub.arabic,
       value: sub.id
     }))
+  }));
+}
+
+export const formatColorList = (data) => {
+  return data.map(item => ({
+    label: item.label,
+    value: item.value,
+    french: item.french,
+    arabic: item.arabic,
+    color: item.color,
   }));
 }
 

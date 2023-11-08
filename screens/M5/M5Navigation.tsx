@@ -104,7 +104,7 @@ const MainDrawer = ({navigation}) => {
 
   return (
     <>
-      <>
+      <View style={{ position: 'relative', }}>
         <View style={{  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 7}}>
           <LogoHeader />
           <TouchableOpacity onPress={handlePressFromChild}>
@@ -112,12 +112,18 @@ const MainDrawer = ({navigation}) => {
             ? 
             <Image style={{width: 69 - 30, height: 69 - 30, marginRight: 17}} source={require('@assets/icons/hamburger.png')} />
             :
-            <Image style={{width: 69 - 30, height: 69 - 30, marginRight: 17}} source={require('@assets/icons/hamburger_close.png')} />
+            <Image style={{width: 69 - 30, height: 69 - 30, marginRight: 17, backgroundColor: colors.background}} source={require('@assets/icons/hamburger_close.png')} />
             }
           </TouchableOpacity>
         </View>
+        <View style={{position: 'absolute', top: 0, left: 5, width: '100%', zIndex: -1,}}>
+          <Image
+            source={require('@assets/animal3.gif')}
+            style={{ width: '100%', height: 60 }}
+          />
+        </View>
         <DashedLine dashLength={10} dashThickness={2} dashGap={7} dashColor={colors.dash} />
-      </>
+      </View>
 
       <Drawer.Navigator 
         initialRouteName="My Profile m5" 

@@ -11,22 +11,26 @@ import Routes from '@utils/Routes';
 import { AuthProvider, useAuth } from '@context/AuthContext';
 /*--------------*/
 import { ProfileProvider } from '@context/ProfileContext';
-import { HelperProvider, useHelper } from '@context/HelperContext';
+import { HelperProvider } from '@context/HelperContext';
 import { useEffect } from 'react';
 import WilayaCoord from '@utils/WilayaCoord';
 import { findWilaya, getLocationPermission, getUserLocation } from '@functions/location';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LocationProvider } from '@context/LocationContext';
 
 export default function App() {
   return (
     <HelperProvider>
-      <ProfileProvider>
-        <AuthProvider>
-          <NavigationContainer>
-            <StatusBar />
-            <AppNavigation />
-          </NavigationContainer>
-        </AuthProvider>
-      </ProfileProvider>
+      <LocationProvider>
+        <ProfileProvider>
+          <AuthProvider>
+            <NavigationContainer>
+              <StatusBar />
+              <AppNavigation />
+            </NavigationContainer>
+          </AuthProvider>
+        </ProfileProvider>
+      </LocationProvider>
     </HelperProvider>
   );
 }
@@ -34,8 +38,6 @@ export default function App() {
 const Stack = createStackNavigator();
 
 const AppNavigation = () => {
-  const { BearerToken } = useAuth();
-  
   return(
     <>
     {/*

@@ -36,8 +36,11 @@ import loading4 from '@assets/animations/loading4.json';
 import loading5 from '@assets/animations/loading5.json';
 import { useAuth } from '@context/AuthContext';
 import { useProfile } from '@context/ProfileContext';
-import { formatRacesJson, formatWilayasJson } from '@functions/helpers';
+import { formatColorList, formatRacesJson, formatWilayasJson } from '@functions/helpers';
 import { useHelper } from '@context/HelperContext';
+import { MultiselectDropdown } from './../../../components/MultiselectDropdown';
+import Routes from '@utils/Routes';
+import { PriceInput } from '@components/PriceInput';
 
 
 
@@ -73,29 +76,37 @@ export const AddScreen = () => {
   const [RaceList, setRaceList] = useState([]);
   const [SubRaceList, setSubRaceList] = useState([]);
   const [WilayaList, setWilayaList] = useState([]);
+  const [ColorList, setColorList] = useState([]);
 
   const [age, setAge] = useState('');
 
   const { BearerToken } = useAuth();
-  const { wilayaHelper, racesHelper, updateWilaya, updateRaces } = useHelper();
+  const { wilayaHelper, racesHelper, updateWilaya, updateRaces, updateColors, colorsHelper } = useHelper();
+
+  const [fadeAnim] = useState(new Animated.Value(0)); // Initial value for opacity: 0
 
   useEffect(() => {
-    if(wilayaHelper == null || racesHelper == null) {
-      console.log('wilayaHelper is null')
-      axios.get(Api.Server + Api.addPetHelpers, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+    if(wilayaHelper == null || racesHelper == null || colorsHelper == null) {
+      axios.get(Api.Server + Api.addPetHelpers)
       .then(response => {
         const data = response.data;
-        updateWilaya(data.wilayas);
-        updateRaces(data.races);
-        setRaceList(formatRacesJson(data.races))
-        setWilayaList(formatWilayasJson(data.wilayas))
+
+        updateWilaya(formatWilayasJson(data.wilayas));
+        updateRaces(formatRacesJson(data.races));
+        updateColors(formatRacesJson(data.races));
+
+        setWilayaList(formatWilayasJson(data.wilayas));
+        setRaceList(formatRacesJson(data.races));
+        setColorList(formatColorList(data.colors));
+
       })
       setPhoneNumber(profileState.phone_number);
     } else {
       setRaceList(racesHelper)
       setWilayaList(wilayaHelper)
+      setColorList(colorsHelper)
     }
-  }, [wilayaHelper, racesHelper]);
+  }, []);
 
   const handleRefresh = () => {
     setImagesUri([]);
@@ -122,7 +133,7 @@ export const AddScreen = () => {
       description, phoneNumber, weight, color, birthday, price, subRace, images
     };
     setIsLoading(true);
-    axios.post(Api.Server + Api.addPetHelpers, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
+    axios.post(Api.Server + Api.postPet, data, { headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BearerToken } })
       .then(response => {
         console.log(response.data)
         setIsLoading(false);
@@ -174,7 +185,6 @@ export const AddScreen = () => {
 
       <KeyboardAwareScrollView ref={(ref) => { scrollViewRef = ref }} extraScrollHeight={69} contentContainerStyle={{ paddingBottom: 123 }} >
         <ScrollView >
-          
           {/** Card */}
           <View style={{ margin: 20, marginTop: 10, backgroundColor: colors.white, padding: 20, borderTopRightRadius: 20, borderTopLeftRadius: 20, marginBottom: 50 }}>
             {/** Image Selector */}
@@ -191,6 +201,7 @@ export const AddScreen = () => {
               }}
             />
             <Space top={5} bottom={5} />
+
             {/** Race Selector */}
             <FloatingDropdown select='Race' required={true} data={RaceList} onItemSelected={(e) => {setRace(e);}} setItemSelected={e =>  setSubRaceList(e)} />
             {race_idError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Race 👆</Text></View>) : null}
@@ -212,14 +223,14 @@ export const AddScreen = () => {
                 setTypeOffer(selectedItem.id);
               }}
             />
+            <Space top={5} bottom={5} />
             {/** Price Input */}
-            {typeOffer != 1 ? (
-              <Animated.View>
-                <TextInput label="Price" onChangeText={text => setPrice(text)} keyboardType="numeric" style={styles.inputField} />
-              </Animated.View>
-            ) : (
-              null
-            )}
+            <PriceInput
+              isVisible={typeOffer !== 1}
+              value={price}
+              onChangeText={setPrice}
+              label="Price"
+            />
             <Space top={5} bottom={5} />
             {/** description Selector */}
             <TextInput label="Description" onChangeText={text => setDescription(text)} maxLength={300} multiline style={styles.inputField} />
@@ -248,14 +259,16 @@ export const AddScreen = () => {
             {/** Name Input */}
             <TextInput label="Name" onChangeText={text => setName(text)} style={styles.inputField} />
             {/** Color Input */}
-            <TextInput label="Colors" onChangeText={text => setColor(text)} style={styles.inputField} />
+            <MultiselectDropdown 
+              select='Colors' 
+              data={ColorList}
+            />
             {/** Weight Input */}
             <TextInput label="Weight" onChangeText={text => setWeight(text)} style={styles.inputField} />
             {/** Phone number Input */}
             <TextInput value={phoneNumber} label="Phone number *" onChangeText={text => setPhoneNumber(text)} style={styles.inputField} keyboardType="numeric" render={props => <MaskInput  {...props} mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]} />} />
             {phoneNumberError ? (<View><Text style={{ paddingBottom: 20, color: colors.red, paddingLeft: 20 }}>Please select Phone Number 👆</Text></View>) : null}
-
-
+            
             <Space top={10} bottom={10} />
             {/** Actions */}
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -266,16 +279,7 @@ export const AddScreen = () => {
                 <Text style={{ color: colors.white, textAlign: 'center' }}>Publish</Text>
               </TouchableOpacity>
               <TouchableOpacity style={{ padding: 12, paddingHorizontal: 30 }}
-                onPress={() => navigation.navigate(routes.PREVIEWPET, {
-                  description: description, phoneNumber: phoneNumber,
-                  gender: gender, name: name,
-                  location: location, wilaya: wilayaName,
-                  race: race_id, subRace: subRace,
-                  age: age, date: birthday,
-                  weight: weight, color: color,
-                  typeOffer: typeOffer, price: price,
-                  images: imagesUri
-                })} >
+                onPress={() => navigation.navigate(Routes.PREVIEWPET)} >
                 <Text style={{ color: colors.menu, textAlign: 'center' }}>Preview</Text>
               </TouchableOpacity>
             </View>

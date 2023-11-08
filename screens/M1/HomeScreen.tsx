@@ -7,6 +7,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { colors } from "@constants/colors";
 import { LostSection } from './lost/LostSection';
 import Routes from '@utils/Routes';
+import { Image, View } from 'react-native';
 /* useContexts */
 /*--------------*/
 
@@ -15,7 +16,7 @@ const Tab = createMaterialTopTabNavigator();
 export const HomeScreen = () => {
   return (
     <>
-
+      
       <Tab.Navigator 
         screenOptions={{
           lazy: true,

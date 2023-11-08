@@ -30,7 +30,12 @@ const colorList = [
   { label: 'Orange', value: '5' }
 ]
 
-export const FilterSearch = ({ onPressToTop, title, onFilter, setWilaya, setOfferType, setColor }) => {
+const genderList = [
+  { label: 'Male', value: '1' },
+  { label: 'Female', value: '2' },
+]
+
+export const FilterSearch = ({ onPressToTop, title, onFilter, setWilaya, setOfferType, setColor, setGender }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [animation] = useState(new Animated.Value(0));
 
@@ -77,7 +82,7 @@ export const FilterSearch = ({ onPressToTop, title, onFilter, setWilaya, setOffe
           overflow: 'hidden',
           height: animation.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, 300],
+            outputRange: [0, 350],
           }),
         }}>
         <View style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', backgroundColor: colors.white, marginHorizontal: 15 }}>
@@ -88,6 +93,7 @@ export const FilterSearch = ({ onPressToTop, title, onFilter, setWilaya, setOffe
             <FilterDropdown placeholder={'Wilaya'} data={wilayaList} setOption={(e) => {setWilaya(e)} } />
             <FilterDropdown placeholder={'Offer Type'} data={offerList} setOption={(e) => {setOfferType(e)} }/>
             <FilterDropdown placeholder={'Color'} data={colorList} setOption={(e) => {setColor(e)} }/>
+            <FilterDropdown placeholder={'Gender'} data={genderList} setOption={(e) => {setGender(e)} }/>
           </View>
           <TouchableOpacity onPress={handleFilterResults} style={{ backgroundColor: colors.menu, paddingVertical: 10 }}>
             <Text style={{ textAlign: 'center', fontSize: 17, color: colors.white }}>Filter Results</Text>

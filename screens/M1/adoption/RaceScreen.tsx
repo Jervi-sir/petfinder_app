@@ -17,6 +17,11 @@ import Api from "@utils/Api"
 import { useAuth } from "@context/AuthContext"
 import Routes from "@utils/Routes"
 import { useHelper } from "@context/HelperContext"
+import LottieView from 'lottie-react-native';
+import loading4 from '@assets/animations/loading4.json';
+import { LoadingWithMessage } from './../../../components/Loadings/LoadingWithMessage';
+import { LocationPermissionButton } from "@components/LocationPermissionButton"
+import { useLocation } from "@context/LocationContext"
 /*--------------*/
 
 export const RaceScreen = ({ route }) => {
@@ -32,18 +37,21 @@ export const RaceScreen = ({ route }) => {
   const [wilaya, setWilaya] = useState(null);
   const [offerType, setOfferType] = useState(null);
   const [color, setColor] = useState(null);
-  
+  const [gender, setGender] = useState(null);
+
   const { BearerToken } = useAuth();
-  const { userWilaya } = useHelper();
+  const { userWilaya, isLocationLoading, ignoreLocationPermissions } = useLocation();
 
   const scrollToTop = () => {
     flatListRef.current.scrollToOffset({ offset: 0, animated: true });
   };
 
   useEffect(() => {
-    setFirstLoading(true);
-    fetchPosts(1);
-  }, []);
+    if (!isLocationLoading && userWilaya !== null) {
+      setFirstLoading(true);
+      fetchPosts(1);
+    }
+  }, [userWilaya, isLocationLoading, ignoreLocationPermissions]);
 
   const applyFilters = () => {
     setData([]);
@@ -53,12 +61,16 @@ export const RaceScreen = ({ route }) => {
     setHasMore(true);
   };
 
-  const fetchPosts = async (page = currentPage, overwrite = false) => {
-    if (loading || !hasMore) return;
+  const fetchPosts = async (page, overwrite = false, thisWilaya = userWilaya) => {
+    //if (loading || !hasMore) return;
+    if (loading) return;
     setLoading(true);
-    console.log('currentPage= ' + currentPage)
     
-    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestPets + '?page=' + currentPage + (userWilaya ? ('&wilaya_id=' + userWilaya) : '');
+    if(wilaya) {
+      thisWilaya = wilaya
+    }
+
+    const url = Api.Server + (BearerToken ? Api.Auth : '') + Api.getLatestPets + '?page=' + page + (thisWilaya ? ('&wilaya_id=' + thisWilaya) : '');
     console.log(url)
     const headers = {
       'Content-Type': 'application/json',
@@ -68,9 +80,11 @@ export const RaceScreen = ({ route }) => {
 
     requestConfig.params = {
       ...(raceId !== 0 && { race_id: raceId }),
-      ...(wilaya && { wilaya_id: wilaya }),
+      ...(thisWilaya && { wilaya_id: thisWilaya }),
       ...(offerType && { offer_type_id: offerType }),
       ...(color && { color: color }),
+      ...(gender && { gender_id: gender }),
+      
     };
 
     try {
@@ -86,11 +100,11 @@ export const RaceScreen = ({ route }) => {
       }
       setFirstLoading(false);
       setLoading(false);
-      setCurrentPage(nextPage);
+      setCurrentPage(prevPage => nextPage);
       if (currentPage >= lastPage) {
         setHasMore(false);
       }
-      if(newPets.length <= 0) {
+      if (newPets.length <= 0) {
         setHasMore(false);
       }
     } catch (error) {
@@ -98,59 +112,77 @@ export const RaceScreen = ({ route }) => {
       setLoading(false);
       console.error("Error fetching posts:", error);
     }
+    setLoading(false);
+    setRefreshing(false);
   };
 
   const onRefresh = () => {
     setRefreshing(true);
     setData([]);
     setLoading(true);
-    setFirstLoading(true);
+    //setFirstLoading(true);
     setCurrentPage(1); // Reset to page 1 instead of keeping the old page
     fetchPosts(1, true); // Fetch the first page and overwrite existing data
     setRefreshing(false);
-  };
+    setRefreshing(false);
+
+  }
 
   return (
-    <View style={{minHeight: '100%', backgroundColor: colors.background}}>
-      <FilterSearch 
-        onPressToTop={scrollToTop} 
-        title={'Recent ' + raceName}  
+    <View style={{ minHeight: '100%', backgroundColor: colors.background }}>
+      <FilterSearch
+        onPressToTop={scrollToTop}
+        title={'Recent ' + raceName}
         onFilter={applyFilters}
         setWilaya={setWilaya}
         setOfferType={setOfferType}
         setColor={setColor}
+        setGender={setGender}
       />
       <View style={{}}>
+        {
+          userWilaya === null
+          &&
+          <View style={{ position: 'absolute', zIndex: 99, top: '7%', width: '100%'}}>
+            <LoadingWithMessage message="Searching Nearest to your Wilaya" />
+            <LocationPermissionButton />
+          </View>
+        }
         {/* card */}
         {firstLoading ? (
-            <FlatList
-              ref={flatListRef}
-              data={[1, 2, 3, 5, 4]}
-              renderItem={({ item }) => <CardVerticalSkeleton />}
-              numColumns={2}
-              columnWrapperStyle={{ justifyContent: 'space-between', paddingTop: 10, }}
-              style={{ paddingHorizontal: 15, }}
-            />
-          ) : (
-            <FlatList
-              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-              ref={flatListRef}
-              data={data}
-              renderItem={({ item }) => <CardPet pet={item} viewPetRoute={Routes.ShowPetScreen}/>}
-              numColumns={2}
-              keyExtractor={(item, index) => index.toString()}
-              onEndReached={() => { if(!refreshing) fetchPosts() }}
-              onEndReachedThreshold={0.01}
-              //ItemSeparatorComponent={() => <View style={{height: 20}} />}
-              columnWrapperStyle={{ justifyContent: 'space-between', paddingTop: 10, }}
-              style={{ paddingHorizontal: 15, }}
-              ListFooterComponent={() => <>
-                {loading ? <ActivityIndicator size="large" style={{ marginVertical: 31 }}/> : null}
-                <View style={{ height: 400, width: '100%'}}></View>
-              </>
+          <FlatList
+            ref={flatListRef}
+            data={[1, 2, 3, 5, 4]}
+            renderItem={({ item }) => <CardVerticalSkeleton />}
+            numColumns={2}
+            columnWrapperStyle={{ justifyContent: 'space-between', paddingTop: 10}}
+            style={{ paddingHorizontal: 15, }}
+          />
+        ) : (
+          <FlatList
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            //contentInset={{ top: 1 }}
+            ref={flatListRef}
+            data={data}
+            renderItem={({ item, index }) => <CardPet pet={item} viewPetRoute={Routes.ShowPetScreen} index={index} />}
+            numColumns={2}
+            keyExtractor={(item, index) => index.toString()}
+            onEndReached={() => {
+              if (!loading || !refreshing || hasMore) {
+                fetchPosts(currentPage);
               }
-            />
-          )}
+            }}
+            onEndReachedThreshold={0.01}
+            //ItemSeparatorComponent={() => <View style={{height: 20}} />}
+            columnWrapperStyle={{ justifyContent: 'space-between', paddingTop: 10, }}
+            style={{ paddingHorizontal: 15, }}
+            ListFooterComponent={() => <>
+              {loading ? <ActivityIndicator size="large" style={{ marginVertical: 31 }} /> : null}
+              <View style={{ height: 400, width: '100%' }}></View>
+            </>
+            }
+          />
+        )}
       </View>
     </View>
   )
