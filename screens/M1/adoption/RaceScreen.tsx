@@ -89,9 +89,10 @@ export const RaceScreen = ({ route }) => {
 
     try {
       const response = await axios.get(url, requestConfig);
+      console.log(response)
       const newPets = response.data.pets;
-      const lastPage = response.data.paginationData.last_page;
-      const nextPage = response.data.paginationData.next_page;
+      //const lastPage = response.data.paginationData.last_page;
+      //const nextPage = response.data.paginationData.next_page;
 
       if (overwrite) {
         setData(newPets);
@@ -100,10 +101,10 @@ export const RaceScreen = ({ route }) => {
       }
       setFirstLoading(false);
       setLoading(false);
-      setCurrentPage(prevPage => nextPage);
-      if (currentPage >= lastPage) {
-        setHasMore(false);
-      }
+      //setCurrentPage(prevPage => nextPage);
+      //if (currentPage >= lastPage) {
+      //  setHasMore(false);
+     // }
       if (newPets.length <= 0) {
         setHasMore(false);
       }
