@@ -1,6 +1,6 @@
 export default {
   //Server: 'http://20.115.82.62:8000/api/v1/',
-  Server: 'http://150.136.217.184:8000/api/v1/',
+  Server: 'https://3580-150-136-217-184.ngrok-free.app/api/v1/',
   //Auth
   Login: 'login',
   Register: 'register',
